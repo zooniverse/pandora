@@ -2,7 +2,7 @@
 
 # Pandora
 
-It unleashes translations on Panoptes.
+_It unleashes translations on Panoptes._
 
 ## Usage
 

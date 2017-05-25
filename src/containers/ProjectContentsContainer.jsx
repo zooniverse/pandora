@@ -9,27 +9,31 @@ import ProjectContents from '../components/ProjectContents';
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
-  children: PropTypes.object.isRequired,
   contents: PropTypes.object.isRequired,
 };
 
 class ProjectContentsContainer extends Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
   componentDidMount() {
     const { actions } = this.props;
     return actions.fetchProjectContents();
   }
+
+  handleClick(event) {
+    console.log('====================================');
+    console.log(event.currentTarget);
+    console.log('====================================');
+  }
+
   render() {
-    console.log('====================================');
-    console.log('this.props.children', this.props.children);
-    console.log('====================================');
     const { contents } = this.props;
-    const children = React.Children.map(this.props.children, (child) => {
-      return React.cloneElement(child, {
-        onClick: () => alert('I\'m clicked!'),
-      });
-    });
     return (
-      <ProjectContents children={children} contents={contents} />
+      <div onClick={this.handleClick}>
+        <ProjectContents contents={contents} />
+      </div>
     );
   }
 }
