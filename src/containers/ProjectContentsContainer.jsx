@@ -24,7 +24,7 @@ class ProjectContentsContainer extends Component {
 
   handleClick(event) {
     console.log('====================================');
-    console.log(event.currentTarget);
+    console.log(event.target);
     console.log('====================================');
   }
 
