@@ -31,7 +31,8 @@ const fetchProjectContents = (project_id) => {
     dispatch({
       type: FETCH_PROJECT_CONTENTS,
     });
-    apiClient.type('project_contents').get(project_id)
+    const query = { project_id };
+    apiClient.type('project_contents').get(query)
     .then((projectContents) => {
       dispatch({
         type: FETCH_PROJECT_CONTENTS_SUCCESS,
