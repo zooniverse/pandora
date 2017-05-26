@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { DefaultButton } from 'pui-react-buttons';
 
 const LogoutButton = ({ logout, user }) => {
   return (
     <div className="logout-button">
-      <button type="submit" onClick={logout}>Logout {user.login}</button>
+      <DefaultButton type="submit" onClick={logout}>Logout {user.login}</DefaultButton>
     </div>
   );
 };

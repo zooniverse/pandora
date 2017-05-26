@@ -4,6 +4,7 @@ import fixIt, { options } from 'react-fix-it';
 
 const propTypes = {
   contents: PropTypes.object.isRequired,
+  modal: PropTypes.bool.isRequired,
 };
 
 options.log = (test) => {
@@ -11,6 +12,7 @@ options.log = (test) => {
 };
 
 class ProjectContents extends Component {
+
   render() {
     const { contents } = this.props;
     const data = contents.data;
