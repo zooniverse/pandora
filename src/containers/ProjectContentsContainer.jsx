@@ -19,7 +19,7 @@ class ProjectContentsContainer extends Component {
   }
   componentDidMount() {
     const { actions } = this.props;
-    return actions.fetchProjectContents();
+    return actions.fetchProjectContents(this.props.params.project_id);
   }
 
   handleClick(event) {

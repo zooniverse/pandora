@@ -24,7 +24,7 @@ oauth.init(config.panoptesAppId)
         <Router history={browserHistory}>
           <Route path="/" component={App}>
             <IndexRoute component={ProjectList} />
-            <Route path="/project" component={ProjectContents} />
+            <Route path="/project/:project_id" component={ProjectContents} />
             <Route path="/about" component={About} />
           </Route>
         </Router>
