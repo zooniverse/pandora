@@ -13,14 +13,14 @@ options.log = (test) => {
 class ProjectContents extends Component {
   render() {
     const { contents } = this.props;
-    const data = contents.data;
+    const project_contents = contents.data.length ? contents.data[0] : {};
     return (
       <div>
         <h2>Project Contents</h2>
-        <p>Title: { data.title }</p>
-        <p>Description: { data.description }</p>
-        <p>Introduction: { data.introduction }</p>
-        <p>Language: { data.language}</p>
+        <p>Title: { project_contents.title }</p>
+        <p>Description: { project_contents.description }</p>
+        <p>Introduction: { project_contents.introduction }</p>
+        <p>Language: { project_contents.language}</p>
       </div>
     );
   }
