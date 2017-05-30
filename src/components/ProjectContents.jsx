@@ -4,7 +4,6 @@ import fixIt, { options } from 'react-fix-it';
 
 const propTypes = {
   contents: PropTypes.object.isRequired,
-  modal: PropTypes.bool.isRequired,
 };
 
 options.log = (test) => {

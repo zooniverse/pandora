@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { BaseModal, ModalBody } from 'pui-react-modals';
-import { DefaultButton } from 'pui-react-buttons';
 import * as contentsActions from '../ducks/contents';
 import ProjectContents from '../components/ProjectContents';
+import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
+import { DefaultButton } from 'pui-react-buttons';
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
@@ -20,6 +20,7 @@ class ProjectContentsContainer extends Component {
       modalOpen: false,
     };
   }
+
   componentDidMount() {
     const { actions } = this.props;
     return actions.fetchProjectContents();
@@ -45,9 +46,14 @@ class ProjectContentsContainer extends Component {
             <p>Text in a body</p>
             <input autoFocus placeholder="Translate some text" />
           </ModalBody>
+          <ModalFooter>
+            <DefaultButton onClick={() => this.setState({modalOpen: false})}>
+              Close
+            </DefaultButton>
+          </ModalFooter>
         </BaseModal>
-        <div  onClick={this.handleClick}>
-          <ProjectContents modal={this.state.modalOpen} contents={contents} />
+        <div onClick={this.handleClick}>
+          <ProjectContents contents={contents} />
         </div>
       </div>
     );
