@@ -18,6 +18,7 @@ class ProjectContentsContainer extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.state = {
       modalOpen: false,
+      translationText: ''
     };
   }
 
@@ -29,6 +30,7 @@ class ProjectContentsContainer extends Component {
   handleClick(event) {
     this.setState({
       modalOpen: true,
+      translationText: event.target.textContent
     });
   }
 
@@ -43,7 +45,7 @@ class ProjectContentsContainer extends Component {
           onHide={() => this.setState({modalOpen: false})}
         >
           <ModalBody>
-            <p>Text in a body</p>
+            <p>{this.state.translationText}</p>
             <input autoFocus placeholder="Translate some text" />
           </ModalBody>
           <ModalFooter>
