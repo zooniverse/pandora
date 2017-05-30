@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { DefaultButton } from 'pui-react-buttons';
 
 const LoginButton = ({ login }) => {
   return (
-    <button type="submit" onClick={login}>Login</button>
+    <DefaultButton type="submit" onClick={login}>Login</DefaultButton>
   );
 };
 

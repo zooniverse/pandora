@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import * as contentsActions from '../ducks/contents';
-
 import ProjectContents from '../components/ProjectContents';
+import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
+import { DefaultButton } from 'pui-react-buttons';
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
@@ -16,23 +16,47 @@ class ProjectContentsContainer extends Component {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      modalOpen: false,
+      translationText: ''
+    };
   }
+
   componentDidMount() {
     const { actions } = this.props;
     return actions.fetchProjectContents(this.props.params.project_id);
   }
 
   handleClick(event) {
-    console.log('====================================');
-    console.log(event.target);
-    console.log('====================================');
+    this.setState({
+      modalOpen: true,
+      translationText: event.target.textContent
+    });
   }
 
   render() {
     const { contents } = this.props;
     return (
-      <div onClick={this.handleClick}>
-        <ProjectContents contents={contents} />
+      <div>
+        <BaseModal
+          acquireFocus={false}
+          title="What a Header!"
+          show={this.state.modalOpen}
+          onHide={() => this.setState({modalOpen: false})}
+        >
+          <ModalBody>
+            <p>{this.state.translationText}</p>
+            <input autoFocus placeholder="Translate some text" />
+          </ModalBody>
+          <ModalFooter>
+            <DefaultButton onClick={() => this.setState({modalOpen: false})}>
+              Close
+            </DefaultButton>
+          </ModalFooter>
+        </BaseModal>
+        <div onClick={this.handleClick}>
+          <ProjectContents contents={contents} />
+        </div>
       </div>
     );
   }

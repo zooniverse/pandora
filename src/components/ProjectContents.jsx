@@ -11,6 +11,7 @@ options.log = (test) => {
 };
 
 class ProjectContents extends Component {
+
   render() {
     const { contents } = this.props;
     const project_contents = contents.data.length ? contents.data[0] : {};
