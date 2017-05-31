@@ -37,21 +37,21 @@ class ProjectContentsContainer extends Component {
 
   handleClick(event) {
     if (isElementTranslatable(event)) {
-      const projectContentsData = (event.target.dataset.translationProjectContents)
+      const projectContents = (event.target.dataset.translationProjectContents)
       ? event.target.dataset.translationProjectContents
       : null;
 
       this.setState({
         modalOpen: true,
         projectContents: {
-          description: projectContentsData.description,
-          introduction: projectContentsData.introduction,
-          title: projectContentsData.title,
+          description: projectContents.description,
+          introduction: projectContents.introduction,
+          title: projectContents.title,
         },
         translationText: event.target.textContent,
       });
     } else {
-      return alert('This element does not support translations');
+      alert('This element does not support translations');
     }
   }
 
