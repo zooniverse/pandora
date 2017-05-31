@@ -26,13 +26,16 @@ const projectContentsReducer = (state = initialState, action) => {
 };
 
 // Action Creators
-const fetchProjectContents = (project_id) => {
+const fetchProjectContents = (id, type) => {
+  type = type ? type.split('/')[0] : 'project';
   return (dispatch) => {
     dispatch({
       type: FETCH_PROJECT_CONTENTS,
     });
-    const query = { project_id };
-    apiClient.type('project_contents').get(query)
+    const key = `${type}_id`;
+    const query = {};
+    query[key] = id;
+    apiClient.type(`${type}_contents`).get(query)
     .then((projectContents) => {
       dispatch({
         type: FETCH_PROJECT_CONTENTS_SUCCESS,

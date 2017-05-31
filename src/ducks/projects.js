@@ -32,7 +32,8 @@ const fetchProjects = () => {
       type: FETCH_PROJECTS,
     });
     const query = {
-      current_user_roles: ['owner', 'translator']
+      current_user_roles: ['owner', 'translator'],
+      include: ['workflows']
     }
     apiClient.type('projects').get(query)
     .then((projects) => {

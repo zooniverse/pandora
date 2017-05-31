@@ -11,6 +11,19 @@ function ProjectListItem(props) {
   return(
     <li key={props.project.id}>
       <Link to={`/project/${props.project.id}`} >{props.project.display_name}</Link>
+      <h3>Workflows</h3>
+      <ul>
+      {props.project.links.workflows.map(workflow => {
+        return (
+          <li key={workflow}>
+            <Link to={`/project/${props.project.id}/workflow/${workflow}`}>
+              {workflow}
+            </Link>
+          </li>
+        );
+      })}
+      </ul>
+      
     </li>
   );
 }
@@ -22,7 +35,7 @@ class ProjectList extends Component {
       <div>
         <h2>Projects</h2>
         <ul>
-          {projects.data.map(project => <ProjectListItem project={project} />)}
+          {projects.data.map(project => <ProjectListItem key={project.id} project={project} />)}
         </ul>
       </div>
     );
