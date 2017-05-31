@@ -8,7 +8,8 @@ import App from './components/App';
 import About from './components/About';
 import config from './config';
 import configureStore from './store';
-import ProjectContents from './containers/ProjectContentsContainer';
+import ProjectContentsContainer from './containers/ProjectContentsContainer';
+import ProjectContents from './components/ProjectContents';
 import ProjectList from './containers/ProjectListContainer';
 
 // Todo: let's find a better way to include Styles,
@@ -24,7 +25,9 @@ oauth.init(config.panoptesAppId)
         <Router history={browserHistory}>
           <Route path="/" component={App}>
             <IndexRoute component={ProjectList} />
-            <Route path="/project/:project_id" component={ProjectContents} />
+            <Route path="/project/:project_id" component={ProjectContentsContainer}>
+              <IndexRoute component={ProjectContents} />
+            </Route>
             <Route path="/about" component={About} />
           </Route>
         </Router>

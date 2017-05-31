@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as contentsActions from '../ducks/contents';
-import ProjectContents from '../components/ProjectContents';
 import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
 import { DefaultButton } from 'pui-react-buttons';
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
-  contents: PropTypes.object.isRequired,
+  children: PropTypes.node,
+  contents: PropTypes.object,
+  params: PropTypes.shape({
+    project_id: PropTypes.string
+  })
 };
 
 class ProjectContentsContainer extends Component {
@@ -55,7 +58,7 @@ class ProjectContentsContainer extends Component {
           </ModalFooter>
         </BaseModal>
         <div onClick={this.handleClick}>
-          <ProjectContents contents={contents} />
+          {React.cloneElement(this.props.children, { contents })}
         </div>
       </div>
     );
