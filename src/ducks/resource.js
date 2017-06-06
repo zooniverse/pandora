@@ -1,9 +1,9 @@
 import apiClient from 'panoptes-client/lib/api-client';
 
 // Action Types
-export const FETCH_PROJECT_CONTENTS = 'FETCH_PROJECT_CONTENTS';
-export const FETCH_PROJECT_CONTENTS_SUCCESS = 'FETCH_PROJECT_CONTENTS_SUCCESS';
-export const FETCH_PROJECT_CONTENTS_ERROR = 'FETCH_PROJECT_CONTENTS_ERROR';
+export const FETCH_RESOURCE = 'FETCH_RESOURCE';
+export const FETCH_RESOURCE_SUCCESS = 'FETCH_RESOURCE_SUCCESS';
+export const FETCH_RESOURCE_ERROR = 'FETCH_RESOURCE_ERROR';
 
 // Reducer
 const initialState = {
@@ -12,13 +12,13 @@ const initialState = {
   loading: false,
 };
 
-const projectContentsReducer = (state = initialState, action) => {
+const resourceReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_PROJECT_CONTENTS:
+    case FETCH_RESOURCE:
       return Object.assign({}, initialState, { loading: true });
-    case FETCH_PROJECT_CONTENTS_SUCCESS:
+    case FETCH_RESOURCE_SUCCESS:
       return Object.assign({}, state, { data: action.payload, loading: false });
-    case FETCH_PROJECT_CONTENTS_ERROR:
+    case FETCH_RESOURCE_ERROR:
       return Object.assign({}, state, { error: action.payload, loading: false });
     default:
       return state;
@@ -26,41 +26,44 @@ const projectContentsReducer = (state = initialState, action) => {
 };
 
 // Action Creators
-const fetchProjectContents = (project_id) => {
+const fetchResource = (id, type) => {
+  type = type ? type.split('/')[0] : 'project';
   return (dispatch) => {
     dispatch({
-      type: FETCH_PROJECT_CONTENTS,
+      type: FETCH_RESOURCE,
     });
-    const query = { project_id };
-    apiClient.type('project_contents').get(query)
-    .then((projectContents) => {
+    const key = `${type}_id`;
+    const query = {};
+    query[key] = id;
+    apiClient.type(`${type}_contents`).get(query)
+    .then((resource) => {
       dispatch({
-        type: FETCH_PROJECT_CONTENTS_SUCCESS,
-        payload: projectContents,
+        type: FETCH_RESOURCE_SUCCESS,
+        payload: resource,
       });
     });
   };
 };
 
-const createNewTranslation = () =>
+const createNewTranslation = (type) =>
   (dispatch, getState) => {
     const { contents } = getState();
-    const contentsCopy = apiClient.type('project_contents').create({
+    const translation = apiClient.type(type).create({
       title: contents.title,
       description: contents.description,
       introduction: contents.introduction,
       language: 'nz',
       'links.project': contents.links.project,
     });
-    contentsCopy.save()
+    translation.save()
       .then(res => console.info('Saved! ', res))
       .catch(error => console.error(error));
   };
 
 // Exports
-export default projectContentsReducer;
+export default resourceReducer;
 
 export {
   createNewTranslation,
-  fetchProjectContents,
+  fetchResource,
 };
