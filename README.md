@@ -4,6 +4,8 @@
 
 _It unleashes translations on Panoptes._
 
+![Odilon Redon, Pandora, oil on canvas, 1910/1912](./src/images/pandora.jpg)
+
 ## Usage
 
 __Install the dependencies:__
