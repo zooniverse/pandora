@@ -1,23 +1,6 @@
 {
   "name": "Pandora",
-  "version": "0.0.1",
-  "description": "It unleashes translations on Panoptes",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zooniverse/pandora"
-  },
-  "scripts": {
-    "start": "BABEL_ENV=development webpack-dashboard -- babel-node server.js",
-    "test": "NODE_ENV=development BABEL_ENV=test mocha $(find test -name *.test.jsx) --compilers js:babel-core/register || true",
-    "eslint": "eslint .",
-    "build": "BABEL_ENV=production webpack --config webpack.production.config.js -p"
-  },
   "author": "Zooniverse",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/zooniverse/pandora"
-  },
-  "homepage": "https://github.com/zooniverse/pandora",
   "dependencies": {
     "history": "^4.6.1",
     "panoptes-client": "^2.5.2",
@@ -76,5 +59,18 @@
     "webpack-dashboard": "^0.4.0",
     "webpack-dev-middleware": "^1.10.1",
     "webpack-hot-middleware": "^2.18.0"
-  }
+  },
+  "engines": {
+    "node": "^8.0.0",
+    "npm": "^5.0.0"
+  },
+  "license": "Apache-2.0",
+  "repository": "https://github.com/zooniverse/pandora",
+  "scripts": {
+    "start": "BABEL_ENV=development webpack-dashboard -- babel-node server.js",
+    "test": "NODE_ENV=development BABEL_ENV=test mocha $(find test -name *.test.jsx) --compilers js:babel-core/register || true",
+    "test-travis": "NODE_ENV=development BABEL_ENV=test mocha $(find test -name *.test.jsx) --compilers js:babel-core/register",
+    "eslint": "eslint .",
+    "build": "BABEL_ENV=production webpack --config webpack.production.config.js -p"
+  },
 }
