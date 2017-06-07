@@ -72,5 +72,5 @@
     "test-travis": "NODE_ENV=development BABEL_ENV=test mocha $(find test -name *.test.jsx) --compilers js:babel-core/register",
     "eslint": "eslint .",
     "build": "BABEL_ENV=production webpack --config webpack.production.config.js -p"
-  },
+  }
 }
