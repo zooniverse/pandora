@@ -4,13 +4,14 @@ import apiClient from 'panoptes-client/lib/api-client';
 export const FETCH_PROJECT = 'FETCH_PROJECT';
 export const FETCH_PROJECT_SUCCESS = 'FETCH_PROJECT_SUCCESS';
 export const FETCH_PROJECT_ERROR = 'FETCH_PROJECT_ERROR';
+export const FETCH_WORKFLOWS = 'FETCH_WORKFLOWS';
+export const FETCH_WORKFLOWS_SUCCESS = 'FETCH_WORKFLOWS_SUCCESS';
+export const FETCH_WORKFLOWS_ERROR = 'FETCH_WORKFLOWS_ERROR';
 
 // Reducer
 const initialState = {
   data: {
-    links: {
-      workflows: []
-    }
+    workflows: []
   },
   error: false,
   loading: false,
@@ -24,6 +25,13 @@ const projectReducer = (state = initialState, action) => {
       return Object.assign({}, state, { data: action.payload, loading: false });
     case FETCH_PROJECT_ERROR:
       return Object.assign({}, state, { error: action.payload, loading: false });
+    case FETCH_WORKFLOWS:
+      return Object.assign({}, state, { loading: true });
+    case FETCH_WORKFLOWS_SUCCESS:
+      return Object.assign({}, state, {
+        data: Object.assign(state.data, { workflows: action.payload }),
+        loading: false
+      });
     default:
       return state;
   }
@@ -37,10 +45,13 @@ const fetchProject = (id) => {
     });
     const query = {
       id,
-      current_user_roles: ['owner', 'translator']
+      current_user_roles: ['owner', 'translator'],
+      include: ['workflows']
     };
     apiClient.type('projects').get(query)
     .then(([project]) => {
+      project.workflows = [];
+      dispatch(fetchWorkflows(project));
       dispatch({
         type: FETCH_PROJECT_SUCCESS,
         payload: project,
@@ -48,6 +59,21 @@ const fetchProject = (id) => {
     });
   };
 };
+
+function fetchWorkflows(project) {
+  return (dispatch) => {
+    dispatch({
+      type: FETCH_WORKFLOWS,
+    });
+    apiClient.type('workflows').get(project.links.workflows)
+    .then((workflows) => {
+      dispatch({
+        type: FETCH_WORKFLOWS_SUCCESS,
+        payload: workflows,
+      });
+    });
+  };
+}
 
 // Exports
 export default projectReducer;
