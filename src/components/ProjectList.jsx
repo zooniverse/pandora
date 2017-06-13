@@ -11,19 +11,6 @@ function ProjectListItem(props) {
   return(
     <li key={props.project.id}>
       <Link to={`/project/${props.project.id}`} >{props.project.display_name}</Link>
-      <h3>Workflows</h3>
-      <ul>
-      {props.project.links.workflows.map(workflow => {
-        return (
-          <li key={workflow}>
-            <Link to={`/project/${props.project.id}/workflow/${workflow}`}>
-              {workflow}
-            </Link>
-          </li>
-        );
-      })}
-      </ul>
-      
     </li>
   );
 }
