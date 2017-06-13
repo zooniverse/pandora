@@ -10,6 +10,8 @@ import config from './config';
 import configureStore from './store';
 import ProjectContentsContainer from './containers/ProjectContentsContainer';
 import ProjectContents from './components/ProjectContents';
+import ProjectDashboardContainer from './containers/ProjectDashboardContainer';
+import ProjectDashboard from './components/ProjectDashboard';
 import ProjectList from './containers/ProjectListContainer';
 import WorkflowContents from './components/WorkflowContents';
 
@@ -26,9 +28,11 @@ oauth.init(config.panoptesAppId)
         <Router history={browserHistory}>
           <Route path="/" component={App}>
             <IndexRoute component={ProjectList} />
-            <Route path="/project/:project_id" component={ProjectContentsContainer}>
-              <IndexRoute component={ProjectContents} />
-              <Route path="workflow/:resource_id" component={WorkflowContents} />
+            <Route path="/project/:project_id" component={ProjectDashboardContainer}>
+              <IndexRoute component={ProjectDashboard} />
+              <Route path="workflow/" component={ProjectContentsContainer}>
+                <Route path=":resource_id" component={WorkflowContents} />
+              </Route>
             </Route>
             <Route path="/about" component={About} />
           </Route>
