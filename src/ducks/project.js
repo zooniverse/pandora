@@ -7,10 +7,14 @@ export const FETCH_PROJECT_ERROR = 'FETCH_PROJECT_ERROR';
 export const FETCH_WORKFLOWS = 'FETCH_WORKFLOWS';
 export const FETCH_WORKFLOWS_SUCCESS = 'FETCH_WORKFLOWS_SUCCESS';
 export const FETCH_WORKFLOWS_ERROR = 'FETCH_WORKFLOWS_ERROR';
+export const FETCH_TUTORIALS = 'FETCH_TUTORIALS';
+export const FETCH_TUTORIALS_SUCCESS = 'FETCH_TUTORIALS_SUCCESS';
+export const FETCH_TUTORIALS_ERROR = 'FETCH_TUTORIALS_ERROR';
 
 // Reducer
 const initialState = {
   data: {
+    tutorials: [],
     workflows: []
   },
   error: false,
@@ -30,6 +34,13 @@ const projectReducer = (state = initialState, action) => {
     case FETCH_WORKFLOWS_SUCCESS:
       return Object.assign({}, state, {
         data: Object.assign(state.data, { workflows: action.payload }),
+        loading: false
+      });
+    case FETCH_TUTORIALS:
+      return Object.assign({}, state, { loading: true });
+    case FETCH_TUTORIALS_SUCCESS:
+      return Object.assign({}, state, {
+        data: Object.assign(state.data, { tutorials: action.payload }),
         loading: false
       });
     default:
@@ -52,6 +63,7 @@ const fetchProject = (id) => {
     .then(([project]) => {
       project.workflows = [];
       dispatch(fetchWorkflows(project));
+      dispatch(fetchTutorials(project))
       dispatch({
         type: FETCH_PROJECT_SUCCESS,
         payload: project,
@@ -70,6 +82,21 @@ function fetchWorkflows(project) {
       dispatch({
         type: FETCH_WORKFLOWS_SUCCESS,
         payload: workflows,
+      });
+    });
+  };
+}
+
+function fetchTutorials(project) {
+  return (dispatch) => {
+    dispatch({
+      type: FETCH_TUTORIALS,
+    });
+    apiClient.type('tutorials').get({project_id: project.id})
+    .then((tutorials) => {
+      dispatch({
+        type: FETCH_TUTORIALS_SUCCESS,
+        payload: tutorials,
       });
     });
   };

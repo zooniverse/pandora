@@ -27,15 +27,47 @@ const resourceReducer = (state = initialState, action) => {
 
 // Action Creators
 const fetchResource = (id, type) => {
-  type = type ? type.split('/')[0] : 'project';
+  type = type ? type : 'projects';
+  return (dispatch) => {
+    switch (type) {
+      case 'projects':
+      case 'workflows':
+        dispatch(fetchResourceContents(id, type));
+        break;
+      default:
+        dispatch({
+          type: FETCH_RESOURCE,
+        });
+        apiClient.type(type).get({ id })
+        .then((resource) => {
+          dispatch({
+            type: FETCH_RESOURCE_SUCCESS,
+            payload: resource,
+          });
+        });
+    }
+  };
+};
+
+function fetchResourceContents(id, type) {
   return (dispatch) => {
     dispatch({
       type: FETCH_RESOURCE,
     });
-    const key = `${type}_id`;
+    let key = '';
+    switch (type) {
+      case 'projects':
+        key = 'project_id';
+        type = 'project_contents';
+        break;
+      case 'workflows':
+        key = 'workflow_id';
+        type = 'workflow_contents';
+        break;
+    }
     const query = {};
     query[key] = id;
-    apiClient.type(`${type}_contents`).get(query)
+    apiClient.type(type).get(query)
     .then((resource) => {
       dispatch({
         type: FETCH_RESOURCE_SUCCESS,
@@ -43,7 +75,7 @@ const fetchResource = (id, type) => {
       });
     });
   };
-};
+}
 
 const createNewTranslation = (type) =>
   (dispatch, getState) => {

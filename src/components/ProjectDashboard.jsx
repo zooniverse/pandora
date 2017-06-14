@@ -18,13 +18,23 @@ function ProjectDashboard(props) {
       </ProjectContentsContainer>
       <h3>Workflows</h3>
       <ul>
-      {project.workflows.map((workflow) => {
-        return (
-          <li key={workflow.id}>
-            <Link to={`/project/${project.id}/workflow/${workflow.id}`}>{workflow.display_name}</Link>
-          </li>
-        );
-      })}
+        {project.workflows.map((workflow) => {
+          return (
+            <li key={workflow.id}>
+              <Link to={`/project/${project.id}/workflows/${workflow.id}`}>{workflow.display_name}</Link>
+            </li>
+          );
+        })}
+      </ul>
+      <h3>Tutorials</h3>
+      <ul>
+        {project.tutorials.map((tutorial) => {
+          return (
+            <li key={tutorial.id}>
+              <Link to={`/project/${project.id}/tutorials/${tutorial.id}`}>{tutorial.id}: {tutorial.display_name}</Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
@@ -34,6 +44,7 @@ ProjectDashboard.propTypes = propTypes;
 
 ProjectDashboard.defaultProps = {
   project: {
+    tutorials: [],
     workflows: []
   }
 };

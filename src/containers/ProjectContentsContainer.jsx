@@ -27,7 +27,7 @@ class ProjectContentsContainer extends Component {
 
   componentDidMount() {
     const { actions } = this.props;
-    const type = this.props.routes[2].path;
+    const type = this.props.params.resource_type;
     const id = type ? this.props.params.resource_id : this.props.params.project_id;
     return actions.fetchResource(id, type);
   }
