@@ -14,7 +14,7 @@ class WorkflowContents extends Component {
 
   render() {
     const { contents } = this.props;
-    const workflow_contents = contents.data.length ? contents.data[0] : {strings: []};
+    const workflow_contents = contents.original.length ? contents.original[0] : {strings: []};
     console.log(workflow_contents)
     const strings = [];
     for (const key in workflow_contents.strings) {

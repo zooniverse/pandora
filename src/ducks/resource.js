@@ -4,10 +4,12 @@ import apiClient from 'panoptes-client/lib/api-client';
 export const FETCH_RESOURCE = 'FETCH_RESOURCE';
 export const FETCH_RESOURCE_SUCCESS = 'FETCH_RESOURCE_SUCCESS';
 export const FETCH_RESOURCE_ERROR = 'FETCH_RESOURCE_ERROR';
+export const CREATE_TRANSLATION_SUCCESS = 'CREATE_TRANSLATION_SUCCESS';
 
 // Reducer
 const initialState = {
-  data: [],
+  original: [],
+  translation: null,
   error: false,
   loading: false,
 };
@@ -17,9 +19,11 @@ const resourceReducer = (state = initialState, action) => {
     case FETCH_RESOURCE:
       return Object.assign({}, initialState, { loading: true });
     case FETCH_RESOURCE_SUCCESS:
-      return Object.assign({}, state, { data: action.payload, loading: false });
+      return Object.assign({}, state, { original: action.payload, loading: false });
     case FETCH_RESOURCE_ERROR:
       return Object.assign({}, state, { error: action.payload, loading: false });
+    case CREATE_TRANSLATION_SUCCESS:
+      return Object.assign({}, state, { translation: action.payload, loading: false });
     default:
       return state;
   }
@@ -77,18 +81,20 @@ function fetchResourceContents(id, type) {
   };
 }
 
-const createNewTranslation = (type) =>
+const createTranslation = (type, lang) =>
   (dispatch, getState) => {
-    const { contents } = getState();
-    const translation = apiClient.type(type).create({
-      title: contents.title,
-      description: contents.description,
-      introduction: contents.introduction,
-      language: 'nz',
-      'links.project': contents.links.project,
-    });
-    translation.save()
-      .then(res => console.info('Saved! ', res))
+    const { original } = getState();
+    const newResource = Object.assign({}, original);
+    newResource.lang = lang;
+    apiClient.type(type)
+    .create(newResource)
+    .save()
+      .then((translation) => {
+        dispatch({
+          type: CREATE_TRANSLATION_SUCCESS,
+          payload: translation,
+        });
+      })
       .catch(error => console.error(error));
   };
 
@@ -96,6 +102,6 @@ const createNewTranslation = (type) =>
 export default resourceReducer;
 
 export {
-  createNewTranslation,
+  createTranslation,
   fetchResource,
 };
