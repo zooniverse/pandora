@@ -18,9 +18,9 @@ class ProjectContents extends Component {
     return (
       <div>
         <h2>Project Contents</h2>
-        <p>Title: { project_contents.title }</p>
-        <p>Description: { project_contents.description }</p>
-        <p>Introduction: { project_contents.introduction }</p>
+        <p data-translation-project-contents={project_contents.title}>Title: { project_contents.title }</p>
+        <p data-translation-project-contents={project_contents.description}>Description: { project_contents.description }</p>
+        <p data-translation-project-contents={project_contents.introduction}>Introduction: { project_contents.introduction }</p>
         <p>Language: { project_contents.language}</p>
       </div>
     );

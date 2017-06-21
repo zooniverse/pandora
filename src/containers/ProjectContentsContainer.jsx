@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as contentsActions from '../ducks/contents';
-import ProjectContents from '../components/ProjectContents';
 import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
 import { DefaultButton } from 'pui-react-buttons';
+import * as contentsActions from '../ducks/contents';
+import ProjectContents from '../components/ProjectContents';
+import isElementTranslatable from '../helpers/isElementTranslatable';
+
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
   contents: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
 };
 
 class ProjectContentsContainer extends Component {
@@ -18,20 +21,38 @@ class ProjectContentsContainer extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.state = {
       modalOpen: false,
-      translationText: ''
+      projectContents: {
+        description: '',
+        introduction: '',
+        title: '',
+      },
+      translationText: '',
     };
   }
 
   componentDidMount() {
-    const { actions } = this.props;
-    return actions.fetchProjectContents(this.props.params.project_id);
+    const { actions, params } = this.props;
+    return actions.fetchProjectContents(params.project_id);
   }
 
   handleClick(event) {
-    this.setState({
-      modalOpen: true,
-      translationText: event.target.textContent
-    });
+    if (isElementTranslatable(event)) {
+      const projectContents = (event.target.dataset.translationProjectContents)
+      ? event.target.dataset.translationProjectContents
+      : null;
+
+      this.setState({
+        modalOpen: true,
+        projectContents: {
+          description: projectContents.description,
+          introduction: projectContents.introduction,
+          title: projectContents.title,
+        },
+        translationText: event.target.textContent,
+      });
+    } else {
+      alert('This element does not support translations');
+    }
   }
 
   render() {
@@ -40,16 +61,18 @@ class ProjectContentsContainer extends Component {
       <div>
         <BaseModal
           acquireFocus={false}
-          title="What a Header!"
+          title="Modal Title"
           show={this.state.modalOpen}
-          onHide={() => this.setState({modalOpen: false})}
+          onHide={() => this.setState({ modalOpen: false })}
         >
           <ModalBody>
             <p>{this.state.translationText}</p>
             <input autoFocus placeholder="Translate some text" />
           </ModalBody>
           <ModalFooter>
-            <DefaultButton onClick={() => this.setState({modalOpen: false})}>
+            <DefaultButton
+              onClick={() => this.setState({ modalOpen: false })}
+            >
               Close
             </DefaultButton>
           </ModalFooter>
