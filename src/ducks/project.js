@@ -13,10 +13,9 @@ export const FETCH_TUTORIALS_ERROR = 'FETCH_TUTORIALS_ERROR';
 
 // Reducer
 const initialState = {
-  data: {
-    tutorials: [],
-    workflows: []
-  },
+  data: {},
+  tutorials: [],
+  workflows: [],
   error: false,
   loading: false,
 };
@@ -32,17 +31,11 @@ const projectReducer = (state = initialState, action) => {
     case FETCH_WORKFLOWS:
       return Object.assign({}, state, { loading: true });
     case FETCH_WORKFLOWS_SUCCESS:
-      return Object.assign({}, state, {
-        data: Object.assign(state.data, { workflows: action.payload }),
-        loading: false
-      });
+      return Object.assign({}, state, { workflows: action.payload, loading: false });
     case FETCH_TUTORIALS:
       return Object.assign({}, state, { loading: true });
     case FETCH_TUTORIALS_SUCCESS:
-      return Object.assign({}, state, {
-        data: Object.assign(state.data, { tutorials: action.payload }),
-        loading: false
-      });
+      return Object.assign({}, state, { tutorials: action.payload, loading: false });
     default:
       return state;
   }
@@ -61,9 +54,8 @@ const fetchProject = (id) => {
     };
     apiClient.type('projects').get(query)
     .then(([project]) => {
-      project.workflows = [];
       dispatch(fetchWorkflows(project));
-      dispatch(fetchTutorials(project))
+      dispatch(fetchTutorials(project));
       dispatch({
         type: FETCH_PROJECT_SUCCESS,
         payload: project,
@@ -92,7 +84,7 @@ function fetchTutorials(project) {
     dispatch({
       type: FETCH_TUTORIALS,
     });
-    apiClient.type('tutorials').get({project_id: project.id})
+    apiClient.type('tutorials').get({ project_id: project.id })
     .then((tutorials) => {
       dispatch({
         type: FETCH_TUTORIALS_SUCCESS,

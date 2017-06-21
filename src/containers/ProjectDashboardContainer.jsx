@@ -7,7 +7,11 @@ import * as projectActions from '../ducks/project';
 const propTypes = {
   actions: PropTypes.object.isRequired,
   children: PropTypes.node,
-  contents: PropTypes.object,
+  project: PropTypes.shape({
+    data: PropTypes.object,
+    tutorials: PropTypes.array,
+    workflows: PropTypes.array
+  }),
   params: PropTypes.shape({
     project_id: PropTypes.string
   })
@@ -22,10 +26,11 @@ class ProjectDashboardContainer extends Component {
 
   render() {
     const project = this.props.project.data;
+    const { workflows, tutorials } = this.props.project;
     return (
       <div>
         <h2>Project Dashboard</h2>
-        {React.cloneElement(this.props.children, { project })}
+        {React.cloneElement(this.props.children, { project, workflows, tutorials })}
       </div>
     );
   }
@@ -39,6 +44,14 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 ProjectDashboardContainer.propTypes = propTypes;
+ProjectDashboardContainer.defaultProps = {
+  children: null,
+  project: {
+    data: null,
+    tutorials: [],
+    workflows: []
+  }
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

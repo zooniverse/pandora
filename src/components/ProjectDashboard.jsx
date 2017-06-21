@@ -7,6 +7,8 @@ import ProjectContents from './ProjectContents';
 
 const propTypes = {
   project: PropTypes.object.isRequired,
+  tutorials: PropTypes.array.isRequired,
+  workflows: PropTypes.array.isRequired,
 };
 
 function ProjectDashboard(props) {
@@ -18,7 +20,7 @@ function ProjectDashboard(props) {
       </ProjectContentsContainer>
       <h3>Workflows</h3>
       <ul>
-        {project.workflows.map((workflow) => {
+        {props.workflows.map((workflow) => {
           return (
             <li key={workflow.id}>
               <Link to={`/project/${project.id}/workflows/${workflow.id}`}>{workflow.display_name}</Link>
@@ -28,7 +30,7 @@ function ProjectDashboard(props) {
       </ul>
       <h3>Tutorials</h3>
       <ul>
-        {project.tutorials.map((tutorial) => {
+        {props.tutorials.map((tutorial) => {
           return (
             <li key={tutorial.id}>
               <Link to={`/project/${project.id}/tutorials/${tutorial.id}`}>{tutorial.id}: {tutorial.display_name}</Link>
