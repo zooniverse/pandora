@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as contentsActions from '../ducks/contents';
-import ProjectContents from '../components/ProjectContents';
+import * as contentsActions from '../ducks/resource';
 import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
 import { DefaultButton } from 'pui-react-buttons';
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
-  contents: PropTypes.object.isRequired,
+  children: PropTypes.node,
+  params: PropTypes.shape({
+    project_id: PropTypes.string,
+    resource_id: PropTypes.string,
+    resource_type: PropTypes.string
+  })
 };
 
 class ProjectContentsContainer extends Component {
@@ -24,7 +28,9 @@ class ProjectContentsContainer extends Component {
 
   componentDidMount() {
     const { actions } = this.props;
-    return actions.fetchProjectContents(this.props.params.project_id);
+    const type = this.props.params.resource_type;
+    const id = type ? this.props.params.resource_id : this.props.params.project_id;
+    actions.fetchResource(id, type);
   }
 
   handleClick(event) {
@@ -35,7 +41,7 @@ class ProjectContentsContainer extends Component {
   }
 
   render() {
-    const { contents } = this.props;
+    const { resource } = this.props;
     return (
       <div>
         <BaseModal
@@ -55,7 +61,7 @@ class ProjectContentsContainer extends Component {
           </ModalFooter>
         </BaseModal>
         <div onClick={this.handleClick}>
-          <ProjectContents contents={contents} />
+          {React.cloneElement(this.props.children, { contents: resource })}
         </div>
       </div>
     );
@@ -63,7 +69,7 @@ class ProjectContentsContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  contents: state.contents,
+  resource: state.resource,
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(contentsActions, dispatch),

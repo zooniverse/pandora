@@ -8,8 +8,11 @@ import App from './components/App';
 import About from './components/About';
 import config from './config';
 import configureStore from './store';
-import ProjectContents from './containers/ProjectContentsContainer';
+import ProjectContentsContainer from './containers/ProjectContentsContainer';
+import ProjectDashboardContainer from './containers/ProjectDashboardContainer';
+import ProjectDashboard from './components/ProjectDashboard';
 import ProjectList from './containers/ProjectListContainer';
+import Resource from './components/Resource';
 
 // Todo: let's find a better way to include Styles,
 // currently Styles looks like an unused var to eslint
@@ -24,7 +27,12 @@ oauth.init(config.panoptesAppId)
         <Router history={browserHistory}>
           <Route path="/" component={App}>
             <IndexRoute component={ProjectList} />
-            <Route path="/project/:project_id" component={ProjectContents} />
+            <Route path="/project/:project_id" component={ProjectDashboardContainer}>
+              <IndexRoute component={ProjectDashboard} />
+              <Route path=":resource_type/" component={ProjectContentsContainer}>
+                <Route path=":resource_id" component={Resource} />
+              </Route>
+            </Route>
             <Route path="/about" component={About} />
           </Route>
         </Router>

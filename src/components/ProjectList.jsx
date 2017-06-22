@@ -22,7 +22,7 @@ class ProjectList extends Component {
       <div>
         <h2>Projects</h2>
         <ul>
-          {projects.data.map(project => <ProjectListItem project={project} />)}
+          {projects.data.map(project => <ProjectListItem key={project.id} project={project} />)}
         </ul>
       </div>
     );

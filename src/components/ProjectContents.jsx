@@ -14,7 +14,7 @@ class ProjectContents extends Component {
 
   render() {
     const { contents } = this.props;
-    const project_contents = contents.data.length ? contents.data[0] : {};
+    const project_contents = contents.original.length ? contents.original[0] : {};
     return (
       <div>
         <h2>Project Contents</h2>
