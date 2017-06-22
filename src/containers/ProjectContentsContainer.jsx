@@ -9,9 +9,10 @@ import { DefaultButton } from 'pui-react-buttons';
 const propTypes = {
   actions: PropTypes.object.isRequired,
   children: PropTypes.node,
-  contents: PropTypes.object,
   params: PropTypes.shape({
-    project_id: PropTypes.string
+    project_id: PropTypes.string,
+    resource_id: PropTypes.string,
+    resource_type: PropTypes.string
   })
 };
 
@@ -29,7 +30,7 @@ class ProjectContentsContainer extends Component {
     const { actions } = this.props;
     const type = this.props.params.resource_type;
     const id = type ? this.props.params.resource_id : this.props.params.project_id;
-    return actions.fetchResource(id, type);
+    actions.fetchResource(id, type);
   }
 
   handleClick(event) {
