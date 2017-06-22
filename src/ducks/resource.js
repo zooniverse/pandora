@@ -8,7 +8,7 @@ export const CREATE_TRANSLATION_SUCCESS = 'CREATE_TRANSLATION_SUCCESS';
 
 // Reducer
 const initialState = {
-  original: [],
+  original: null,
   translation: null,
   error: false,
   loading: false,
@@ -43,7 +43,7 @@ const fetchResource = (id, type) => {
           type: FETCH_RESOURCE,
         });
         apiClient.type(type).get({ id })
-        .then((resource) => {
+        .then(([resource]) => {
           dispatch({
             type: FETCH_RESOURCE_SUCCESS,
             payload: resource,
@@ -72,7 +72,7 @@ function fetchResourceContents(id, type) {
     const query = {};
     query[key] = id;
     apiClient.type(type).get(query)
-    .then((resource) => {
+    .then(([resource]) => {
       dispatch({
         type: FETCH_RESOURCE_SUCCESS,
         payload: resource,
