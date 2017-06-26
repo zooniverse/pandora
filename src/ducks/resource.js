@@ -8,7 +8,7 @@ export const CREATE_TRANSLATION_SUCCESS = 'CREATE_TRANSLATION_SUCCESS';
 
 // Reducer
 const initialState = {
-  original: [],
+  original: null,
   translation: null,
   error: false,
   loading: false,
@@ -19,11 +19,10 @@ const resourceReducer = (state = initialState, action) => {
     case FETCH_RESOURCE:
       return Object.assign({}, initialState, { loading: true });
     case FETCH_RESOURCE_SUCCESS:
-      return Object.assign({}, state, { original: action.payload, loading: false });
+    case CREATE_TRANSLATION_SUCCESS:
+      return Object.assign({}, state, action.payload);
     case FETCH_RESOURCE_ERROR:
       return Object.assign({}, state, { error: action.payload, loading: false });
-    case CREATE_TRANSLATION_SUCCESS:
-      return Object.assign({}, state, { translation: action.payload, loading: false });
     default:
       return state;
   }
@@ -31,7 +30,7 @@ const resourceReducer = (state = initialState, action) => {
 
 // Action Creators
 const fetchResource = (id, type) => {
-  type = type ? type : 'projects';
+  type = type || 'projects';
   return (dispatch) => {
     switch (type) {
       case 'projects':
@@ -43,10 +42,10 @@ const fetchResource = (id, type) => {
           type: FETCH_RESOURCE,
         });
         apiClient.type(type).get({ id })
-        .then((resource) => {
+        .then(([original]) => {
           dispatch({
             type: FETCH_RESOURCE_SUCCESS,
-            payload: resource,
+            payload: { original, loading: false }
           });
         });
     }
@@ -72,10 +71,10 @@ function fetchResourceContents(id, type) {
     const query = {};
     query[key] = id;
     apiClient.type(type).get(query)
-    .then((resource) => {
+    .then(([original]) => {
       dispatch({
         type: FETCH_RESOURCE_SUCCESS,
-        payload: resource,
+        payload: { original, loading: false }
       });
     });
   };
@@ -92,7 +91,7 @@ const createTranslation = (type, lang) =>
       .then((translation) => {
         dispatch({
           type: CREATE_TRANSLATION_SUCCESS,
-          payload: translation,
+          payload: { translation, loading: false },
         });
       })
       .catch(error => console.error(error));

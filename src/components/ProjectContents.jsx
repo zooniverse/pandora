@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import fixIt, { options } from 'react-fix-it';
 
@@ -10,21 +10,18 @@ options.log = (test) => {
   console.warn(test);
 };
 
-class ProjectContents extends Component {
-
-  render() {
-    const { contents } = this.props;
-    const project_contents = contents.original.length ? contents.original[0] : {};
-    return (
-      <div>
-        <h2>Project Contents</h2>
-        <p>Title: { project_contents.title }</p>
-        <p>Description: { project_contents.description }</p>
-        <p>Introduction: { project_contents.introduction }</p>
-        <p>Language: { project_contents.language}</p>
-      </div>
-    );
-  }
+function ProjectContents(props) {
+  const { contents } = props;
+  const project_contents = contents.original || {};
+  return (
+    <div>
+      <h2>Project Contents</h2>
+      <p>Title: { project_contents.title }</p>
+      <p>Description: { project_contents.description }</p>
+      <p>Introduction: { project_contents.introduction }</p>
+      <p>Language: { project_contents.language}</p>
+    </div>
+  );
 }
 
 ProjectContents.propTypes = propTypes;

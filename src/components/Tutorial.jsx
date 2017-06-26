@@ -12,11 +12,9 @@ options.log = (test) => {
 
 function Tutorial(props) {
   const { contents } = props;
-  const tutorial = contents.original.length ? contents.original[0] : { steps: [] };
+  const tutorial = contents.original || { steps: [] };
   const steps = [];
-  tutorial.steps && tutorial.steps.map((step, key) => {
-    steps.push(<p key={key}><b>{key}</b> {step.content}</p>);
-  });
+  tutorial.steps && tutorial.steps.map((step, key) => steps.push(<p key={key}><b>{key}</b> {step.content}</p>));
   return (
     <div>
       <h2>Tutorial</h2>
