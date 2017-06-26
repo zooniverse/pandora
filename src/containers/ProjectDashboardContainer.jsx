@@ -9,6 +9,8 @@ const propTypes = {
   children: PropTypes.node,
   project: PropTypes.shape({
     data: PropTypes.object,
+    fieldguides: PropTypes.array,
+    pages: PropTypes.array,
     tutorials: PropTypes.array,
     workflows: PropTypes.array
   }),
@@ -26,11 +28,11 @@ class ProjectDashboardContainer extends Component {
 
   render() {
     const project = this.props.project.data;
-    const { workflows, tutorials } = this.props.project;
+    const { fieldguides, pages, workflows, tutorials } = this.props.project;
     return (
       <div>
         <h2>Project Dashboard</h2>
-        {React.cloneElement(this.props.children, { project, workflows, tutorials })}
+        {React.cloneElement(this.props.children, { fieldguides, pages, project, workflows, tutorials })}
       </div>
     );
   }

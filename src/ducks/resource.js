@@ -40,6 +40,9 @@ const fetchResource = (id, type) => {
       case 'workflows':
         dispatch(fetchResourceContents(id, type));
         break;
+      case 'project_pages':
+        dispatch(fetchProjectPages(id));
+        break;
       default:
         dispatch({
           type: FETCH_RESOURCE,
@@ -74,6 +77,19 @@ function fetchResourceContents(id, type) {
     const query = {};
     query[key] = id;
     apiClient.type(type).get(query)
+    .then(([original]) => {
+      dispatch({
+        type: FETCH_RESOURCE_SUCCESS,
+        payload: { original, loading: false }
+      });
+    });
+  };
+}
+
+function fetchProjectPages(id) {
+  return (dispatch, getState) => {
+    const project = getState().project.data;
+    project.get('pages', {id})
     .then(([original]) => {
       dispatch({
         type: FETCH_RESOURCE_SUCCESS,
