@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import fixIt, { options } from 'react-fix-it';
+import FieldGuide from './FieldGuide';
+import ProjectPage from './ProjectPage';
 import Tutorial from './Tutorial';
 import WorkflowContents from './WorkflowContents';
 
 const resources = {
+  field_guides: FieldGuide,
+  project_pages: ProjectPage,
   tutorials: Tutorial,
   workflows: WorkflowContents
 };

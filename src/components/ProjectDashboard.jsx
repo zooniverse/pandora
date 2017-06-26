@@ -55,7 +55,7 @@ function ProjectDashboard(props) {
         {props.pages.map((page) => {
           return (
             <li key={page.id}>
-              <Link to={`/project/${project.id}/pages/${page.id}`}>{page.id}: {page.title}</Link>
+              <Link to={`/project/${project.id}/project_pages/${page.id}`}>{page.id}: {page.title}</Link>
             </li>
           );
         })}
