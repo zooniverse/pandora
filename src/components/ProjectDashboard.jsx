@@ -6,6 +6,8 @@ import ProjectContentsContainer from '../containers/ProjectContentsContainer';
 import ProjectContents from './ProjectContents';
 
 const propTypes = {
+  fieldguides: PropTypes.array.isRequired,
+  pages: PropTypes.array.isRequired,
   project: PropTypes.object.isRequired,
   tutorials: PropTypes.array.isRequired,
   workflows: PropTypes.array.isRequired,
@@ -34,6 +36,26 @@ function ProjectDashboard(props) {
           return (
             <li key={tutorial.id}>
               <Link to={`/project/${project.id}/tutorials/${tutorial.id}`}>{tutorial.id}: {tutorial.display_name}</Link>
+            </li>
+          );
+        })}
+      </ul>
+      <h3>Field Guides</h3>
+      <ul>
+        {props.fieldguides.map((fieldguide) => {
+          return (
+            <li key={fieldguide.id}>
+              <Link to={`/project/${project.id}/field_guides/${fieldguide.id}`}>{fieldguide.id}: {fieldguide.display_name}</Link>
+            </li>
+          );
+        })}
+      </ul>
+      <h3>Pages</h3>
+      <ul>
+        {props.pages.map((page) => {
+          return (
+            <li key={page.id}>
+              <Link to={`/project/${project.id}/pages/${page.id}`}>{page.id}: {page.title}</Link>
             </li>
           );
         })}

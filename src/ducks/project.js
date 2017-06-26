@@ -10,10 +10,18 @@ export const FETCH_WORKFLOWS_ERROR = 'FETCH_WORKFLOWS_ERROR';
 export const FETCH_TUTORIALS = 'FETCH_TUTORIALS';
 export const FETCH_TUTORIALS_SUCCESS = 'FETCH_TUTORIALS_SUCCESS';
 export const FETCH_TUTORIALS_ERROR = 'FETCH_TUTORIALS_ERROR';
+export const FETCH_PAGES = 'FETCH_PAGES';
+export const FETCH_PAGES_SUCCESS = 'FETCH_PAGES_SUCCESS';
+export const FETCH_PAGES_ERROR = 'FETCH_PAGES_ERROR';
+export const FETCH_FIELDGUIDES = 'FETCH_FIELDGUIDES';
+export const FETCH_FIELDGUIDES_SUCCESS = 'FETCH_FIELDGUIDES_SUCCESS';
+export const FETCH_FIELDGUIDES_ERROR = 'FETCH_FIELDGUIDES_ERROR';
 
 // Reducer
 const initialState = {
   data: {},
+  fieldguides: [],
+  pages: [],
   tutorials: [],
   workflows: [],
   error: false,
@@ -33,9 +41,15 @@ const projectReducer = (state = initialState, action) => {
     case FETCH_WORKFLOWS_SUCCESS:
       return Object.assign({}, state, { workflows: action.payload, loading: false });
     case FETCH_TUTORIALS:
+    case FETCH_PAGES:
+    case FETCH_FIELDGUIDES:
       return Object.assign({}, state, { loading: true });
     case FETCH_TUTORIALS_SUCCESS:
       return Object.assign({}, state, { tutorials: action.payload, loading: false });
+    case FETCH_PAGES_SUCCESS:
+      return Object.assign({}, state, { pages: action.payload, loading: false });
+    case FETCH_FIELDGUIDES_SUCCESS:
+      return Object.assign({}, state, { fieldguides: action.payload, loading: false });
     default:
       return state;
   }
@@ -56,6 +70,8 @@ const fetchProject = (id) => {
     .then(([project]) => {
       dispatch(fetchWorkflows(project));
       dispatch(fetchTutorials(project));
+      dispatch(fetchPages(project));
+      dispatch(fetchFieldGuides(project));
       dispatch({
         type: FETCH_PROJECT_SUCCESS,
         payload: project,
@@ -89,6 +105,36 @@ function fetchTutorials(project) {
       dispatch({
         type: FETCH_TUTORIALS_SUCCESS,
         payload: tutorials,
+      });
+    });
+  };
+}
+
+function fetchPages(project) {
+  return (dispatch) => {
+    dispatch({
+      type: FETCH_PAGES,
+    });
+    project.get('pages')
+    .then((pages) => {
+      dispatch({
+        type: FETCH_PAGES_SUCCESS,
+        payload: pages,
+      });
+    });
+  };
+}
+
+function fetchFieldGuides(project) {
+  return (dispatch) => {
+    dispatch({
+      type: FETCH_FIELDGUIDES,
+    });
+    apiClient.type('field_guides').get({ project_id: project.id })
+    .then((fieldguides) => {
+      dispatch({
+        type: FETCH_FIELDGUIDES_SUCCESS,
+        payload: fieldguides,
       });
     });
   };
