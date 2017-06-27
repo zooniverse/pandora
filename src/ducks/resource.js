@@ -35,7 +35,7 @@ const resourceReducer = (state = initialState, action) => {
 // Action Creators
 const fetchResource = (id, type) => {
   type = type || 'projects';
-  return (dispatch) => {
+  return (dispatch, getState) => {
     switch (type) {
       case 'projects':
       case 'workflows':
@@ -50,8 +50,10 @@ const fetchResource = (id, type) => {
         });
         apiClient.type(type).get({ id })
         .then((resources) => {
-          const original = resources.shift();
-          const translations = resources;
+          const project = getState().project.data;
+          const { primary_language } = project;
+          const original = resources.find(resource => resource.language === primary_language);
+          const translations = resources.filter(resource => resource.language !== primary_language);
           dispatch({
             type: FETCH_RESOURCE_SUCCESS,
             payload: { original, translations, loading: false }
@@ -62,7 +64,7 @@ const fetchResource = (id, type) => {
 };
 
 function fetchResourceContents(id, type) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({
       type: FETCH_RESOURCE,
     });
@@ -81,8 +83,10 @@ function fetchResourceContents(id, type) {
     query[key] = id;
     apiClient.type(type).get(query)
     .then((resources) => {
-      const original = resources.shift();
-      const translations = resources;
+      const project = getState().project.data;
+      const { primary_language } = project;
+      const original = resources.find(resource => resource.language === primary_language);
+      const translations = resources.filter(resource => resource.language !== primary_language);
       dispatch({
         type: FETCH_RESOURCE_SUCCESS,
         payload: { original, translations, loading: false }
