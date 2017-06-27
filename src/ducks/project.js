@@ -68,14 +68,14 @@ const fetchProject = (id) => {
     };
     apiClient.type('projects').get(query)
     .then(([project]) => {
-      dispatch(fetchWorkflows(project));
-      dispatch(fetchTutorials(project));
-      dispatch(fetchPages(project));
-      dispatch(fetchFieldGuides(project));
       dispatch({
         type: FETCH_PROJECT_SUCCESS,
         payload: project,
       });
+      dispatch(fetchWorkflows(project));
+      dispatch(fetchTutorials(project));
+      dispatch(fetchPages(project));
+      dispatch(fetchFieldGuides(project));
     });
   };
 };
