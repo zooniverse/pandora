@@ -11,6 +11,7 @@ export const UPDATE_TRANSLATION = 'UPDATE_TRANSLATION';
 const initialState = {
   original: null,
   translation: null,
+  translations: [],
   error: false,
   loading: false,
 };
@@ -48,10 +49,12 @@ const fetchResource = (id, type) => {
           type: FETCH_RESOURCE,
         });
         apiClient.type(type).get({ id })
-        .then(([original]) => {
+        .then((resources) => {
+          const original = resources.shift();
+          const translations = resources;
           dispatch({
             type: FETCH_RESOURCE_SUCCESS,
-            payload: { original, loading: false }
+            payload: { original, translations, loading: false }
           });
         });
     }
@@ -77,10 +80,12 @@ function fetchResourceContents(id, type) {
     const query = {};
     query[key] = id;
     apiClient.type(type).get(query)
-    .then(([original]) => {
+    .then((resources) => {
+      const original = resources.shift();
+      const translations = resources;
       dispatch({
         type: FETCH_RESOURCE_SUCCESS,
-        payload: { original, loading: false }
+        payload: { original, translations, loading: false }
       });
     });
   };
