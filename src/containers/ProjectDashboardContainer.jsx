@@ -76,7 +76,7 @@ class ProjectDashboardContainer extends Component {
           value={this.state.option}
         />
 
-        {React.cloneElement(this.props.children, { fieldguides, pages, project, workflows, tutorials })}
+        {project.primary_language && React.cloneElement(this.props.children, { fieldguides, pages, project, workflows, tutorials })}
       </div>
     );
   }
