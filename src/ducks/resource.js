@@ -97,14 +97,16 @@ function fetchResourceContents(id, type) {
   };
 }
 
-function fetchProjectPages(id) {
+function fetchProjectPages(url_key) {
   return (dispatch, getState) => {
     const project = getState().project.data;
-    project.get('pages', {id})
-    .then(([original]) => {
+    project.get('pages', { url_key: url_key })
+    .then((resources) => {
+      const { primary_language } = getState().project;
+      const { original, translations } = filterResources(resources, primary_language);
       dispatch({
         type: FETCH_RESOURCE_SUCCESS,
-        payload: { original, loading: false }
+        payload: { original, translations, loading: false }
       });
     });
   };
