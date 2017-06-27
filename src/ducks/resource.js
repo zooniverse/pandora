@@ -50,10 +50,8 @@ const fetchResource = (id, type) => {
         });
         apiClient.type(type).get({ id })
         .then((resources) => {
-          const project = getState().project.data;
-          const { primary_language } = project;
-          const original = resources.find(resource => resource.language === primary_language);
-          const translations = resources.filter(resource => resource.language !== primary_language);
+          const { primary_language } = getState().project;
+          const { original, translations } = filterResources(resources, primary_language);
           dispatch({
             type: FETCH_RESOURCE_SUCCESS,
             payload: { original, translations, loading: false }
@@ -62,6 +60,12 @@ const fetchResource = (id, type) => {
     }
   };
 };
+
+function filterResources(resources, primary_language) {
+  const original = resources.find(resource => resource.language === primary_language);
+  const translations = resources.filter(resource => resource.language !== primary_language);
+  return { original, translations };
+}
 
 function fetchResourceContents(id, type) {
   return (dispatch, getState) => {
@@ -83,10 +87,8 @@ function fetchResourceContents(id, type) {
     query[key] = id;
     apiClient.type(type).get(query)
     .then((resources) => {
-      const project = getState().project.data;
-      const { primary_language } = project;
-      const original = resources.find(resource => resource.language === primary_language);
-      const translations = resources.filter(resource => resource.language !== primary_language);
+      const { primary_language } = getState().project;
+      const { original, translations } = filterResources(resources, primary_language);
       dispatch({
         type: FETCH_RESOURCE_SUCCESS,
         payload: { original, translations, loading: false }
