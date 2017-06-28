@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import languages from '../constants/languages';
 import * as contentsActions from '../ducks/resource';
 import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
 import { DefaultButton } from 'pui-react-buttons';
+import { Dropdown, DropdownItem } from 'pui-react-dropdowns';
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
@@ -20,6 +22,7 @@ class ProjectContentsContainer extends Component {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       modalOpen: false,
       translationText: ''
@@ -40,8 +43,23 @@ class ProjectContentsContainer extends Component {
     });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log('submit');
+  }
+
   render() {
     const { resource } = this.props;
+    console.log('====================================');
+    console.log(languages);
+    console.log('====================================');
+    const renderDropdownItems = languages.map((item) => {
+      return (
+        <DropdownItem>
+          {item.code}
+        </DropdownItem>
+      );
+    });
     return (
       <div>
         <BaseModal
@@ -52,7 +70,13 @@ class ProjectContentsContainer extends Component {
         >
           <ModalBody>
             <p>{this.state.translationText}</p>
+            <Dropdown split title="Language">
+              {renderDropdownItems}
+            </Dropdown>
             <input autoFocus placeholder="Translate some text" />
+            <DefaultButton onClick={this.handleSubmit}>
+              Submit
+            </DefaultButton>
           </ModalBody>
           <ModalFooter>
             <DefaultButton onClick={() => this.setState({modalOpen: false})}>
