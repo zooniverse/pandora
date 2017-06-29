@@ -48,7 +48,7 @@ const resourceReducer = (state = initialState, action) => {
 };
 
 // Action Creators
-function fetchResource(id, type) {
+function fetchResource(id, type, project) {
   type = type || 'projects';
   let fetchResources;
   switch (type) {
@@ -77,7 +77,7 @@ function fetchResource(id, type) {
     });
     fetchResources
     .then((resources) => {
-      const { primary_language } = getState().project;
+      const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
       dispatch({
         type: FETCH_RESOURCE_SUCCESS,
@@ -87,9 +87,8 @@ function fetchResource(id, type) {
   };
 }
 
-const createTranslation = (type, lang) =>
-  (dispatch, getState) => {
-    const { original } = getState();
+const createTranslation = (original, type, lang) =>
+  (dispatch) => {
     const newResource = Object.assign({}, original);
     newResource.lang = lang;
     apiClient.type(type)
@@ -104,9 +103,8 @@ const createTranslation = (type, lang) =>
       .catch(error => console.error(error));
   };
 
-function updateTranslation(field, value) {
-  return (dispatch, getState) => {
-    const { translation } = getState();
+function updateTranslation(translation, field, value) {
+  return (dispatch) => {
     const changes = { [field]: value };
     translation.update(changes);
     dispatch({

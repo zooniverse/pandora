@@ -13,7 +13,9 @@ const propTypes = {
     project_id: PropTypes.string,
     resource_id: PropTypes.string,
     resource_type: PropTypes.string
-  })
+  }),
+  project: PropTypes.object.isRequired,
+  resource: PropTypes.object.isRequired
 };
 
 class ProjectContentsContainer extends Component {
@@ -29,10 +31,10 @@ class ProjectContentsContainer extends Component {
   }
 
   componentDidMount() {
-    const { actions } = this.props;
-    const type = this.props.params.resource_type;
-    const id = type ? this.props.params.resource_id : this.props.params.project_id;
-    actions.fetchResource(id, type);
+    const { actions, params, project } = this.props;
+    const type = params.resource_type;
+    const id = type ? params.resource_id : params.project_id;
+    actions.fetchResource(id, type, project);
   }
 
   closeModal() {
@@ -52,7 +54,7 @@ class ProjectContentsContainer extends Component {
   }
 
   render() {
-    const { resource } = this.props;
+    const { project, resource } = this.props;
     return (
       <div>
         <BaseModal
@@ -75,7 +77,7 @@ class ProjectContentsContainer extends Component {
           </ModalFooter>
         </BaseModal>
         <div onClick={this.handleClick}>
-          {React.cloneElement(this.props.children, { contents: resource })}
+          {React.cloneElement(this.props.children, { contents: resource, project })}
         </div>
       </div>
     );
