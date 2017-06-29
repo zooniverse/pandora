@@ -21,10 +21,12 @@ const propTypes = {
 class ProjectContentsContainer extends Component {
   constructor() {
     super();
+    this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       modalOpen: false,
+      translationLanguage: '',
       translationText: ''
     };
   }
@@ -43,6 +45,12 @@ class ProjectContentsContainer extends Component {
     });
   }
 
+  handleChange(event) {
+    this.setState({
+      translationLanguage: event.target.textContent,
+    });
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     console.log('submit');
@@ -50,13 +58,10 @@ class ProjectContentsContainer extends Component {
 
   render() {
     const { resource } = this.props;
-    console.log('====================================');
-    console.log(languages);
-    console.log('====================================');
     const renderDropdownItems = languages.map((item) => {
       return (
-        <DropdownItem>
-          {item.code}
+        <DropdownItem key={item.code} onClick={this.handleChange}>
+          {item.name}
         </DropdownItem>
       );
     });
@@ -70,7 +75,7 @@ class ProjectContentsContainer extends Component {
         >
           <ModalBody>
             <p>{this.state.translationText}</p>
-            <Dropdown split title="Language">
+            <Dropdown split title={this.state.translationLanguage || 'Language'}>
               {renderDropdownItems}
             </Dropdown>
             <input autoFocus placeholder="Translate some text" />
