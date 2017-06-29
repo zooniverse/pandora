@@ -35,7 +35,7 @@ function ProjectDashboard(props) {
         {props.tutorials.map((tutorial) => {
           return (
             <li key={tutorial.id}>
-              <Link to={`/project/${project.id}/tutorials/${tutorial.id}`}>{tutorial.id}: {tutorial.display_name}</Link>
+              <Link to={`/project/${project.id}/tutorials/${tutorial.links.workflows[0]}`}>{tutorial.id}: {tutorial.display_name}</Link>
             </li>
           );
         })}

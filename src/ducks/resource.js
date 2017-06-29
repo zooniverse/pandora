@@ -7,6 +7,21 @@ export const FETCH_RESOURCE_ERROR = 'FETCH_RESOURCE_ERROR';
 export const CREATE_TRANSLATION_SUCCESS = 'CREATE_TRANSLATION_SUCCESS';
 export const UPDATE_TRANSLATION = 'UPDATE_TRANSLATION';
 
+// Helpers
+function filterResources(resources, primary_language) {
+  const original = resources.find(resource => resource.language === primary_language);
+  const translations = resources.filter(resource => resource.language !== primary_language);
+  return { original, translations };
+}
+
+function projectResourcesPromise(project_id, type) {
+  return apiClient.type(type).get({ project_id });
+}
+
+function workflowResourcesPromise(workflow_id, type) {
+  return apiClient.type(type).get({ workflow_id });
+}
+
 // Reducer
 const initialState = {
   original: null,
@@ -35,22 +50,30 @@ const resourceReducer = (state = initialState, action) => {
 // Action Creators
 function fetchResource(id, type) {
   type = type || 'projects';
-  return (dispatch, getState) => {
-    const project = getState().project.data;
-    let fetchResources;
-    switch (type) {
-      case 'projects':
-      case 'workflows':
-        fetchResources = resourceContentsPromise(id, type);
-        break;
-      case 'project_pages':
-        fetchResources = project.get('pages', { url_key: id });
-        break;
-      default:
-        fetchResources = apiClient.type(type).get({ id });
-    }
+  let fetchResources;
+  switch (type) {
+    case 'projects':
+      fetchResources = projectResourcesPromise(project.id, 'project_contents');
+      break;
+    case 'field_guides':
+      fetchResources = projectResourcesPromise(project.id, 'field_guides');
+      break;
+    case 'workflows':
+      fetchResources = workflowResourcesPromise(id, 'workflow_contents');
+      break;
+    case 'tutorials':
+      fetchResources = workflowResourcesPromise(id, 'tutorials');
+      break;
+    case 'project_pages':
+      fetchResources = project.get('pages', { url_key: id });
+      break;
+    default:
+      fetchResources = apiClient.type(type).get({ id });
+  }
+  return (dispatch) => {
     dispatch({
       type: FETCH_RESOURCE,
+      resource_type: type
     });
     fetchResources
     .then((resources) => {
@@ -62,29 +85,6 @@ function fetchResource(id, type) {
       });
     });
   };
-};
-
-function filterResources(resources, primary_language) {
-  const original = resources.find(resource => resource.language === primary_language);
-  const translations = resources.filter(resource => resource.language !== primary_language);
-  return { original, translations };
-}
-
-function resourceContentsPromise(id, type) {
-  let key = '';
-  switch (type) {
-    case 'projects':
-      key = 'project_id';
-      type = 'project_contents';
-      break;
-    case 'workflows':
-      key = 'workflow_id';
-      type = 'workflow_contents';
-      break;
-  }
-  const query = {};
-  query[key] = id;
-  return apiClient.type(type).get(query);
 }
 
 const createTranslation = (type, lang) =>
@@ -105,7 +105,7 @@ const createTranslation = (type, lang) =>
   };
 
 function updateTranslation(field, value) {
-  (dispatch, getState) => {
+  return (dispatch, getState) => {
     const { translation } = getState();
     const changes = { [field]: value };
     translation.update(changes);
