@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import languages from '../constants/languages';
 import * as projectActions from '../ducks/project';
-import { DefaultButton } from 'pui-react-buttons';
-import { Dropdown, DropdownItem } from 'pui-react-dropdowns';
+import Select from 'grommet/components/Select';
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
@@ -44,19 +43,16 @@ class ProjectDashboardContainer extends Component {
   render() {
     const project = this.props.project.data;
     const { fieldguides, pages, workflows, tutorials } = this.props.project;
-    const renderDropdownItems = languages.map((item) => {
-      return (
-        <DropdownItem key={item.code} onSelect={this.handleSelect}>
-          {item.name}
-        </DropdownItem>
-      );
-    });
+    const renderSelectItems = languages.map(item => item.name);
     return (
       <div>
         <h2>Project Dashboard</h2>
-          <Dropdown className="no-setwidth-dropdown" floatMenu scroll size="normal" split title={this.state.translationLanguage || 'Language'}>
-            {renderDropdownItems}
-          </Dropdown>
+        <Select
+          options={renderSelectItems}
+          placeholder="Language"
+          value={this.state.translationLanguage}
+        />
+
         {React.cloneElement(this.props.children, { fieldguides, pages, project, workflows, tutorials })}
       </div>
     );
