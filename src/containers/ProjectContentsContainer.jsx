@@ -34,7 +34,7 @@ class ProjectContentsContainer extends Component {
     const { actions, params, project } = this.props;
     const type = params.resource_type;
     const id = type ? params.resource_id : params.project_id;
-    actions.fetchResource(id, type, project);
+    actions.fetchTranslations(id, type, project);
   }
 
   closeModal() {

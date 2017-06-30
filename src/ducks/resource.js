@@ -1,9 +1,9 @@
 import apiClient from 'panoptes-client/lib/api-client';
 
 // Action Types
-export const FETCH_RESOURCE = 'FETCH_RESOURCE';
-export const FETCH_RESOURCE_SUCCESS = 'FETCH_RESOURCE_SUCCESS';
-export const FETCH_RESOURCE_ERROR = 'FETCH_RESOURCE_ERROR';
+export const FETCH_TRANSLATIONS = 'FETCH_TRANSLATIONS';
+export const FETCH_TRANSLATIONS_SUCCESS = 'FETCH_TRANSLATIONS_SUCCESS';
+export const FETCH_TRANSLATIONS_ERROR = 'FETCH_TRANSLATIONS_ERROR';
 export const CREATE_TRANSLATION_SUCCESS = 'CREATE_TRANSLATION_SUCCESS';
 export const UPDATE_TRANSLATION = 'UPDATE_TRANSLATION';
 
@@ -33,12 +33,12 @@ const initialState = {
 
 const resourceReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_RESOURCE:
+    case FETCH_TRANSLATIONS:
       return Object.assign({}, initialState, { loading: true });
-    case FETCH_RESOURCE_SUCCESS:
+    case FETCH_TRANSLATIONS_SUCCESS:
     case CREATE_TRANSLATION_SUCCESS:
       return Object.assign({}, state, action.payload);
-    case FETCH_RESOURCE_ERROR:
+    case FETCH_TRANSLATIONS_ERROR:
       return Object.assign({}, state, { error: action.payload, loading: false });
     case UPDATE_TRANSLATION:
       return Object.assign({}, state, { translation: action.payload });
@@ -48,39 +48,39 @@ const resourceReducer = (state = initialState, action) => {
 };
 
 // Action Creators
-function fetchResource(id, type, project) {
+function fetchTranslations(id, type, project) {
   type = type || 'projects';
-  let fetchResources;
+  let fetchTranslations;
   switch (type) {
     case 'projects':
-      fetchResources = projectResourcesPromise(project.id, 'project_contents');
+      fetchTranslations = projectResourcesPromise(project.id, 'project_contents');
       break;
     case 'field_guides':
-      fetchResources = projectResourcesPromise(project.id, 'field_guides');
+      fetchTranslations = projectResourcesPromise(project.id, 'field_guides');
       break;
     case 'workflows':
-      fetchResources = workflowResourcesPromise(id, 'workflow_contents');
+      fetchTranslations = workflowResourcesPromise(id, 'workflow_contents');
       break;
     case 'tutorials':
-      fetchResources = workflowResourcesPromise(id, 'tutorials');
+      fetchTranslations = workflowResourcesPromise(id, 'tutorials');
       break;
     case 'project_pages':
-      fetchResources = project.get('pages', { url_key: id });
+      fetchTranslations = project.get('pages', { url_key: id });
       break;
     default:
-      fetchResources = apiClient.type(type).get({ id });
+      fetchTranslations = apiClient.type(type).get({ id });
   }
   return (dispatch) => {
     dispatch({
-      type: FETCH_RESOURCE,
+      type: FETCH_TRANSLATIONS,
       resource_type: type
     });
-    fetchResources
+    fetchTranslations
     .then((resources) => {
       const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
       dispatch({
-        type: FETCH_RESOURCE_SUCCESS,
+        type: FETCH_TRANSLATIONS_SUCCESS,
         payload: { original, translations, loading: false }
       });
     });
@@ -121,5 +121,5 @@ export default resourceReducer;
 export {
   createTranslation,
   updateTranslation,
-  fetchResource,
+  fetchTranslations,
 };
