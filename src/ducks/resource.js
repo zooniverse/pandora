@@ -4,7 +4,9 @@ import apiClient from 'panoptes-client/lib/api-client';
 export const FETCH_TRANSLATIONS = 'FETCH_TRANSLATIONS';
 export const FETCH_TRANSLATIONS_SUCCESS = 'FETCH_TRANSLATIONS_SUCCESS';
 export const FETCH_TRANSLATIONS_ERROR = 'FETCH_TRANSLATIONS_ERROR';
+export const CREATE_TRANSLATION = 'CREATE_TRANSLATION';
 export const CREATE_TRANSLATION_SUCCESS = 'CREATE_TRANSLATION_SUCCESS';
+export const SELECT_TRANSLATION = 'SELECT_TRANSLATION';
 export const UPDATE_TRANSLATION = 'UPDATE_TRANSLATION';
 
 // Helpers
@@ -35,11 +37,15 @@ const resourceReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_TRANSLATIONS:
       return Object.assign({}, initialState, { loading: true });
+    case CREATE_TRANSLATION:
+      return Object.assign({}, state, { loading: true });
     case FETCH_TRANSLATIONS_SUCCESS:
     case CREATE_TRANSLATION_SUCCESS:
       return Object.assign({}, state, action.payload);
     case FETCH_TRANSLATIONS_ERROR:
       return Object.assign({}, state, { error: action.payload, loading: false });
+    case SELECT_TRANSLATION:
+      return Object.assign({}, state, action.payload);
     case UPDATE_TRANSLATION:
       return Object.assign({}, state, { translation: action.payload });
     default:
@@ -87,21 +93,41 @@ function fetchTranslations(id, type, project) {
   };
 }
 
-const createTranslation = (original, type, lang) =>
-  (dispatch) => {
+function createTranslation(original, translations, type, lang) {
+  return (dispatch) => {
     const newResource = Object.assign({}, original);
     newResource.lang = lang;
+    dispatch({
+      type: CREATE_TRANSLATION
+    });
     apiClient.type(type)
     .create(newResource)
     .save()
       .then((translation) => {
+        translations.push(translation);
         dispatch({
           type: CREATE_TRANSLATION_SUCCESS,
-          payload: { translation, loading: false },
+          payload: { translation, translations, loading: false },
         });
       })
       .catch(error => console.error(error));
   };
+}
+
+function selectTranslation(original, translations, language) {
+  const { type } = original;
+  const translation = translations.find(translation => translation.language === language);
+  return (dispatch) => {
+    if (translation) {
+      dispatch({
+        type: SELECT_TRANSLATION,
+        payload: { translation }
+      });
+    } else {
+      dispatch(createTranslation(original, translations, type, language));
+    }
+  };
+}
 
 function updateTranslation(translation, field, value) {
   return (dispatch) => {
@@ -120,6 +146,7 @@ export default resourceReducer;
 
 export {
   createTranslation,
+  selectTranslation,
   updateTranslation,
   fetchTranslations,
 };
