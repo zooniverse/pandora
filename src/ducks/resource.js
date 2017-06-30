@@ -24,6 +24,23 @@ function workflowResourcesPromise(workflow_id, type) {
   return apiClient.type(type).get({ workflow_id });
 }
 
+function awaitTranslations(id, type, project) {
+  switch (type) {
+    case 'projects':
+      return projectResourcesPromise(project.id, 'project_contents');
+    case 'field_guides':
+      return projectResourcesPromise(project.id, 'field_guides');
+    case 'workflows':
+      return workflowResourcesPromise(id, 'workflow_contents');
+    case 'tutorials':
+      return workflowResourcesPromise(id, 'tutorials');
+    case 'project_pages':
+      return project.get('pages', { url_key: id });
+    default:
+      return apiClient.type(type).get({ id });
+  }
+}
+
 // Reducer
 const initialState = {
   original: null,
@@ -56,32 +73,12 @@ const resourceReducer = (state = initialState, action) => {
 // Action Creators
 function fetchTranslations(id, type, project) {
   type = type || 'projects';
-  let fetchTranslations;
-  switch (type) {
-    case 'projects':
-      fetchTranslations = projectResourcesPromise(project.id, 'project_contents');
-      break;
-    case 'field_guides':
-      fetchTranslations = projectResourcesPromise(project.id, 'field_guides');
-      break;
-    case 'workflows':
-      fetchTranslations = workflowResourcesPromise(id, 'workflow_contents');
-      break;
-    case 'tutorials':
-      fetchTranslations = workflowResourcesPromise(id, 'tutorials');
-      break;
-    case 'project_pages':
-      fetchTranslations = project.get('pages', { url_key: id });
-      break;
-    default:
-      fetchTranslations = apiClient.type(type).get({ id });
-  }
   return (dispatch) => {
     dispatch({
       type: FETCH_TRANSLATIONS,
       resource_type: type
     });
-    fetchTranslations
+    awaitTranslations(id, type, project)
     .then((resources) => {
       const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
