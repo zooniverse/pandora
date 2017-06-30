@@ -54,7 +54,7 @@ class ProjectDashboardContainer extends Component {
     return (
       <div>
         <h2>Project Dashboard</h2>
-          <Dropdown floatMenu scroll size="normal" split title={this.state.translationLanguage || 'Language'}>
+          <Dropdown className="no-setwidth-dropdown" floatMenu scroll size="normal" split title={this.state.translationLanguage || 'Language'}>
             {renderDropdownItems}
           </Dropdown>
         {React.cloneElement(this.props.children, { fieldguides, pages, project, workflows, tutorials })}
