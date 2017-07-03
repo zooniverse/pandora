@@ -24,6 +24,7 @@ const propTypes = {
 class ProjectDashboardContainer extends Component {
   constructor() {
     super();
+    this.handleSearch = this.handleSearch.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.state = {
       translationLanguage: '',
@@ -34,9 +35,15 @@ class ProjectDashboardContainer extends Component {
     actions.fetchProject(this.props.params.project_id);
   }
 
-  handleSelect(event) {
+  handleSearch(event) {
     this.setState({
-      translationLanguage: event.target.textContent,
+      translationLanguage: event.target.value,
+    });
+  }
+
+  handleSelect({ option }) {
+    this.setState({
+      translationLanguage: option,
     });
   }
 
@@ -49,8 +56,9 @@ class ProjectDashboardContainer extends Component {
         <h2>Project Dashboard</h2>
         <Select
           onChange={this.handleSelect}
+          onSearch={this.handleSearch}
           options={renderSelectItems}
-          placeholder="Language"
+          placeHolder="Select a language"
           value={this.state.translationLanguage}
         />
 
