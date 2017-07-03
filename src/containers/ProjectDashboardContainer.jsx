@@ -48,6 +48,7 @@ class ProjectDashboardContainer extends Component {
       <div>
         <h2>Project Dashboard</h2>
         <Select
+          onChange={this.handleSelect}
           options={renderSelectItems}
           placeholder="Language"
           value={this.state.translationLanguage}
