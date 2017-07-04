@@ -55,7 +55,7 @@ class ProjectDashboardContainer extends Component {
       const matchesSearch = (langObj) => langObj.label.toLowerCase().substr(0, searchStr.length) === searchStr;
       langs = languages.filter(matchesSearch);
     }
-    return langs.map(item => item);
+    return langs;
   }
 
   render() {
