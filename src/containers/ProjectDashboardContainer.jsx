@@ -27,6 +27,7 @@ class ProjectDashboardContainer extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.state = {
+      searchText: '',
       translationLanguage: '',
     };
   }
@@ -37,7 +38,7 @@ class ProjectDashboardContainer extends Component {
 
   handleSearch(event) {
     this.setState({
-      translationLanguage: event.target.value,
+      searchText: event.target.value,
     });
   }
 
@@ -47,17 +48,27 @@ class ProjectDashboardContainer extends Component {
     });
   }
 
+  getSelectOptions() {
+    const searchStr = this.state.searchText;
+    let langs = languages.slice();
+    if (searchStr) {
+      const matchesSearch = (langObj) => langObj.name.toLowerCase().substr(0, searchStr.length) === searchStr;
+      langs = languages.filter(matchesSearch);
+    }
+    return langs.map(item => item.name);
+  }
+
   render() {
     const project = this.props.project.data;
     const { fieldguides, pages, workflows, tutorials } = this.props.project;
-    const renderSelectItems = languages.map(item => item.name);
+    const options = this.getSelectOptions();
     return (
       <div>
         <h2>Project Dashboard</h2>
         <Select
           onChange={this.handleSelect}
           onSearch={this.handleSearch}
-          options={renderSelectItems}
+          options={options}
           placeHolder="Select a language"
           value={this.state.translationLanguage}
         />
