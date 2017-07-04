@@ -44,7 +44,7 @@ class ProjectDashboardContainer extends Component {
 
   handleSelect({ option }) {
     this.setState({
-      translationLanguage: option,
+      translationLanguage: option.value,
     });
   }
 
@@ -52,10 +52,10 @@ class ProjectDashboardContainer extends Component {
     const searchStr = this.state.searchText;
     let langs = languages.slice();
     if (searchStr) {
-      const matchesSearch = (langObj) => langObj.name.toLowerCase().substr(0, searchStr.length) === searchStr;
+      const matchesSearch = (langObj) => langObj.label.toLowerCase().substr(0, searchStr.length) === searchStr;
       langs = languages.filter(matchesSearch);
     }
-    return langs.map(item => item.name);
+    return langs.map(item => item);
   }
 
   render() {
