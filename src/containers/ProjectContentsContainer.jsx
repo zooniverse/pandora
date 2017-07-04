@@ -19,6 +19,7 @@ const propTypes = {
 class ProjectContentsContainer extends Component {
   constructor() {
     super();
+    this.closeModal = this.closeModal.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
@@ -32,6 +33,10 @@ class ProjectContentsContainer extends Component {
     const type = this.props.params.resource_type;
     const id = type ? this.props.params.resource_id : this.props.params.project_id;
     actions.fetchResource(id, type);
+  }
+
+  closeModal() {
+    this.setState({modalOpen: false});
   }
 
   handleClick(event) {
@@ -54,7 +59,7 @@ class ProjectContentsContainer extends Component {
           acquireFocus={false}
           title="What a Header!"
           show={this.state.modalOpen}
-          onHide={() => this.setState({modalOpen: false})}
+          onHide={this.closeModal}
         >
           <ModalBody>
             <p>{this.state.translationText}</p>
@@ -64,7 +69,7 @@ class ProjectContentsContainer extends Component {
             </DefaultButton>
           </ModalBody>
           <ModalFooter>
-            <DefaultButton onClick={() => this.setState({modalOpen: false})}>
+            <DefaultButton onClick={this.closeModal}>
               Close
             </DefaultButton>
           </ModalFooter>
