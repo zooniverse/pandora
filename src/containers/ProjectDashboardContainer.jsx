@@ -28,8 +28,7 @@ class ProjectDashboardContainer extends Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.state = {
       searchText: '',
-      languageCode: '',
-      languageLabel: '',
+      option: {},
     };
   }
   componentDidMount() {
@@ -45,8 +44,7 @@ class ProjectDashboardContainer extends Component {
 
   handleSelect({ option }) {
     this.setState({
-      languageCode: option.value,
-      languageLabel: option.label,
+      option,
     });
   }
 
@@ -72,7 +70,7 @@ class ProjectDashboardContainer extends Component {
           onSearch={this.handleSearch}
           options={options}
           placeHolder="Select a language"
-          value={this.state.languageLabel}
+          value={this.state.option}
         />
 
         {React.cloneElement(this.props.children, { fieldguides, pages, project, workflows, tutorials })}
