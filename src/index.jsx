@@ -6,7 +6,7 @@ import oauth from 'panoptes-client/lib/oauth';
 
 import App from './components/App';
 import About from './components/About';
-import config from './config';
+import config from './constants/config';
 import configureStore from './store';
 import ProjectContentsContainer from './containers/ProjectContentsContainer';
 import ProjectDashboardContainer from './containers/ProjectDashboardContainer';

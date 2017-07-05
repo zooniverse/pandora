@@ -5,6 +5,10 @@
     "history": "^4.6.1",
     "panoptes-client": "^2.5.2",
     "prop-types": "^15.5.10",
+    "pui-react-buttons": "^8.3.1",
+    "pui-react-iconography": "^8.3.1",
+    "pui-react-mixins": "^8.3.1",
+    "pui-react-modals": "^8.3.1",
     "react": "^15.5",
     "react-dom": "^15.5",
     "react-redux": "^4.4.6",
@@ -12,7 +16,8 @@
     "redux": "^3.6.0",
     "redux-devtools-extension": "^1.0.0",
     "redux-logger": "^2.7.4",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "zoo-grommet": "^0.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.3",
@@ -41,11 +46,6 @@
     "json-loader": "^0.5.4",
     "mocha": "^3.2.0",
     "nib": "^1.1.2",
-    "pui-react-buttons": "^8.1.0",
-    "pui-react-iconography": "^8.1.0",
-    "pui-react-mixins": "^8.1.0",
-    "pui-react-modals": "^8.1.0",
-    "pui-react-tools": "^2.0.5",
     "react-addons-test-utils": "^15.5",
     "react-fix-it": "^0.3.3",
     "react-svg-loader": "^1.1.1",
