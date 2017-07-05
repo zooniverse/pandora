@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import languages from '../constants/languages';
-import * as projectActions from '../ducks/project';
+import { fetchProject } from '../ducks/project';
+import { createTranslation } from '../ducks/resource';
 import Select from 'grommet/components/Select';
 
 const propTypes = {
@@ -43,9 +44,11 @@ class ProjectDashboardContainer extends Component {
   }
 
   handleSelect({ option }) {
+    const { actions } = this.props;
     this.setState({
       option,
     });
+    actions.createTranslation('project_contents', option.value);
   }
 
   getSelectOptions() {
@@ -83,7 +86,10 @@ const mapStateToProps = (state) => ({
   project: state.project
 });
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(projectActions, dispatch),
+  actions: {
+    fetchProject: bindActionCreators(fetchProject, dispatch),
+    createTranslation: bindActionCreators(createTranslation, dispatch),
+  },
 });
 
 ProjectDashboardContainer.propTypes = propTypes;
