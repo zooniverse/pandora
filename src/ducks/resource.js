@@ -71,7 +71,7 @@ const resourceReducer = (state = initialState, action) => {
 };
 
 // Action Creators
-function fetchTranslations(id, type, project) {
+function fetchTranslations(id, type, project, language) {
   type = type || 'projects';
   return (dispatch) => {
     dispatch({
@@ -82,6 +82,9 @@ function fetchTranslations(id, type, project) {
     .then((resources) => {
       const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
+      if (language && language !== primary_language) {
+        dispatch(selectTranslation(original, translations, type, language));
+      }
       dispatch({
         type: FETCH_TRANSLATIONS_SUCCESS,
         payload: { original, translations, loading: false }
@@ -125,7 +128,6 @@ function selectTranslation(original, translations, type, language) {
         payload: { translation }
       });
     } else {
-      console.log('CREATE', original, translations, type, language)
       dispatch(createTranslation(original, translations, type, language));
     }
   };
