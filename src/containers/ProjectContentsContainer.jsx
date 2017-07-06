@@ -31,10 +31,19 @@ class ProjectContentsContainer extends Component {
   }
 
   componentDidMount() {
-    const { actions, params, project } = this.props;
+    const { actions, params, project, language } = this.props;
     const type = params.resource_type;
     const id = type ? params.resource_id : params.project_id;
-    actions.fetchTranslations(id, type, project);
+    actions.fetchTranslations(id, type, project, language);
+  }
+
+  componentWillReceiveProps(newProps) {
+    const { actions, params } = this.props;
+    if (newProps.language !== this.props.language && newProps.language !== newProps.project.primary_language) {
+      const { original, translations } = newProps.resource;
+      const type = params.resource_type;
+      actions.selectTranslation(original, translations, type, newProps.language);
+    }
   }
 
   closeModal() {

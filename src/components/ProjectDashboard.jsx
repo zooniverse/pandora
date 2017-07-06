@@ -7,22 +7,34 @@ import ProjectContents from './ProjectContents';
 
 const propTypes = {
   fieldguides: PropTypes.array.isRequired,
+  language: PropTypes.string,
   pages: PropTypes.array.isRequired,
   project: PropTypes.object.isRequired,
+  translations: PropTypes.array.isRequired,
   tutorials: PropTypes.array.isRequired,
   workflows: PropTypes.array.isRequired,
 };
 
 function ProjectDashboard(props) {
-  const { project } = props;
+  const { fieldguides, project, translations, tutorials, workflows } = props;
   return (
     <div>
+      <h3>Translations</h3>
+      <ul>
+        {translations.map((translation) => {
+          return (
+            <li key={translation.id}>
+              {translation.language}
+            </li>
+          )
+        })}
+      </ul>
       <ProjectContentsContainer {...props}>
         <ProjectContents />
       </ProjectContentsContainer>
       <h3>Workflows</h3>
       <ul>
-        {props.workflows.map((workflow) => {
+        {workflows.map((workflow) => {
           return (
             <li key={workflow.id}>
               <Link to={`/project/${project.id}/workflows/${workflow.id}`}>{workflow.display_name}</Link>
@@ -32,7 +44,7 @@ function ProjectDashboard(props) {
       </ul>
       <h3>Tutorials</h3>
       <ul>
-        {props.tutorials.map((tutorial) => {
+        {tutorials.map((tutorial) => {
           return (
             <li key={tutorial.id}>
               <Link to={`/project/${project.id}/tutorials/${tutorial.links.workflows[0]}`}>{tutorial.id}: {tutorial.display_name}</Link>
@@ -42,7 +54,7 @@ function ProjectDashboard(props) {
       </ul>
       <h3>Field Guides</h3>
       <ul>
-        {props.fieldguides.map((fieldguide) => {
+        {fieldguides.map((fieldguide) => {
           return (
             <li key={fieldguide.id}>
               <Link to={`/project/${project.id}/field_guides/${fieldguide.id}`}>{fieldguide.id}: {fieldguide.display_name}</Link>
@@ -67,6 +79,7 @@ function ProjectDashboard(props) {
 ProjectDashboard.propTypes = propTypes;
 
 ProjectDashboard.defaultProps = {
+  language: 'en',
   project: {
     tutorials: [],
     workflows: []

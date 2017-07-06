@@ -71,7 +71,7 @@ const resourceReducer = (state = initialState, action) => {
 };
 
 // Action Creators
-function fetchTranslations(id, type, project) {
+function fetchTranslations(id, type, project, language) {
   type = type || 'projects';
   return (dispatch) => {
     dispatch({
@@ -82,6 +82,9 @@ function fetchTranslations(id, type, project) {
     .then((resources) => {
       const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
+      if (language && language !== primary_language) {
+        dispatch(selectTranslation(original, translations, type, language));
+      }
       dispatch({
         type: FETCH_TRANSLATIONS_SUCCESS,
         payload: { original, translations, loading: false }
@@ -90,12 +93,16 @@ function fetchTranslations(id, type, project) {
   };
 }
 
-function createTranslation(original, translations, type, lang) {
+function createTranslation(original, translations, type, language) {
   return (dispatch) => {
     const newResource = Object.assign({}, original);
-    newResource.lang = lang;
+    delete newResource.id;
+    delete newResource.href;
+    newResource.language = language;
     dispatch({
-      type: CREATE_TRANSLATION
+      type: CREATE_TRANSLATION,
+      newResource,
+      original
     });
     apiClient.type(type)
     .create(newResource)
@@ -111,8 +118,8 @@ function createTranslation(original, translations, type, lang) {
   };
 }
 
-function selectTranslation(original, translations, language) {
-  const { type } = original;
+function selectTranslation(original, translations, type, language) {
+  type = type || 'project_contents';
   const translation = translations.find(translation => translation.language === language);
   return (dispatch) => {
     if (translation) {

@@ -19,7 +19,12 @@ const propTypes = {
   }),
   params: PropTypes.shape({
     project_id: PropTypes.string
-  })
+  }),
+  resource: PropTypes.shape({
+    original: PropTypes.object,
+    translation: PropTypes.object,
+    translations: PropTypes.array,
+  }),
 };
 
 class ProjectDashboardContainer extends Component {
@@ -48,7 +53,6 @@ class ProjectDashboardContainer extends Component {
     this.setState({
       option,
     });
-    actions.createTranslation('project_contents', option.value);
   }
 
   getSelectOptions() {
@@ -64,7 +68,9 @@ class ProjectDashboardContainer extends Component {
   render() {
     const project = this.props.project.data;
     const { fieldguides, pages, workflows, tutorials } = this.props.project;
+    const { translations } = this.props.resource;
     const options = this.getSelectOptions();
+    const language = this.state.option.value;
     return (
       <div>
         <h2>Project Dashboard</h2>
@@ -76,19 +82,20 @@ class ProjectDashboardContainer extends Component {
           value={this.state.option}
         />
 
-        {project.primary_language && React.cloneElement(this.props.children, { fieldguides, pages, project, workflows, tutorials })}
+        {project.primary_language && React.cloneElement(this.props.children, { fieldguides, language, pages, project, translations, tutorials, workflows })}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  project: state.project
+  project: state.project,
+  resource: state.resource,
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: {
     fetchProject: bindActionCreators(fetchProject, dispatch),
-    createTranslation: bindActionCreators(createTranslation, dispatch),
+    createTranslation: bindActionCreators(createTranslation, dispatch)
   },
 });
 
