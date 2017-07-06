@@ -111,8 +111,8 @@ function createTranslation(original, translations, type, lang) {
   };
 }
 
-function selectTranslation(original, translations, language) {
-  const { type } = original;
+function selectTranslation(original, translations, type, language) {
+  type = type || 'project_contents';
   const translation = translations.find(translation => translation.language === language);
   return (dispatch) => {
     if (translation) {

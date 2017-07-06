@@ -39,10 +39,11 @@ class ProjectContentsContainer extends Component {
 
   componentWillReceiveProps(newProps) {
     console.log(newProps.language)
-    const { actions } = this.props;
+    const { actions, params } = this.props;
     if (newProps.language !== this.props.language && newProps.language !== newProps.project.primary_language) {
       const { original, translations } = newProps.resource;
-      actions.selectTranslation(original, translations, newProps.language);
+      const type = params.resource_type;
+      actions.selectTranslation(original, translations, type, newProps.language);
     }
   }
 
