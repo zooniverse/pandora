@@ -121,7 +121,8 @@ function selectTranslation(original, translations, language) {
         payload: { translation }
       });
     } else {
-      dispatch(createTranslation(original, translations, type, language));
+      console.log('CREATE', original, translations, type, language)
+      // dispatch(createTranslation(original, translations, type, language));
     }
   };
 }

@@ -37,6 +37,15 @@ class ProjectContentsContainer extends Component {
     actions.fetchTranslations(id, type, project);
   }
 
+  componentWillReceiveProps(newProps) {
+    console.log(newProps.language)
+    const { actions } = this.props;
+    if (newProps.language !== this.props.language && newProps.language !== newProps.project.primary_language) {
+      const { original, translations } = newProps.resource;
+      actions.selectTranslation(original, translations, newProps.language);
+    }
+  }
+
   closeModal() {
     this.setState({modalOpen: false});
   }

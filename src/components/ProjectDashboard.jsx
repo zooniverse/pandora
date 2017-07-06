@@ -7,6 +7,7 @@ import ProjectContents from './ProjectContents';
 
 const propTypes = {
   fieldguides: PropTypes.array.isRequired,
+  language: PropTypes.string,
   pages: PropTypes.array.isRequired,
   project: PropTypes.object.isRequired,
   tutorials: PropTypes.array.isRequired,
@@ -67,6 +68,7 @@ function ProjectDashboard(props) {
 ProjectDashboard.propTypes = propTypes;
 
 ProjectDashboard.defaultProps = {
+  language: 'en',
   project: {
     tutorials: [],
     workflows: []

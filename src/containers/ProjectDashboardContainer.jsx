@@ -48,7 +48,6 @@ class ProjectDashboardContainer extends Component {
     this.setState({
       option,
     });
-    actions.createTranslation('project_contents', option.value);
   }
 
   getSelectOptions() {
@@ -65,6 +64,7 @@ class ProjectDashboardContainer extends Component {
     const project = this.props.project.data;
     const { fieldguides, pages, workflows, tutorials } = this.props.project;
     const options = this.getSelectOptions();
+    const language = this.state.option.value;
     return (
       <div>
         <h2>Project Dashboard</h2>
@@ -76,7 +76,7 @@ class ProjectDashboardContainer extends Component {
           value={this.state.option}
         />
 
-        {project.primary_language && React.cloneElement(this.props.children, { fieldguides, pages, project, workflows, tutorials })}
+        {project.primary_language && React.cloneElement(this.props.children, { fieldguides, pages, project, workflows, tutorials, language })}
       </div>
     );
   }
