@@ -33,7 +33,7 @@ const projectReducer = (state = initialState, action) => {
     case FETCH_PROJECT:
       return Object.assign({}, initialState, { loading: true });
     case FETCH_PROJECT_SUCCESS:
-      return Object.assign({}, state, { data: action.payload, loading: false });
+      return Object.assign({}, state, action.payload);
     case FETCH_PROJECT_ERROR:
       return Object.assign({}, state, { error: action.payload, loading: false });
     case FETCH_WORKFLOWS:
@@ -68,14 +68,18 @@ const fetchProject = (id) => {
     };
     apiClient.type('projects').get(query)
     .then(([project]) => {
+      dispatch({
+        type: FETCH_PROJECT_SUCCESS,
+        payload: {
+          data: project,
+          primary_language: project.primary_language,
+          loading: false
+        }
+      });
       dispatch(fetchWorkflows(project));
       dispatch(fetchTutorials(project));
       dispatch(fetchPages(project));
       dispatch(fetchFieldGuides(project));
-      dispatch({
-        type: FETCH_PROJECT_SUCCESS,
-        payload: project,
-      });
     });
   };
 };
