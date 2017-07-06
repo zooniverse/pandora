@@ -90,12 +90,16 @@ function fetchTranslations(id, type, project) {
   };
 }
 
-function createTranslation(original, translations, type, lang) {
+function createTranslation(original, translations, type, language) {
   return (dispatch) => {
     const newResource = Object.assign({}, original);
-    newResource.lang = lang;
+    delete newResource.id;
+    delete newResource.href;
+    newResource.language = language;
     dispatch({
-      type: CREATE_TRANSLATION
+      type: CREATE_TRANSLATION,
+      newResource,
+      original
     });
     apiClient.type(type)
     .create(newResource)
@@ -122,7 +126,7 @@ function selectTranslation(original, translations, type, language) {
       });
     } else {
       console.log('CREATE', original, translations, type, language)
-      // dispatch(createTranslation(original, translations, type, language));
+      dispatch(createTranslation(original, translations, type, language));
     }
   };
 }
