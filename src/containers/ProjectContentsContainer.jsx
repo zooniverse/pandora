@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as contentsActions from '../ducks/resource';
 import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
 import { DefaultButton } from 'pui-react-buttons';
+import isElementTranslatable from '../helpers/isElementTranslatable';
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
@@ -59,16 +60,20 @@ class ProjectContentsContainer extends Component {
   }
 
   handleClick(event) {
-    const fieldName = event.target.getAttribute('data-translation-key');
-    const { original, translation } = this.props.resource;
-    if (translation) {
-      this.setState({
-        field: fieldName,
-        fieldText: original[fieldName],
-        modalOpen: true,
-      });
+    if (isElementTranslatable(event)) {
+      const fieldName = event.target.getAttribute('data-translation-key');
+      const { original, translation } = this.props.resource;
+      if (translation) {
+        this.setState({
+          field: fieldName,
+          fieldText: original[fieldName],
+          modalOpen: true,
+        });
+      } else {
+        alert('Please select a language');
+      }
     } else {
-      alert('Please select a language');
+      alert('This element does not support translations');
     }
   }
 
