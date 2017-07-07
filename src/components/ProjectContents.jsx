@@ -21,6 +21,7 @@ function ProjectContents(props) {
         <p data-translation-key="title">Title: { project_contents.title }</p>
         <p data-translation-key="description">Description: { project_contents.description }</p>
         <p data-translation-key="introduction">Introduction: { project_contents.introduction }</p>
+        <p data-translation-key="researcher_quote">Researcher quote: { project_contents.researcher_quote }</p>
         <p>Language: { project_contents.language}</p>
       </div>
       <div>
@@ -28,6 +29,7 @@ function ProjectContents(props) {
         <p>Title: { translationContents.title }</p>
         <p>Description: { translationContents.description }</p>
         <p>Introduction: { translationContents.introduction }</p>
+        <p>Researcher quote: { translationContents.researcher_quote }</p>
         <p>Language: { translationContents.language}</p>
       </div>
     </div>
