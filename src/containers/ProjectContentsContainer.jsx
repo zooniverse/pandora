@@ -22,9 +22,11 @@ class ProjectContentsContainer extends Component {
   constructor() {
     super();
     this.closeModal = this.closeModal.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
+      field: '',
       modalOpen: false,
       translationText: ''
     };
@@ -50,16 +52,33 @@ class ProjectContentsContainer extends Component {
     this.setState({modalOpen: false});
   }
 
-  handleClick(event) {
+  handleChange(event) {
     this.setState({
-      modalOpen: true,
-      translationText: event.target.textContent
+      translationText: event.target.value,
     });
+  }
+
+  handleClick(event) {
+    const fieldName = event.target.getAttribute('data-translation-key');
+    const { original, translation } = this.props.resource;
+    if (translation) {
+      this.setState({
+        field: fieldName,
+        fieldText: original[fieldName],
+        modalOpen: true,
+      });
+    } else {
+      alert('Please select a language');
+    }
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log('submit');
+    const { field, translationText } = this.state;
+    const { actions, resource } = this.props;
+    const translation = resource.translation;
+    actions.updateTranslation(translation, field, translationText);
+    this.closeModal();
   }
 
   render() {
@@ -68,13 +87,14 @@ class ProjectContentsContainer extends Component {
       <div>
         <BaseModal
           acquireFocus={false}
-          title="What a Header!"
           show={this.state.modalOpen}
           onHide={this.closeModal}
         >
           <ModalBody>
-            <p>{this.state.translationText}</p>
-            <input autoFocus placeholder="Translate some text" />
+            <h2>Original</h2>
+            <p>{this.state.fieldText}</p>
+            <h2>Translation</h2>
+            <input type="text" onChange={this.handleChange} autoFocus placeholder="Translate some text" />
             <DefaultButton onClick={this.handleSubmit}>
               Submit
             </DefaultButton>

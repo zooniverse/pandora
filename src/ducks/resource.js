@@ -142,7 +142,7 @@ function updateTranslation(translation, field, value) {
       payload: translation
     });
     translation.save()
-    .catch(error => console.error(error));
+    .catch(error => console.error('Update translation error:', error));
   };
 }
 // Exports

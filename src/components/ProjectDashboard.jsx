@@ -26,7 +26,7 @@ function ProjectDashboard(props) {
             <li key={translation.id}>
               {translation.language}
             </li>
-          )
+          );
         })}
       </ul>
       <ProjectContentsContainer {...props}>
