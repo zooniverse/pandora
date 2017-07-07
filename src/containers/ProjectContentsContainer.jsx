@@ -59,11 +59,17 @@ class ProjectContentsContainer extends Component {
   }
 
   handleClick(event) {
-    this.setState({
-      field: event.target.textContent.split(':')[0],
-      fieldText: event.target.textContent.split(':')[1],
-      modalOpen: true,
-    });
+    const fieldName = event.target.getAttribute('data-translation-key');
+    const { original, translation } = this.props.resource;
+    if (translation) {
+      this.setState({
+        field: fieldName,
+        fieldText: original[fieldName],
+        modalOpen: true,
+      });
+    } else {
+      alert('Please select a language');
+    }
   }
 
   handleSubmit(event) {
@@ -72,6 +78,7 @@ class ProjectContentsContainer extends Component {
     const { actions, resource } = this.props;
     const translation = resource.translation;
     actions.updateTranslation(translation, field, translationText);
+    this.closeModal();
   }
 
   render() {

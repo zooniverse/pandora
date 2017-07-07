@@ -136,9 +136,6 @@ function selectTranslation(original, translations, type, language) {
 function updateTranslation(translation, field, value) {
   return (dispatch) => {
     const changes = { [field]: value };
-    console.log('====================================');
-    console.log(changes);
-    console.log('====================================');
     translation.update(changes);
     dispatch({
       type: UPDATE_TRANSLATION,
