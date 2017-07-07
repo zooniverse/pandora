@@ -22,9 +22,11 @@ class ProjectContentsContainer extends Component {
   constructor() {
     super();
     this.closeModal = this.closeModal.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
+      field: '',
       modalOpen: false,
       translationText: ''
     };
@@ -50,16 +52,26 @@ class ProjectContentsContainer extends Component {
     this.setState({modalOpen: false});
   }
 
+  handleChange(event) {
+    this.setState({
+      translationText: event.target.value,
+    });
+  }
+
   handleClick(event) {
     this.setState({
+      field: event.target.textContent.split(':')[0],
+      fieldText: event.target.textContent.split(':')[1],
       modalOpen: true,
-      translationText: event.target.textContent
     });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log('submit');
+    const { field, translationText } = this.state;
+    const { actions, resource } = this.props;
+    const translation = resource.translation;
+    actions.updateTranslation(translation, field, translationText);
   }
 
   render() {
@@ -68,13 +80,14 @@ class ProjectContentsContainer extends Component {
       <div>
         <BaseModal
           acquireFocus={false}
-          title="What a Header!"
           show={this.state.modalOpen}
           onHide={this.closeModal}
         >
           <ModalBody>
-            <p>{this.state.translationText}</p>
-            <input autoFocus placeholder="Translate some text" />
+            <h2>Original</h2>
+            <p>{this.state.fieldText}</p>
+            <h2>Translation</h2>
+            <input type="text" onChange={this.handleChange} autoFocus placeholder="Translate some text" />
             <DefaultButton onClick={this.handleSubmit}>
               Submit
             </DefaultButton>
