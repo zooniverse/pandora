@@ -46,8 +46,9 @@ function createResource(type, resource) {
     case 'project_pages':
       // project pages have a different API endpoint from other resources
       const project_id = resource.links.project;
+      const { url_key, title, content, language } = resource;
       return apiClient
-        .post(`/projects/${project_id}/pages`, { project_pages: resource })
+        .post(`/projects/${project_id}/pages`, { project_pages: { url_key, title, content, language } })
         .then(([page]) => page);
       // TODO: organisation pages use /api/organisations/{id}/pages
     default:
