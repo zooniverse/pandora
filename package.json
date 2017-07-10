@@ -3,6 +3,7 @@
   "author": "Zooniverse",
   "dependencies": {
     "history": "^4.6.1",
+    "markdownz": "^7.2.1",
     "panoptes-client": "^2.5.2",
     "prop-types": "^15.5.10",
     "pui-react-buttons": "^8.3.1",
