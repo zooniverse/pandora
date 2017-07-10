@@ -98,6 +98,8 @@ function createTranslation(original, translations, type, language) {
     const newResource = Object.assign({}, original);
     delete newResource.id;
     delete newResource.href;
+    delete newResource.created_at;
+    delete newResource.updated_at;
     newResource.language = language;
     dispatch({
       type: CREATE_TRANSLATION,
