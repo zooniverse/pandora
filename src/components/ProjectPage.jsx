@@ -18,9 +18,9 @@ function ProjectPage(props) {
       <h2>Project Page</h2>
       <dl>
         <dt>title</dt>
-        <dd>{page.title}</dd>
+        <dd data-translation-key="title">{page.title}</dd>
         <dt>content</dt>
-        <dd>{page.content}</dd>
+        <dd data-translation-key="content">{page.content}</dd>
       </dl>
     </div>
   );
