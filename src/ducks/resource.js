@@ -41,6 +41,23 @@ function awaitTranslations(id, type, project) {
   }
 }
 
+function createResource(type, resource) {
+  switch (type) {
+    case 'project_pages':
+      // project pages have a different API endpoint from other resources
+      const project_id = resource.links.project;
+      return apiClient
+        .post(`/projects/${project_id}/pages`, { project_pages: resource })
+        .then(([page]) => page);
+      // TODO: organisation pages use /api/organisations/{id}/pages
+    default:
+      return apiClient
+        .type(type)
+        .create(resource)
+        .save();
+  }
+}
+
 // Reducer
 const initialState = {
   original: null,
@@ -106,9 +123,7 @@ function createTranslation(original, translations, type, language) {
       newResource,
       original
     });
-    apiClient.type(type)
-    .create(newResource)
-    .save()
+    createResource(type, newResource)
       .then((translation) => {
         translations.push(translation);
         dispatch({
