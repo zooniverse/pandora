@@ -16,8 +16,8 @@ function WorkflowContents(props) {
   const translation = contents.translation || { strings: {} };
   const strings = [];
   const keys = workflow_contents.strings ? Object.keys(workflow_contents.strings) : [];
-  keys.map(key => {
-    strings.push(<p key={key}><b>{key}</b> {workflow_contents.strings[key]}</p>);
+  keys.map((key) => {
+    strings.push(<p data-translation-key="strings" data-translation-subkey={key} key={key}><b>{key}</b> {workflow_contents.strings[key]}</p>);
     strings.push(<p key={`translation-${key}`}><b>Translation</b> {translation.strings[key]}</p>);
   });
   return (
