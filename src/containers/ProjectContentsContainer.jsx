@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { MarkdownEditor } from 'markdownz';
-import * as contentsActions from '../ducks/resource';
 import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
 import { DefaultButton } from 'pui-react-buttons';
+import * as contentsActions from '../ducks/resource';
 import isElementTranslatable from '../helpers/isElementTranslatable';
 
 const propTypes = {
@@ -29,6 +28,7 @@ class ProjectContentsContainer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       field: '',
+      subfield: '',
       modalOpen: false,
       translationText: ''
     };
@@ -51,7 +51,7 @@ class ProjectContentsContainer extends Component {
   }
 
   closeModal() {
-    this.setState({modalOpen: false});
+    this.setState({ modalOpen: false });
   }
 
   handleChange(event) {
@@ -62,13 +62,21 @@ class ProjectContentsContainer extends Component {
 
   handleClick(event) {
     if (isElementTranslatable(event)) {
-      const fieldName = event.target.getAttribute('data-translation-key');
+      const field = event.target.getAttribute('data-translation-key');
+      const subfield = event.target.getAttribute('data-translation-subkey');
       const { original, translation } = this.props.resource;
+      let fieldText;
+      if (subfield && subfield.length) {
+        fieldText = original[field][subfield];
+      } else {
+        fieldText = original[field];
+      }
       if (translation) {
         this.setState({
-          field: fieldName,
-          fieldText: original[fieldName],
-          modalOpen: true,
+          field,
+          subfield,
+          fieldText,
+          modalOpen: true
         });
       } else {
         alert('Please select a language');
@@ -80,10 +88,16 @@ class ProjectContentsContainer extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { field, translationText } = this.state;
+    const { field, subfield, translationText } = this.state;
     const { actions, resource } = this.props;
     const translation = resource.translation;
-    actions.updateTranslation(translation, field, translationText);
+    if (subfield && subfield.length) {
+      const changes = translation[field];
+      changes[subfield] = translationText;
+      actions.updateTranslation(translation, field, changes);
+    } else {
+      actions.updateTranslation(translation, field, translationText);
+    }
     this.closeModal();
   }
 
