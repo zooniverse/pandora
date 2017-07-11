@@ -21,7 +21,7 @@ function ProjectPage(props) {
         <dt>title</dt>
         <dd>{page.title}</dd>
         <dt>content</dt>
-        <dd><Markdown content={page.content} /></dd>
+        <dd>{page.content}</dd>
       </dl>
     </div>
   );

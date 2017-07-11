@@ -19,7 +19,7 @@ function FieldGuideItem(props) {
         <dt>title</dt>
         <dd>{item.title}</dd>
         <dt>content</dt>
-        <dd><Markdown content={item.content} /></dd>
+        <dd>{item.content}</dd>
       </dl>
     </li>
   );

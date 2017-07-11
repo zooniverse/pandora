@@ -19,7 +19,7 @@ function Tutorial(props) {
   return (
     <div>
       <h2>Tutorial</h2>
-      <Markdown content={steps} />
+      {steps}
     </div>
   );
 }
