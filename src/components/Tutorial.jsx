@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Markdown } from 'markdownz';
 import fixIt, { options } from 'react-fix-it';
 
 const propTypes = {
@@ -18,7 +19,7 @@ function Tutorial(props) {
   return (
     <div>
       <h2>Tutorial</h2>
-      {steps}
+      <Markdown content={steps} />
     </div>
   );
 }

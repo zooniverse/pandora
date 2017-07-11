@@ -27,10 +27,10 @@ function ProjectContents(props) {
       </div>
       <div>
         <h2>Translation</h2>
-        <Markdown content={`Title: ${translationContents.title}`} />
-        <Markdown content={`Description: ${translationContents.description}`} />
+        <p>Title: { translationContents.title }</p>
+        <p>Description: { translationContents.description }</p>
         <Markdown content={`Introduction: ${translationContents.introduction}`} />
-        <Markdown content={`Researcher quote: ${translationContents.researcher_quote}`} />
+        <p>Researcher quote: { translationContents.researcher_quote }</p>
         <p>Language: { translationContents.language}</p>
       </div>
     </div>

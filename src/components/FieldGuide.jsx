@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Markdown } from 'markdownz';
 import fixIt, { options } from 'react-fix-it';
 
 const propTypes = {
@@ -18,7 +19,7 @@ function FieldGuideItem(props) {
         <dt>title</dt>
         <dd>{item.title}</dd>
         <dt>content</dt>
-        <dd>{item.content}</dd>
+        <dd><Markdown content={item.content} /></dd>
       </dl>
     </li>
   );

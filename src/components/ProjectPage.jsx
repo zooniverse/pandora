@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Markdown } from 'markdownz';
 import fixIt, { options } from 'react-fix-it';
 
 const propTypes = {
@@ -20,7 +21,7 @@ function ProjectPage(props) {
         <dt>title</dt>
         <dd>{page.title}</dd>
         <dt>content</dt>
-        <dd>{page.content}</dd>
+        <dd><Markdown content={page.content} /></dd>
       </dl>
     </div>
   );
