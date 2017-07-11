@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Markdown } from 'markdownz';
 import fixIt, { options } from 'react-fix-it';
 
 const propTypes = {
@@ -26,10 +27,10 @@ function ProjectContents(props) {
       </div>
       <div>
         <h2>Translation</h2>
-        <p>Title: { translationContents.title }</p>
-        <p>Description: { translationContents.description }</p>
-        <p>Introduction: { translationContents.introduction }</p>
-        <p>Researcher quote: { translationContents.researcher_quote }</p>
+        <Markdown content={`Title: ${translationContents.title}`} />
+        <Markdown content={`Description: ${translationContents.description}`} />
+        <Markdown content={`Introduction: ${translationContents.introduction}`} />
+        <Markdown content={`Researcher quote: ${translationContents.researcher_quote}`} />
         <p>Language: { translationContents.language}</p>
       </div>
     </div>

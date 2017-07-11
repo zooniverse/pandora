@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { MarkdownEditor } from 'markdownz';
 import * as contentsActions from '../ducks/resource';
 import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
 import { DefaultButton } from 'pui-react-buttons';
@@ -98,8 +99,15 @@ class ProjectContentsContainer extends Component {
           <ModalBody>
             <h2>Original</h2>
             <p>{this.state.fieldText}</p>
-            <h2>Translation</h2>
-            <input type="text" onChange={this.handleChange} autoFocus placeholder="Translate some text" />
+            <h2>Your translation</h2>
+            <MarkdownEditor
+              autoFocus
+              name={this.state.field}
+              onChange={this.handleChange}
+              placeholder="Translate some text"
+              previewing="false"
+              value={this.state.translationText}
+            />
             <DefaultButton onClick={this.handleSubmit}>
               Submit
             </DefaultButton>
