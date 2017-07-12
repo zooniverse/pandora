@@ -106,22 +106,20 @@ class ProjectContentsContainer extends Component {
       actions.updateTranslation(translation, field, translationText);
     }
     this.closeModal();
-    this.setState({
-      translationText: '',
-    });
   }
 
-  renderInput() {
-    const { supportsMarkdown } = this.state;
+  renderInput(translation) {
+    const { field, supportsMarkdown, translationText } = this.state;
+    const inputValue = translationText || translation[field];
     if (supportsMarkdown) {
       return (
         <MarkdownEditor
           autoFocus
-          name={this.state.field}
+          name={field}
           onChange={this.handleChange}
           placeholder="Translate some text"
           previewing={false}
-          value={this.state.translationText}
+          value={inputValue}
         />
       );
     } else {
@@ -131,6 +129,7 @@ class ProjectContentsContainer extends Component {
           onChange={this.handleChange}
           placeholder="Translate some text"
           type="text"
+          value={inputValue}
         />
       );
     }
@@ -138,6 +137,7 @@ class ProjectContentsContainer extends Component {
 
   render() {
     const { project, resource } = this.props;
+    const translation = resource.translation || {};
     return (
       <div>
         <BaseModal
@@ -149,7 +149,7 @@ class ProjectContentsContainer extends Component {
             <h2>Original</h2>
             <p>{this.state.fieldText}</p>
             <h2>Your translation</h2>
-            {this.renderInput()}
+            {this.renderInput(translation)}
             <DefaultButton onClick={this.handleSubmit}>
               Submit
             </DefaultButton>
