@@ -114,7 +114,7 @@ class ProjectContentsContainer extends Component {
           name={this.state.field}
           onChange={this.handleChange}
           placeholder="Translate some text"
-          previewing="false"
+          previewing={false}
           value={this.state.translationText}
         />
       );
@@ -125,6 +125,7 @@ class ProjectContentsContainer extends Component {
           onChange={this.handleChange}
           placeholder="Translate some text"
           type="text"
+          value={this.state.translationText}
         />
       );
     }
