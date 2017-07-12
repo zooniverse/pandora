@@ -100,6 +100,7 @@ function createTranslation(original, translations, type, language) {
     delete newResource.href;
     delete newResource.created_at;
     delete newResource.updated_at;
+    delete newResource.links.attached_images
     newResource.language = language;
     dispatch({
       type: CREATE_TRANSLATION,
@@ -110,6 +111,9 @@ function createTranslation(original, translations, type, language) {
     .create(newResource)
     .save()
       .then((translation) => {
+        if (original.links.attached_images) {
+          translation.links.attached_images = original.links.attached_images;
+        }
         translations.push(translation);
         dispatch({
           type: CREATE_TRANSLATION_SUCCESS,
