@@ -72,10 +72,13 @@ class ProjectContentsContainer extends Component {
       const supportsMarkdown = event.target.getAttribute('data-markdown');
       const { original, translation } = this.props.resource;
       let fieldText;
+      let translationText;
       if (subfield && subfield.length) {
         fieldText = original[field][subfield];
+        translationText = translation[field][subfield];
       } else {
         fieldText = original[field];
+        translationText = translation[field];
       }
       if (translation) {
         this.setState({
@@ -84,7 +87,7 @@ class ProjectContentsContainer extends Component {
           fieldText,
           modalOpen: true,
           supportsMarkdown,
-          translationText: translation[field],
+          translationText,
         });
       } else {
         alert('Please select a language');
@@ -109,7 +112,7 @@ class ProjectContentsContainer extends Component {
     this.closeModal();
   }
 
-  renderInput(translation) {
+  renderInput() {
     const { field, supportsMarkdown, translationText } = this.state;
     if (supportsMarkdown) {
       return (
@@ -137,7 +140,6 @@ class ProjectContentsContainer extends Component {
 
   render() {
     const { project, resource } = this.props;
-    const translation = resource.translation || {};
     return (
       <div>
         <BaseModal
@@ -149,7 +151,7 @@ class ProjectContentsContainer extends Component {
             <h2>Original</h2>
             <p>{this.state.fieldText}</p>
             <h2>Your translation</h2>
-            {this.renderInput(translation)}
+            {this.renderInput()}
             <DefaultButton onClick={this.handleSubmit}>
               Submit
             </DefaultButton>
