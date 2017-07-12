@@ -84,6 +84,7 @@ class ProjectContentsContainer extends Component {
           fieldText,
           modalOpen: true,
           supportsMarkdown,
+          translationText: translation[field],
         });
       } else {
         alert('Please select a language');
@@ -110,7 +111,6 @@ class ProjectContentsContainer extends Component {
 
   renderInput(translation) {
     const { field, supportsMarkdown, translationText } = this.state;
-    const inputValue = translationText || translation[field];
     if (supportsMarkdown) {
       return (
         <MarkdownEditor
@@ -119,7 +119,7 @@ class ProjectContentsContainer extends Component {
           onChange={this.handleChange}
           placeholder="Translate some text"
           previewing={false}
-          value={inputValue}
+          value={translationText}
         />
       );
     } else {
@@ -129,7 +129,7 @@ class ProjectContentsContainer extends Component {
           onChange={this.handleChange}
           placeholder="Translate some text"
           type="text"
-          value={inputValue}
+          value={translationText}
         />
       );
     }
