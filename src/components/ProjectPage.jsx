@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Markdown } from 'markdownz';
 import fixIt, { options } from 'react-fix-it';
 
 const propTypes = {

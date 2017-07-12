@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { MarkdownEditor } from 'markdownz';
 import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
 import { DefaultButton } from 'pui-react-buttons';
 import * as contentsActions from '../ducks/resource';
@@ -26,6 +27,7 @@ class ProjectContentsContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderInput = this.renderInput.bind(this);
     this.state = {
       field: '',
       subfield: '',
@@ -64,6 +66,7 @@ class ProjectContentsContainer extends Component {
     if (isElementTranslatable(event)) {
       const field = event.target.getAttribute('data-translation-key');
       const subfield = event.target.getAttribute('data-translation-subkey');
+      const supportsMarkdown = event.target.getAttribute('data-markdown');
       const { original, translation } = this.props.resource;
       let fieldText;
       if (subfield && subfield.length) {
@@ -76,7 +79,8 @@ class ProjectContentsContainer extends Component {
           field,
           subfield,
           fieldText,
-          modalOpen: true
+          modalOpen: true,
+          supportsMarkdown,
         });
       } else {
         alert('Please select a language');
@@ -101,6 +105,32 @@ class ProjectContentsContainer extends Component {
     this.closeModal();
   }
 
+  renderInput() {
+    const { supportsMarkdown } = this.state;
+    if (supportsMarkdown) {
+      return (
+        <MarkdownEditor
+          autoFocus
+          name={this.state.field}
+          onChange={this.handleChange}
+          placeholder="Translate some text"
+          previewing={false}
+          value={this.state.translationText}
+        />
+      );
+    } else {
+      return (
+        <input
+          autoFocus
+          onChange={this.handleChange}
+          placeholder="Translate some text"
+          type="text"
+          value={this.state.translationText}
+        />
+      );
+    }
+  }
+
   render() {
     const { project, resource } = this.props;
     return (
@@ -113,8 +143,8 @@ class ProjectContentsContainer extends Component {
           <ModalBody>
             <h2>Original</h2>
             <p>{this.state.fieldText}</p>
-            <h2>Translation</h2>
-            <input type="text" onChange={this.handleChange} autoFocus placeholder="Translate some text" />
+            <h2>Your translation</h2>
+            {this.renderInput()}
             <DefaultButton onClick={this.handleSubmit}>
               Submit
             </DefaultButton>
