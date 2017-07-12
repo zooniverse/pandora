@@ -11,6 +11,7 @@ import isElementTranslatable from '../helpers/isElementTranslatable';
 const propTypes = {
   actions: PropTypes.object.isRequired,
   children: PropTypes.node,
+  language: PropTypes.string.isRequired,
   params: PropTypes.shape({
     project_id: PropTypes.string,
     resource_id: PropTypes.string,
@@ -30,9 +31,11 @@ class ProjectContentsContainer extends Component {
     this.renderInput = this.renderInput.bind(this);
     this.state = {
       field: '',
+      fieldText: '',
       subfield: '',
       modalOpen: false,
-      translationText: ''
+      supportsMarkdown: false,
+      translationText: '',
     };
   }
 
@@ -103,6 +106,9 @@ class ProjectContentsContainer extends Component {
       actions.updateTranslation(translation, field, translationText);
     }
     this.closeModal();
+    this.setState({
+      translationText: '',
+    });
   }
 
   renderInput() {
@@ -125,7 +131,6 @@ class ProjectContentsContainer extends Component {
           onChange={this.handleChange}
           placeholder="Translate some text"
           type="text"
-          value={this.state.translationText}
         />
       );
     }
