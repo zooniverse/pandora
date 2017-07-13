@@ -17,8 +17,8 @@ function Tutorial(props) {
   const translation = contents.translation || { steps: [] };
   const steps = [];
   tutorial.steps && tutorial.steps.map((step, key) => {
-    steps.push(<p data-translation-key={`steps.${key}.content`} key={key}><b>{key}</b> {step.content}</p>);
-    translation.steps[key] && steps.push(<p key={`translation-${key}`}><b>translation</b> {translation.steps[key].content}</p>);
+    steps.push(<p data-markdown={true} data-translation-key={`steps.${key}.content`} key={key}><b>{key}</b> {step.content}</p>);
+    translation.steps[key] && steps.push(<p key={`translation-${key}`}><b>translation</b> <Markdown>{translation.steps[key].content}</Markdown></p>);
   });
   return (
     <div>
