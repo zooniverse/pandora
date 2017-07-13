@@ -11,6 +11,7 @@ import isElementTranslatable from '../helpers/isElementTranslatable';
 const propTypes = {
   actions: PropTypes.object.isRequired,
   children: PropTypes.node,
+  language: PropTypes.string.isRequired,
   params: PropTypes.shape({
     project_id: PropTypes.string,
     resource_id: PropTypes.string,
@@ -30,9 +31,11 @@ class ProjectContentsContainer extends Component {
     this.renderInput = this.renderInput.bind(this);
     this.state = {
       field: '',
+      fieldText: '',
       subfield: '',
       modalOpen: false,
-      translationText: ''
+      supportsMarkdown: false,
+      translationText: '',
     };
   }
 
@@ -69,10 +72,13 @@ class ProjectContentsContainer extends Component {
       const supportsMarkdown = event.target.getAttribute('data-markdown');
       const { original, translation } = this.props.resource;
       let fieldText;
+      let translationText;
       if (subfield && subfield.length) {
         fieldText = original[field][subfield];
+        translationText = translation[field][subfield];
       } else {
         fieldText = original[field];
+        translationText = translation[field];
       }
       if (translation) {
         this.setState({
@@ -81,6 +87,7 @@ class ProjectContentsContainer extends Component {
           fieldText,
           modalOpen: true,
           supportsMarkdown,
+          translationText,
         });
       } else {
         alert('Please select a language');
@@ -106,16 +113,16 @@ class ProjectContentsContainer extends Component {
   }
 
   renderInput() {
-    const { supportsMarkdown } = this.state;
+    const { field, supportsMarkdown, translationText } = this.state;
     if (supportsMarkdown) {
       return (
         <MarkdownEditor
           autoFocus
-          name={this.state.field}
+          name={field}
           onChange={this.handleChange}
           placeholder="Translate some text"
           previewing={false}
-          value={this.state.translationText}
+          value={translationText}
         />
       );
     } else {
@@ -125,7 +132,7 @@ class ProjectContentsContainer extends Component {
           onChange={this.handleChange}
           placeholder="Translate some text"
           type="text"
-          value={this.state.translationText}
+          value={translationText}
         />
       );
     }
