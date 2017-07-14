@@ -68,7 +68,7 @@
   "license": "Apache-2.0",
   "repository": "https://github.com/zooniverse/pandora",
   "scripts": {
-    "start": "BABEL_ENV=development webpack-dashboard -- babel-node server.js",
+    "start": "BABEL_ENV=development webpack-dashboard -p 3001 -- babel-node server.js",
     "test": "NODE_ENV=development BABEL_ENV=test mocha $(find test -name *.test.jsx) --compilers js:babel-core/register || true",
     "test-travis": "NODE_ENV=development BABEL_ENV=test mocha $(find test -name *.test.jsx) --compilers js:babel-core/register",
     "eslint": "eslint .",
