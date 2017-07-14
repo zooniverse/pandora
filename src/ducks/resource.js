@@ -98,6 +98,10 @@ function fetchTranslations(id, type, project, language) {
 }
 
 function createTranslation(original, translations, type, language) {
+  // Mini courses are actually tutorials so use the correct resource type.
+  if (type === 'mini_courses') {
+    type = 'tutorials';
+  }
   return (dispatch) => {
     const newResource = Object.assign({}, original);
     delete newResource.id;
@@ -135,6 +139,7 @@ function selectTranslation(original, translations, type, language) {
     if (translation) {
       dispatch({
         type: SELECT_TRANSLATION,
+        resource_type: type,
         payload: { translation }
       });
     } else {
