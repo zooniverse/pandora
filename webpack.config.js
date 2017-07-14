@@ -1,6 +1,7 @@
 /* eslint import/no-extraneous-dependencies: ["error", { "devDependencies": true  }] */
 const path = require('path');
 const webpack = require('webpack');
+const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const nib = require('nib');
 
@@ -21,6 +22,7 @@ module.exports = {
   },
 
   plugins: [
+    new DashboardPlugin({ port: 3001 }),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl.html',
       inject: 'body',
