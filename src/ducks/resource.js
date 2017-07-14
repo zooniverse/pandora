@@ -16,12 +16,14 @@ function filterResources(resources, primary_language) {
   return { original, translations };
 }
 
-function projectResourcesPromise(project_id, type) {
-  return apiClient.type(type).get({ project_id });
+function projectResourcesPromise(project_id, type, query) {
+  query = Object.assign({ project_id }, query);
+  return apiClient.type(type).get(query);
 }
 
-function workflowResourcesPromise(workflow_id, type) {
-  return apiClient.type(type).get({ workflow_id });
+function workflowResourcesPromise(workflow_id, type, query) {
+  query = Object.assign({ workflow_id}, query)
+  return apiClient.type(type).get(query);
 }
 
 function awaitTranslations(id, type, project) {
