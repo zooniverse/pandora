@@ -8,6 +8,7 @@ import WorkflowContents from './WorkflowContents';
 
 const resources = {
   field_guides: FieldGuide,
+  mini_courses: Tutorial,
   project_pages: ProjectPage,
   tutorials: Tutorial,
   workflows: WorkflowContents

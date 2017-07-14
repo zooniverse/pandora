@@ -34,8 +34,10 @@ function awaitTranslations(id, type, project) {
       return projectResourcesPromise(project.id, 'field_guides');
     case 'workflows':
       return workflowResourcesPromise(id, 'workflow_contents');
+    case 'mini_courses':
+      return workflowResourcesPromise(id, 'tutorials', { kind: 'mini-course'});
     case 'tutorials':
-      return workflowResourcesPromise(id, 'tutorials');
+      return workflowResourcesPromise(id, 'tutorials', { kind: 'tutorial' });
     case 'project_pages':
       return project.get('pages', { url_key: id });
     default:

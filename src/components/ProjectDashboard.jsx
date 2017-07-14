@@ -15,6 +15,25 @@ const propTypes = {
   workflows: PropTypes.array.isRequired,
 };
 
+function TutorialLink(props) {
+  const { tutorial, project } = props;
+  switch (tutorial.kind) {
+    case 'mini-course':
+      return (
+        <Link to={`/project/${project.id}/mini_courses/${tutorial.links.workflows[0]}`}>{tutorial.id}: {tutorial.display_name}</Link>
+      );
+    case 'tutorial':
+    default:
+      return (<Link to={`/project/${project.id}/tutorials/${tutorial.links.workflows[0]}`}>{tutorial.id}: {tutorial.display_name}</Link>
+      );
+  }
+}
+
+TutorialLink.propTypes = {
+  project: PropTypes.object.isRequired,
+  tutorial: PropTypes.object.isRequired
+};
+
 function ProjectDashboard(props) {
   const { fieldguides, project, translations, tutorials, workflows } = props;
   return (
@@ -47,7 +66,7 @@ function ProjectDashboard(props) {
         {tutorials.map((tutorial) => {
           return (
             <li key={tutorial.id}>
-              <Link to={`/project/${project.id}/tutorials/${tutorial.links.workflows[0]}`}>{tutorial.id}: {tutorial.display_name}</Link>
+              <TutorialLink project={project} tutorial={tutorial} />
             </li>
           );
         })}
