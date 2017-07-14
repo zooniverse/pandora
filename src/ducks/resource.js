@@ -16,12 +16,14 @@ function filterResources(resources, primary_language) {
   return { original, translations };
 }
 
-function projectResourcesPromise(project_id, type) {
-  return apiClient.type(type).get({ project_id });
+function projectResourcesPromise(project_id, type, query) {
+  query = Object.assign({ project_id }, query);
+  return apiClient.type(type).get(query);
 }
 
-function workflowResourcesPromise(workflow_id, type) {
-  return apiClient.type(type).get({ workflow_id });
+function workflowResourcesPromise(workflow_id, type, query) {
+  query = Object.assign({ workflow_id}, query)
+  return apiClient.type(type).get(query);
 }
 
 function awaitTranslations(id, type, project) {
@@ -32,8 +34,10 @@ function awaitTranslations(id, type, project) {
       return projectResourcesPromise(project.id, 'field_guides');
     case 'workflows':
       return workflowResourcesPromise(id, 'workflow_contents');
+    case 'mini_courses':
+      return workflowResourcesPromise(id, 'tutorials', { kind: 'mini-course'});
     case 'tutorials':
-      return workflowResourcesPromise(id, 'tutorials');
+      return workflowResourcesPromise(id, 'tutorials', { kind: 'tutorial' });
     case 'project_pages':
       return project.get('pages', { url_key: id });
     default:
@@ -94,6 +98,10 @@ function fetchTranslations(id, type, project, language) {
 }
 
 function createTranslation(original, translations, type, language) {
+  // Mini courses are actually tutorials so use the correct resource type.
+  if (type === 'mini_courses') {
+    type = 'tutorials';
+  }
   return (dispatch) => {
     const newResource = Object.assign({}, original);
     delete newResource.id;
@@ -131,6 +139,7 @@ function selectTranslation(original, translations, type, language) {
     if (translation) {
       dispatch({
         type: SELECT_TRANSLATION,
+        resource_type: type,
         payload: { translation }
       });
     } else {
