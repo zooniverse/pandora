@@ -82,7 +82,18 @@ class ProjectDashboardContainer extends Component {
           value={this.state.option}
         />
 
-        {project.primary_language && React.cloneElement(this.props.children, { fieldguides, language, pages, project, translations, tutorials, workflows })}
+        <h3>Translations</h3>
+        <ul>
+          {translations.map((translation) => {
+            return (
+              <li key={translation.id}>
+                {translation.language}
+              </li>
+            );
+          })}
+        </ul>
+
+        {project.primary_language && React.cloneElement(this.props.children, { fieldguides, language, pages, project, tutorials, workflows })}
       </div>
     );
   }

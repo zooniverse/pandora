@@ -35,19 +35,9 @@ TutorialLink.propTypes = {
 };
 
 function ProjectDashboard(props) {
-  const { fieldguides, project, translations, tutorials, workflows } = props;
+  const { fieldguides, project, tutorials, workflows } = props;
   return (
     <div>
-      <h3>Translations</h3>
-      <ul>
-        {translations.map((translation) => {
-          return (
-            <li key={translation.id}>
-              {translation.language}
-            </li>
-          );
-        })}
-      </ul>
       <ProjectContentsContainer {...props}>
         <ProjectContents />
       </ProjectContentsContainer>
