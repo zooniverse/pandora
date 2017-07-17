@@ -63,33 +63,39 @@ function ProjectDashboard(props) {
       </ul>
       <h3>Tutorials</h3>
       <ul>
-        {tutorials.map((tutorial) => {
-          return (
-            <li key={tutorial.id}>
-              <TutorialLink project={project} tutorial={tutorial} />
-            </li>
-          );
-        })}
+        {tutorials
+          .filter(tutorial => (tutorial.language === project.primary_language))
+          .map((tutorial) => {
+            return (
+              <li key={tutorial.id}>
+                <TutorialLink project={project} tutorial={tutorial} />
+              </li>
+            );
+          })}
       </ul>
       <h3>Field Guides</h3>
       <ul>
-        {fieldguides.map((fieldguide) => {
-          return (
-            <li key={fieldguide.id}>
-              <Link to={`/project/${project.id}/field_guides/${fieldguide.id}`}>{fieldguide.id}: {fieldguide.display_name}</Link>
-            </li>
-          );
-        })}
+        {fieldguides
+          .filter(fieldguide => (fieldguide.language === project.primary_language))
+          .map((fieldguide) => {
+            return (
+              <li key={fieldguide.id}>
+                <Link to={`/project/${project.id}/field_guides/${fieldguide.id}`}>{fieldguide.id}: {fieldguide.display_name}</Link>
+              </li>
+            );
+          })}
       </ul>
       <h3>Pages</h3>
       <ul>
-        {props.pages.map((page) => {
-          return (
-            <li key={page.id}>
-              <Link to={`/project/${project.id}/project_pages/${page.url_key}`}>{page.id}: {page.title}</Link>
-            </li>
-          );
-        })}
+        {props.pages
+          .filter(page => (page.language === project.primary_language))
+          .map((page) => {
+            return (
+              <li key={page.id}>
+                <Link to={`/project/${project.id}/project_pages/${page.url_key}`}>{page.id}: {page.title}</Link>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );
