@@ -76,39 +76,48 @@ class ProjectDashboardContainer extends Component {
     const project = this.props.project.data;
     const { fieldguides, pages, workflows, tutorials } = this.props.project;
     const { translations } = this.props.resource;
-    const options = this.getSelectOptions();
+    let newLanguages = this.getSelectOptions();
     const language = this.state.option.value;
+    const existingLanguages = [];
+    translations.map((translation) => {
+      const [languageOption] = languages.filter(option => option.value === translation.language);
+      existingLanguages.push(languageOption);
+      newLanguages = newLanguages.filter(option => option !== languageOption);
+    });
+    const selectedOption = newLanguages.indexOf(this.state.option) > -1 ? this.state.option : null;
+    
     return (
       <div>
         <h2>Project Dashboard</h2>
-        <Select
-          onChange={this.handleSelect}
-          onSearch={this.handleSearch}
-          options={options}
-          placeHolder="Select a language"
-          value={this.state.option}
-        />
-
-        <h3>Translations</h3>
+        <h3>Pick a language</h3>
         <ul>
-          {translations.map((translation) => {
-            const [{ value, label }] = languages.filter(option => option.value === translation.language);
+          {existingLanguages.map((option) => {
             return (
-              <li key={translation.id}>
+              <li key={option.value}>
                 <label>
                   <input
                     name="lang"
                     type="radio"
-                    checked={value === this.state.option.value}
-                    value={value}
+                    checked={option.value === this.state.option.value}
+                    value={option.value}
                     onChange={this.onLanguageChange}
                   />
-                  {label}
+                  {option.label}
                 </label>
               </li>
             );
           })}
         </ul>
+        <label>
+          or add a new language
+          <Select
+            onChange={this.handleSelect}
+            onSearch={this.handleSearch}
+            options={newLanguages}
+            placeHolder="Select a language"
+            value={selectedOption}
+          />
+        </label>
 
         {project.primary_language && React.cloneElement(this.props.children, { fieldguides, language, pages, project, tutorials, workflows })}
       </div>
