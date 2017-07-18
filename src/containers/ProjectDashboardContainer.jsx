@@ -85,9 +85,10 @@ class ProjectDashboardContainer extends Component {
         <h3>Translations</h3>
         <ul>
           {translations.map((translation) => {
+            const [language] = languages.filter(option => option.value === translation.language)
             return (
               <li key={translation.id}>
-                {translation.language}
+                {language.label}
               </li>
             );
           })}
