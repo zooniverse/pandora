@@ -32,6 +32,7 @@ class ProjectDashboardContainer extends Component {
     super();
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.onLanguageChange = this.onLanguageChange.bind(this);
     this.state = {
       searchText: '',
       option: {},
@@ -53,6 +54,12 @@ class ProjectDashboardContainer extends Component {
     this.setState({
       option,
     });
+  }
+
+  onLanguageChange(e) {
+    const { value } = e.target;
+    const [option] = languages.filter(option => option.value === value);
+    this.handleSelect({ option });
   }
 
   getSelectOptions() {
@@ -85,10 +92,19 @@ class ProjectDashboardContainer extends Component {
         <h3>Translations</h3>
         <ul>
           {translations.map((translation) => {
-            const [language] = languages.filter(option => option.value === translation.language)
+            const [{ value, label }] = languages.filter(option => option.value === translation.language);
             return (
               <li key={translation.id}>
-                {language.label}
+                <label>
+                  <input
+                    name="lang"
+                    type="radio"
+                    checked={value === this.state.option.value}
+                    value={value}
+                    onChange={this.onLanguageChange}
+                  />
+                  {label}
+                </label>
               </li>
             );
           })}
