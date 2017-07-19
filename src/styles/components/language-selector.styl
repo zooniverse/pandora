@@ -1,0 +1,24 @@
+.language-selector
+  display: inline-block
+  list-style-type: none
+  margin: 0
+  text-indent: 0
+  
+  li
+    display: inline-block
+    
+    input[type=radio]
+      opacity: 0
+      width: 0
+    
+      & + span
+        background: #ddd
+        border: 1px solid grey
+        border-radius: .2em
+        color: grey
+        padding: .2em .5em
+        margin: .2em
+    
+      &:checked + span
+        border: 1px solid black
+        color: black

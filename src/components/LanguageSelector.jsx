@@ -44,7 +44,7 @@ class LanguageSelector extends Component {
     return (
       <div>
         <h3>Pick a language</h3>
-        <ul>
+        <ul className="language-selector">
           {existingLanguages.map((option) => {
             return (
               <li key={option.value}>
@@ -56,7 +56,7 @@ class LanguageSelector extends Component {
                     value={option.value}
                     onChange={this.onLanguageChange}
                   />
-                  {option.label}
+                  <span>{option.label}</span>
                 </label>
               </li>
             );
