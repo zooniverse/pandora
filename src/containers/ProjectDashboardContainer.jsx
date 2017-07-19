@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import languages from '../constants/languages';
+import LanguageSelector from '../components/LanguageSelector';
 import { fetchProject } from '../ducks/project';
 import { createTranslation } from '../ducks/resource';
-import Select from 'grommet/components/Select';
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
@@ -30,59 +29,36 @@ const propTypes = {
 class ProjectDashboardContainer extends Component {
   constructor() {
     super();
-    this.handleSearch = this.handleSearch.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
+    this.onChangeLanguage = this.onChangeLanguage.bind(this);
     this.state = {
       searchText: '',
-      option: {},
+      option: {
+        label: '',
+        value: ''
+      },
     };
   }
+
   componentDidMount() {
     const { actions } = this.props;
     actions.fetchProject(this.props.params.project_id);
   }
 
-  handleSearch(event) {
-    this.setState({
-      searchText: event.target.value,
-    });
-  }
-
-  handleSelect({ option }) {
-    const { actions } = this.props;
-    this.setState({
-      option,
-    });
-  }
-
-  getSelectOptions() {
-    const searchStr = this.state.searchText;
-    let langs = languages.slice();
-    if (searchStr) {
-      const matchesSearch = (langObj) => langObj.label.toLowerCase().substr(0, searchStr.length) === searchStr;
-      langs = languages.filter(matchesSearch);
-    }
-    return langs;
+  onChangeLanguage(option) {
+    this.setState({ option });
   }
 
   render() {
     const project = this.props.project.data;
     const { fieldguides, pages, workflows, tutorials } = this.props.project;
     const { translations } = this.props.resource;
-    const options = this.getSelectOptions();
     const language = this.state.option.value;
+    
     return (
       <div>
         <h2>Project Dashboard</h2>
-        <Select
-          onChange={this.handleSelect}
-          onSearch={this.handleSearch}
-          options={options}
-          placeHolder="Select a language"
-          value={this.state.option}
-        />
-
-        {project.primary_language && React.cloneElement(this.props.children, { fieldguides, language, pages, project, translations, tutorials, workflows })}
+        <LanguageSelector translations={translations} value={this.state.option} onChange={this.onChangeLanguage} />
+        {project.primary_language && React.cloneElement(this.props.children, { fieldguides, language, pages, project, tutorials, workflows })}
       </div>
     );
   }
