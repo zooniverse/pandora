@@ -12,14 +12,14 @@ options.log = (test) => {
 };
 
 function FieldGuideItem(props) {
-  const { item } = props;
+  const { index, item } = props;
   return (
     <li>
       <dl>
         <dt>title</dt>
-        <dd>{item.title}</dd>
+        <dd data-translation-key={`items.${index}.title`}>{item.title}</dd>
         <dt>content</dt>
-        <dd>{item.content}</dd>
+        <dd data-translation-key={`items.${index}.content`} data-markdown={true}>{item.content}</dd>
       </dl>
     </li>
   );
@@ -39,7 +39,7 @@ function FieldGuide(props) {
     <div>
       <h2>Field Guide</h2>
       <ul>
-        {fieldguide.items && fieldguide.items.map(item => <FieldGuideItem key={item.id} item={item} />)}
+        {fieldguide.items && fieldguide.items.map((item, i) => <FieldGuideItem key={item.id} index={i} item={item} />)}
       </ul>
     </div>
   );
