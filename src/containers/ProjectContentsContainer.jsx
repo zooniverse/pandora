@@ -58,6 +58,16 @@ class ProjectContentsContainer extends Component {
   closeModal() {
     this.setState({ modalOpen: false });
   }
+  
+  getTextFromPath(resource, path) {
+    path = path.split('.');
+    let text = resource;
+    while (path.length) {
+      text = text[path[0]];
+      path.shift();
+    }
+    return text;
+  }
 
   handleChange(event) {
     this.setState({
@@ -77,8 +87,8 @@ class ProjectContentsContainer extends Component {
         fieldText = original[field][subfield];
         translationText = translation[field][subfield];
       } else {
-        fieldText = original[field];
-        translationText = translation[field];
+        fieldText = this.getTextFromPath(original, field);
+        translationText = this.getTextFromPath(translation, field);
       }
       if (translation) {
         this.setState({
