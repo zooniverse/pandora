@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Markdown } from 'markdownz';
 import fixIt, { options } from 'react-fix-it';
+import TranslationField from './TranslationField';
 
 const propTypes = {
   contents: PropTypes.object.isRequired,
@@ -13,17 +13,24 @@ options.log = (test) => {
 
 function Tutorial(props) {
   const { contents } = props;
-  const tutorial = contents.original || { steps: [] };
-  const translation = contents.translation || { steps: [] };
-  const steps = [];
-  tutorial.steps && tutorial.steps.map((step, key) => {
-    steps.push(<p data-markdown={true} data-translation-key={`steps.${key}.content`} key={key}><b>{key}</b> {step.content}</p>);
-    translation.steps[key] && steps.push(<p key={`translation-${key}`}><b>translation</b> <Markdown>{translation.steps[key].content}</Markdown></p>);
-  });
+  const original = contents.original || { steps: [] };
+  const translation = contents.translation || original;
   return (
     <div>
       <h2>Tutorial</h2>
-      {steps}
+      {original.steps && original.steps.map((step, key) => {
+        return (
+          <TranslationField
+            key={key}
+            isMarkdown={true}
+            translationKey={`steps.${key}.content`}
+            original={step.content}
+            translation={translation.steps[key].content}
+          >
+            Step {key}
+          </TranslationField>
+        );
+      })}
     </div>
   );
 }
