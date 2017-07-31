@@ -71,7 +71,6 @@ class LanguageSelector extends Component {
             onSearch={this.handleSearch}
             options={menuLanguages}
             placeHolder="Select a language"
-            value={this.props.value}
           />
         </label>
       </div>
