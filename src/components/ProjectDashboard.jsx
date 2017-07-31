@@ -7,7 +7,10 @@ import ProjectContents from './ProjectContents';
 
 const propTypes = {
   fieldguides: PropTypes.array.isRequired,
-  language: PropTypes.string,
+  language: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
+  }),
   pages: PropTypes.array.isRequired,
   project: PropTypes.object.isRequired,
   translations: PropTypes.array.isRequired,
@@ -35,58 +38,62 @@ TutorialLink.propTypes = {
 };
 
 function ProjectDashboard(props) {
-  const { fieldguides, project, tutorials, workflows } = props;
+  const { fieldguides, language, project, tutorials, workflows } = props;
   return (
     <div>
       <ProjectContentsContainer {...props}>
         <ProjectContents />
       </ProjectContentsContainer>
-      <h3>Workflows</h3>
-      <ul>
-        {workflows.map((workflow) => {
-          return (
-            <li key={workflow.id}>
-              <Link to={`/project/${project.id}/workflows/${workflow.id}`}>{workflow.display_name}</Link>
-            </li>
-          );
-        })}
-      </ul>
-      <h3>Tutorials</h3>
-      <ul>
-        {tutorials
-          .filter(tutorial => (tutorial.language === project.primary_language))
-          .map((tutorial) => {
-            return (
-              <li key={tutorial.id}>
-                <TutorialLink project={project} tutorial={tutorial} />
-              </li>
-            );
-          })}
-      </ul>
-      <h3>Field Guides</h3>
-      <ul>
-        {fieldguides
-          .filter(fieldguide => (fieldguide.language === project.primary_language))
-          .map((fieldguide) => {
-            return (
-              <li key={fieldguide.id}>
-                <Link to={`/project/${project.id}/field_guides/${fieldguide.id}`}>{fieldguide.id}: {fieldguide.display_name}</Link>
-              </li>
-            );
-          })}
-      </ul>
-      <h3>Pages</h3>
-      <ul>
-        {props.pages
-          .filter(page => (page.language === project.primary_language))
-          .map((page) => {
-            return (
-              <li key={page.id}>
-                <Link to={`/project/${project.id}/project_pages/${page.url_key}`}>{page.id}: {page.title}</Link>
-              </li>
-            );
-          })}
-      </ul>
+      { language &&
+        <div>
+          <h3>Workflows</h3>
+          <ul>
+            {workflows.map((workflow) => {
+              return (
+                <li key={workflow.id}>
+                  <Link to={`/project/${project.id}/workflows/${workflow.id}`}>{workflow.display_name}</Link>
+                </li>
+              );
+            })}
+          </ul>
+          <h3>Tutorials</h3>
+          <ul>
+            {tutorials
+              .filter(tutorial => (tutorial.language === project.primary_language))
+              .map((tutorial) => {
+                return (
+                  <li key={tutorial.id}>
+                    <TutorialLink project={project} tutorial={tutorial} />
+                  </li>
+                );
+              })}
+          </ul>
+          <h3>Field Guides</h3>
+          <ul>
+            {fieldguides
+              .filter(fieldguide => (fieldguide.language === project.primary_language))
+              .map((fieldguide) => {
+                return (
+                  <li key={fieldguide.id}>
+                    <Link to={`/project/${project.id}/field_guides/${fieldguide.id}`}>{fieldguide.id}: {fieldguide.display_name}</Link>
+                  </li>
+                );
+              })}
+          </ul>
+          <h3>Pages</h3>
+          <ul>
+            {props.pages
+              .filter(page => (page.language === project.primary_language))
+              .map((page) => {
+                return (
+                  <li key={page.id}>
+                    <Link to={`/project/${project.id}/project_pages/${page.url_key}`}>{page.id}: {page.title}</Link>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+      }
     </div>
   );
 }
