@@ -41,18 +41,19 @@ class LanguageSelector extends Component {
       existingLanguages.push(languageOption);
       menuLanguages = menuLanguages.filter(option => option !== languageOption);
     });
+    
     return (
       <div>
         <h3>Pick a language</h3>
         <ul className="language-selector">
-          {existingLanguages.map((option) => {
+          {existingLanguages.filter(Boolean).map((option) => {
             return (
               <li key={option.value}>
                 <label>
                   <input
                     name="lang"
                     type="radio"
-                    checked={option.value === this.props.value.value}
+                    checked={this.props.value && option.value === this.props.value.value}
                     value={option.value}
                     onChange={this.onLanguageChange}
                   />

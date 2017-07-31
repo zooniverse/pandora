@@ -16,11 +16,13 @@ export const FETCH_PAGES_ERROR = 'FETCH_PAGES_ERROR';
 export const FETCH_FIELDGUIDES = 'FETCH_FIELDGUIDES';
 export const FETCH_FIELDGUIDES_SUCCESS = 'FETCH_FIELDGUIDES_SUCCESS';
 export const FETCH_FIELDGUIDES_ERROR = 'FETCH_FIELDGUIDES_ERROR';
+export const SET_LANGUAGE = 'SET_LANGUAGE';
 
 // Reducer
 const initialState = {
   data: {},
   fieldguides: [],
+  language: null,
   pages: [],
   tutorials: [],
   workflows: [],
@@ -50,12 +52,23 @@ const projectReducer = (state = initialState, action) => {
       return Object.assign({}, state, { pages: action.payload, loading: false });
     case FETCH_FIELDGUIDES_SUCCESS:
       return Object.assign({}, state, { fieldguides: action.payload, loading: false });
+    case SET_LANGUAGE:
+      return Object.assign({}, state, {language: action.language});
     default:
       return state;
   }
 };
 
 // Action Creators
+const setLanguage = (language) => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LANGUAGE,
+      language
+    })
+  }
+}
+
 const fetchProject = (id) => {
   return (dispatch) => {
     dispatch({
@@ -148,5 +161,6 @@ function fetchFieldGuides(project) {
 export default projectReducer;
 
 export {
-  fetchProject
+  fetchProject,
+  setLanguage
 };
