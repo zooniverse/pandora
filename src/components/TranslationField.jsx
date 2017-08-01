@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Markdown } from 'markdownz';
+import FormEdit from 'grommet/components/icons/base/FormEdit';
 
 function TranslationField(props) {
   const original = props.isMarkdown ? <Markdown>{props.original}</Markdown> : <p>{props.original}</p>;
@@ -14,6 +15,7 @@ function TranslationField(props) {
           data-translation-key={props.translationKey}
           data-translation-subkey={props.translationSubkey}
         >
+          <FormEdit size="xsmall" />
           Translate
         </button>
       </h3>
