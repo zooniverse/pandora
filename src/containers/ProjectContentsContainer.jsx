@@ -102,8 +102,6 @@ class ProjectContentsContainer extends Component {
       } else {
         alert('Please select a language');
       }
-    } else {
-      alert('This element does not support translations');
     }
   }
 
