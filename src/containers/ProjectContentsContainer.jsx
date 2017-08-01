@@ -81,16 +81,16 @@ class ProjectContentsContainer extends Component {
       const subfield = event.target.getAttribute('data-translation-subkey');
       const supportsMarkdown = event.target.getAttribute('data-markdown');
       const { original, translation } = this.props.resource;
-      let fieldText;
-      let translationText;
-      if (subfield && subfield.length) {
-        fieldText = original[field][subfield];
-        translationText = translation[field][subfield];
-      } else {
-        fieldText = this.getTextFromPath(original, field);
-        translationText = this.getTextFromPath(translation, field);
-      }
       if (translation) {
+        let fieldText;
+        let translationText;
+        if (subfield && subfield.length) {
+          fieldText = original[field][subfield];
+          translationText = translation[field][subfield];
+        } else {
+          fieldText = this.getTextFromPath(original, field);
+          translationText = this.getTextFromPath(translation, field);
+        }
         this.setState({
           field,
           subfield,
