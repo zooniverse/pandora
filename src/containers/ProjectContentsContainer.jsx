@@ -76,7 +76,7 @@ class ProjectContentsContainer extends Component {
   }
 
   handleClick(event) {
-    if (isElementTranslatable(event)) {
+    if (isElementTranslatable(event.target)) {
       const field = event.target.getAttribute('data-translation-key');
       const subfield = event.target.getAttribute('data-translation-subkey');
       const supportsMarkdown = event.target.getAttribute('data-markdown');
