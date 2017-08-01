@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Markdown } from 'markdownz';
 
 function TranslationField(props) {
-  const original = props.isMarkdown ? <Markdown>{props.original}</Markdown> : props.original;
-  const translation = props.isMarkdown ? <Markdown>{props.translation}</Markdown> : props.translation;
+  const original = props.isMarkdown ? <Markdown>{props.original}</Markdown> : <p>{props.original}</p>;
+  const translation = props.isMarkdown ? <Markdown>{props.translation}</Markdown> : <p>{props.translation}</p>;
   return (
-    <div>
+    <div className="field-editor">
       <h3>
         {props.children}
         <button
@@ -17,8 +17,8 @@ function TranslationField(props) {
           Translate
         </button>
       </h3>
-      <p>{ original }</p>
-      <p>{ translation }</p>
+      { original }
+      { translation }
     </div>
   );
 }
