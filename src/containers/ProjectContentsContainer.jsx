@@ -152,7 +152,7 @@ class ProjectContentsContainer extends Component {
   }
 
   render() {
-    const { language, project, resource } = this.props;
+    const { project, resource } = this.props;
     return (
       <div>
         <BaseModal

@@ -12,6 +12,10 @@ const propTypes = {
   project: PropTypes.shape({
     data: PropTypes.object,
     fieldguides: PropTypes.array,
+    language: PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string
+    }),
     pages: PropTypes.array,
     tutorials: PropTypes.array,
     workflows: PropTypes.array

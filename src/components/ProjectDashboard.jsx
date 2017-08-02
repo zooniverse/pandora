@@ -13,7 +13,6 @@ const propTypes = {
   }),
   pages: PropTypes.array.isRequired,
   project: PropTypes.object.isRequired,
-  translations: PropTypes.array.isRequired,
   tutorials: PropTypes.array.isRequired,
   workflows: PropTypes.array.isRequired,
 };
