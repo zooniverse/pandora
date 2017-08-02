@@ -35,6 +35,7 @@ function FieldGuideItem(props) {
 }
 
 FieldGuideItem.propTypes = {
+  index: PropTypes.integer,
   item: PropTypes.shape({
     title: PropTypes.string,
     content: PropTypes.string
@@ -61,7 +62,7 @@ function FieldGuide(props) {
               item={item}
               translation={translation.items[i]}
             />
-          )
+          );
         })}
       </ul>
     </div>

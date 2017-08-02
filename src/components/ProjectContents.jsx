@@ -18,21 +18,21 @@ function ProjectContents(props) {
   return (
     <div>
       <h2>Project</h2>
-      <TranslationField 
+      <TranslationField
         translationKey="title"
         original={original.title}
         translation={translation.title}
       >
         Title
       </TranslationField>
-      <TranslationField 
+      <TranslationField
         translationKey="description"
         original={original.description}
         translation={translation.description}
       >
         Description
       </TranslationField>
-      <TranslationField 
+      <TranslationField
         isMarkdown={true}
         translationKey="introduction"
         original={original.introduction}
@@ -40,7 +40,7 @@ function ProjectContents(props) {
       >
         Introduction
       </TranslationField>
-      <TranslationField 
+      <TranslationField
         translationKey="researcher_quote"
         original={original.researcher_quote}
         translation={translation.researcher_quote}
