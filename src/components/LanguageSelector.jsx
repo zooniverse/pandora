@@ -41,22 +41,24 @@ class LanguageSelector extends Component {
       existingLanguages.push(languageOption);
       menuLanguages = menuLanguages.filter(option => option !== languageOption);
     });
+    
     return (
       <div>
         <h3>Pick a language</h3>
         <ul className="language-selector">
-          {existingLanguages.map((option) => {
+          {existingLanguages.filter(Boolean).map((option) => {
+            const checked = this.props.value ? option.value === this.props.value.value : false;
             return (
               <li key={option.value}>
                 <label>
                   <input
                     name="lang"
                     type="radio"
-                    checked={option.value === this.props.value.value}
+                    checked={checked}
                     value={option.value}
                     onChange={this.onLanguageChange}
                   />
-                  <span>{option.label}</span>
+                  <span className="grommetux-button">{option.label}</span>
                 </label>
               </li>
             );
@@ -69,7 +71,6 @@ class LanguageSelector extends Component {
             onSearch={this.handleSearch}
             options={menuLanguages}
             placeHolder="Select a language"
-            value={this.props.value}
           />
         </label>
       </div>

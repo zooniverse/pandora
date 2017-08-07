@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import LanguageSelector from '../components/LanguageSelector';
-import { fetchProject } from '../ducks/project';
+import { fetchProject, setLanguage } from '../ducks/project';
 import { createTranslation } from '../ducks/resource';
 
 const propTypes = {
@@ -12,6 +12,10 @@ const propTypes = {
   project: PropTypes.shape({
     data: PropTypes.object,
     fieldguides: PropTypes.array,
+    language: PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string
+    }),
     pages: PropTypes.array,
     tutorials: PropTypes.array,
     workflows: PropTypes.array
@@ -31,11 +35,7 @@ class ProjectDashboardContainer extends Component {
     super();
     this.onChangeLanguage = this.onChangeLanguage.bind(this);
     this.state = {
-      searchText: '',
-      option: {
-        label: '',
-        value: ''
-      },
+      searchText: ''
     };
   }
 
@@ -45,19 +45,19 @@ class ProjectDashboardContainer extends Component {
   }
 
   onChangeLanguage(option) {
-    this.setState({ option });
+    const { actions } = this.props;
+    actions.setLanguage(option);
   }
 
   render() {
     const project = this.props.project.data;
-    const { fieldguides, pages, workflows, tutorials } = this.props.project;
+    const { fieldguides, language, pages, workflows, tutorials } = this.props.project;
     const { translations } = this.props.resource;
-    const language = this.state.option.value;
     
     return (
       <div>
         <h2>Project Dashboard</h2>
-        <LanguageSelector translations={translations} value={this.state.option} onChange={this.onChangeLanguage} />
+        <LanguageSelector translations={translations} value={language} onChange={this.onChangeLanguage} />
         {project.primary_language && React.cloneElement(this.props.children, { fieldguides, language, pages, project, tutorials, workflows })}
       </div>
     );
@@ -65,12 +65,14 @@ class ProjectDashboardContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  language: state.language,
   project: state.project,
   resource: state.resource,
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: {
     fetchProject: bindActionCreators(fetchProject, dispatch),
+    setLanguage: bindActionCreators(setLanguage, dispatch),
     createTranslation: bindActionCreators(createTranslation, dispatch)
   },
 });
@@ -80,6 +82,7 @@ ProjectDashboardContainer.defaultProps = {
   children: null,
   project: {
     data: null,
+    language: null,
     tutorials: [],
     workflows: []
   }

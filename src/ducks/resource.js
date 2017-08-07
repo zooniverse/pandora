@@ -86,7 +86,7 @@ function fetchTranslations(id, type, project, language) {
     .then((resources) => {
       const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
-      if (language && language !== primary_language) {
+      if (language && language.value !== primary_language) {
         dispatch(selectTranslation(original, translations, type, language));
       }
       dispatch({
@@ -109,7 +109,7 @@ function createTranslation(original, translations, type, language) {
     delete newResource.created_at;
     delete newResource.updated_at;
     delete newResource.links.attached_images
-    newResource.language = language;
+    newResource.language = language.value;
     dispatch({
       type: CREATE_TRANSLATION,
       newResource,
@@ -134,7 +134,7 @@ function createTranslation(original, translations, type, language) {
 
 function selectTranslation(original, translations, type, language) {
   type = type || 'project_contents';
-  const translation = translations.find(translation => translation.language === language);
+  const translation = translations.find(translation => translation.language === language.value);
   return (dispatch) => {
     if (translation) {
       dispatch({

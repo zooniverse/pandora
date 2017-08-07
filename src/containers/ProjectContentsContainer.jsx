@@ -11,7 +11,10 @@ import isElementTranslatable from '../helpers/isElementTranslatable';
 const propTypes = {
   actions: PropTypes.object.isRequired,
   children: PropTypes.node,
-  language: PropTypes.string.isRequired,
+  language: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
+  }),
   params: PropTypes.shape({
     project_id: PropTypes.string,
     resource_id: PropTypes.string,
@@ -48,7 +51,7 @@ class ProjectContentsContainer extends Component {
 
   componentWillReceiveProps(newProps) {
     const { actions, params } = this.props;
-    if (newProps.language !== this.props.language && newProps.language !== newProps.project.primary_language) {
+    if (newProps.language !== this.props.language && newProps.language.value !== newProps.project.primary_language) {
       const { original, translations } = newProps.resource;
       const type = params.resource_type;
       actions.selectTranslation(original, translations, type, newProps.language);
