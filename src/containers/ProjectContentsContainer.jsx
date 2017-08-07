@@ -76,21 +76,21 @@ class ProjectContentsContainer extends Component {
   }
 
   handleClick(event) {
-    if (isElementTranslatable(event)) {
+    if (isElementTranslatable(event.target)) {
       const field = event.target.getAttribute('data-translation-key');
       const subfield = event.target.getAttribute('data-translation-subkey');
       const supportsMarkdown = event.target.getAttribute('data-markdown');
       const { original, translation } = this.props.resource;
-      let fieldText;
-      let translationText;
-      if (subfield && subfield.length) {
-        fieldText = original[field][subfield];
-        translationText = translation[field][subfield];
-      } else {
-        fieldText = this.getTextFromPath(original, field);
-        translationText = this.getTextFromPath(translation, field);
-      }
       if (translation) {
+        let fieldText;
+        let translationText;
+        if (subfield && subfield.length) {
+          fieldText = original[field][subfield];
+          translationText = translation[field][subfield];
+        } else {
+          fieldText = this.getTextFromPath(original, field);
+          translationText = this.getTextFromPath(translation, field);
+        }
         this.setState({
           field,
           subfield,
@@ -102,8 +102,6 @@ class ProjectContentsContainer extends Component {
       } else {
         alert('Please select a language');
       }
-    } else {
-      alert('This element does not support translations');
     }
   }
 
