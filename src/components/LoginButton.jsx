@@ -9,7 +9,7 @@ const LoginButton = ({ login }) => {
 };
 
 LoginButton.propTypes = {
-  login: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired
 };
 
 export default LoginButton;

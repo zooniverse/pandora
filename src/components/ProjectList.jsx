@@ -33,7 +33,7 @@ function ProjectList(props) {
 ProjectList.propTypes = {
   projects: PropTypes.shape({
     data: PropTypes.arrayOf(PropTypes.object)
-  }).isRequired,
+  }).isRequired
 };
 
 ProjectList.defaultProps = {

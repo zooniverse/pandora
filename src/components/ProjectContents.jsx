@@ -44,6 +44,6 @@ function ProjectContents(props) {
 }
 
 ProjectContents.propTypes = {
-  contents: PropTypes.object.isRequired,
+  contents: PropTypes.object.isRequired
 };
 export default fixIt(ProjectContents);

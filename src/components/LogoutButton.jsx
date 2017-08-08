@@ -13,8 +13,8 @@ const LogoutButton = ({ logout, user }) => {
 LogoutButton.propTypes = {
   logout: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    login: PropTypes.string,
-  }).isRequired,
+    login: PropTypes.string
+  }).isRequired
 };
 
 export default LogoutButton;

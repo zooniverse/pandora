@@ -9,7 +9,7 @@ export const FETCH_PROJECTS_ERROR = 'FETCH_PROJECTS_ERROR';
 const initialState = {
   data: [],
   error: false,
-  loading: false,
+  loading: false
 };
 
 function projectsReducer(state = initialState, action) {
@@ -29,7 +29,7 @@ function projectsReducer(state = initialState, action) {
 function fetchProjects() {
   return (dispatch) => {
     dispatch({
-      type: FETCH_PROJECTS,
+      type: FETCH_PROJECTS
     });
     const query = {
       current_user_roles: ['owner', 'translator']
@@ -38,7 +38,7 @@ function fetchProjects() {
     .then((projects) => {
       dispatch({
         type: FETCH_PROJECTS_SUCCESS,
-        payload: projects,
+        payload: projects
       });
     });
   };

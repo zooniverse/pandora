@@ -48,14 +48,14 @@ class ProjectDashboardContainer extends Component {
 const mapStateToProps = state => ({
   language: state.language,
   project: state.project,
-  resource: state.resource,
+  resource: state.resource
 });
 const mapDispatchToProps = dispatch => ({
   actions: {
     fetchProject: bindActionCreators(fetchProject, dispatch),
     setLanguage: bindActionCreators(setLanguage, dispatch),
     createTranslation: bindActionCreators(createTranslation, dispatch)
-  },
+  }
 });
 
 ProjectDashboardContainer.propTypes = {
@@ -78,8 +78,8 @@ ProjectDashboardContainer.propTypes = {
   resource: PropTypes.shape({
     original: PropTypes.object,
     translation: PropTypes.object,
-    translations: PropTypes.array,
-  }),
+    translations: PropTypes.array
+  })
 };
 
 ProjectDashboardContainer.defaultProps = {

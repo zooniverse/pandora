@@ -65,7 +65,7 @@ FieldGuide.propTypes = {
   contents: PropTypes.shape({
     original: PropTypes.object,
     translation: PropTypes.object
-  }).isRequired,
+  }).isRequired
 };
 
 export default fixIt(FieldGuide);

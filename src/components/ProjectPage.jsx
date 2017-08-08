@@ -21,7 +21,7 @@ function ProjectPage(props) {
 ProjectPage.propTypes = {
   contents: PropTypes.shape({
     original: PropTypes.object
-  }).isRequired,
+  }).isRequired
 };
 
 export default fixIt(ProjectPage);

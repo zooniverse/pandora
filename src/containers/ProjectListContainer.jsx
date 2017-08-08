@@ -23,25 +23,25 @@ class ProjectListContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  projects: state.projects,
+  projects: state.projects
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(projectsActions, dispatch),
+  actions: bindActionCreators(projectsActions, dispatch)
 });
 
 ProjectListContainer.propTypes = {
   actions: PropTypes.object.isRequired,
-  projects: PropTypes.object.isRequired,
+  projects: PropTypes.object.isRequired
 };
 
 ProjectListContainer.defaultProps = {
   projects: {
     data: []
   }
-}
+};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(ProjectListContainer);

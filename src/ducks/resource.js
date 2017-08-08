@@ -51,7 +51,7 @@ const initialState = {
   translation: null,
   translations: [],
   error: false,
-  loading: false,
+  loading: false
 };
 
 const resourceReducer = (state = initialState, action) => {
@@ -125,7 +125,7 @@ function createTranslation(original, translations, type, language) {
         translations.push(translation);
         dispatch({
           type: CREATE_TRANSLATION_SUCCESS,
-          payload: { translation, translations, loading: false },
+          payload: { translation, translations, loading: false }
         });
       })
       .catch(error => console.error(error));
@@ -167,5 +167,5 @@ export {
   createTranslation,
   selectTranslation,
   updateTranslation,
-  fetchTranslations,
+  fetchTranslations
 };

@@ -27,7 +27,7 @@ const initialState = {
   tutorials: [],
   workflows: [],
   error: false,
-  loading: false,
+  loading: false
 };
 
 function projectReducer(state = initialState, action) {
@@ -72,7 +72,7 @@ function setLanguage(language) {
 function fetchProject(id) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_PROJECT,
+      type: FETCH_PROJECT
     });
     const query = {
       id,
@@ -100,13 +100,13 @@ function fetchProject(id) {
 function fetchWorkflows(project) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_WORKFLOWS,
+      type: FETCH_WORKFLOWS
     });
     apiClient.type('workflows').get(project.links.workflows)
     .then((workflows) => {
       dispatch({
         type: FETCH_WORKFLOWS_SUCCESS,
-        payload: workflows,
+        payload: workflows
       });
     });
   };
@@ -115,13 +115,13 @@ function fetchWorkflows(project) {
 function fetchTutorials(project) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_TUTORIALS,
+      type: FETCH_TUTORIALS
     });
     apiClient.type('tutorials').get({ project_id: project.id })
     .then((tutorials) => {
       dispatch({
         type: FETCH_TUTORIALS_SUCCESS,
-        payload: tutorials,
+        payload: tutorials
       });
     });
   };
@@ -130,13 +130,13 @@ function fetchTutorials(project) {
 function fetchPages(project) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_PAGES,
+      type: FETCH_PAGES
     });
     project.get('pages')
     .then((pages) => {
       dispatch({
         type: FETCH_PAGES_SUCCESS,
-        payload: pages,
+        payload: pages
       });
     });
   };
@@ -145,13 +145,13 @@ function fetchPages(project) {
 function fetchFieldGuides(project) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_FIELDGUIDES,
+      type: FETCH_FIELDGUIDES
     });
     apiClient.type('field_guides').get({ project_id: project.id })
     .then((fieldguides) => {
       dispatch({
         type: FETCH_FIELDGUIDES_SUCCESS,
-        payload: fieldguides,
+        payload: fieldguides
       });
     });
   };

@@ -111,7 +111,7 @@ ProjectDashboard.propTypes = {
   pages: PropTypes.arrayOf(PropTypes.object).isRequired,
   project: PropTypes.object.isRequired,
   tutorials: PropTypes.arrayOf(PropTypes.object).isRequired,
-  workflows: PropTypes.arrayOf(PropTypes.object).isRequired,
+  workflows: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 

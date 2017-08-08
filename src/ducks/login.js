@@ -14,7 +14,7 @@ function loginReducer(state = initialState, action) {
     case SET_LOGIN_USER:
       return {
         user: action.user,  // null if logged out.
-        initialised: true,  // true once we know if user is logged in/out; false if unknown.
+        initialised: true  // true once we know if user is logged in/out; false if unknown.
       };
     default:
       return state;
@@ -50,7 +50,7 @@ function setLoginUser(user) {
   return (dispatch) => {
     dispatch({
       type: SET_LOGIN_USER,
-      user,
+      user
     });
   };
 }

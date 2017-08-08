@@ -34,7 +34,7 @@ class AuthContainer extends React.Component {
 AuthContainer.propTypes = {
   user: PropTypes.shape({ login: PropTypes.string }),
   initialised: PropTypes.bool,
-  dispatch: PropTypes.func,
+  dispatch: PropTypes.func
 };
 
 AuthContainer.defaultProps = {
@@ -45,7 +45,7 @@ AuthContainer.defaultProps = {
 
 const mapStateToProps = state => ({
   user: state.login.user,
-  initialised: state.login.initialised,
+  initialised: state.login.initialised
 });
 
 export default connect(mapStateToProps)(AuthContainer);  // Connects the Component to the Redux Store

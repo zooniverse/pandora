@@ -22,7 +22,7 @@ class ProjectContentsContainer extends Component {
       subfield: '',
       modalOpen: false,
       supportsMarkdown: false,
-      translationText: '',
+      translationText: ''
     };
   }
 
@@ -58,7 +58,7 @@ class ProjectContentsContainer extends Component {
 
   handleChange(event) {
     this.setState({
-      translationText: event.target.value,
+      translationText: event.target.value
     });
   }
 
@@ -84,7 +84,7 @@ class ProjectContentsContainer extends Component {
           fieldText,
           modalOpen: true,
           supportsMarkdown,
-          translationText,
+          translationText
         });
       } else {
         alert('Please select a language');
@@ -166,10 +166,10 @@ class ProjectContentsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  resource: state.resource,
+  resource: state.resource
 });
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(contentsActions, dispatch),
+  actions: bindActionCreators(contentsActions, dispatch)
 });
 
 ProjectContentsContainer.propTypes = {
