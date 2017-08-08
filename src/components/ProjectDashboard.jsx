@@ -5,28 +5,25 @@ import { Link } from 'react-router';
 import ProjectContentsContainer from '../containers/ProjectContentsContainer';
 import ProjectContents from './ProjectContents';
 
-const propTypes = {
-  fieldguides: PropTypes.array.isRequired,
-  language: PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string
-  }),
-  pages: PropTypes.array.isRequired,
-  project: PropTypes.object.isRequired,
-  tutorials: PropTypes.array.isRequired,
-  workflows: PropTypes.array.isRequired,
-};
-
 function TutorialLink(props) {
   const { tutorial, project } = props;
   switch (tutorial.kind) {
     case 'mini-course':
       return (
-        <Link to={`/project/${project.id}/mini_courses/${tutorial.links.workflows[0]}`}>{tutorial.id}: {tutorial.display_name}</Link>
+        <Link
+          to={`/project/${project.id}/mini_courses/${tutorial.links.workflows[0]}`}
+        >
+          {tutorial.id}: {tutorial.display_name}
+        </Link>
       );
     case 'tutorial':
     default:
-      return (<Link to={`/project/${project.id}/tutorials/${tutorial.links.workflows[0]}`}>{tutorial.id}: {tutorial.display_name}</Link>
+      return (
+        <Link
+          to={`/project/${project.id}/tutorials/${tutorial.links.workflows[0]}`}
+        >
+          {tutorial.id}: {tutorial.display_name}
+        </Link>
       );
   }
 }
@@ -47,49 +44,57 @@ function ProjectDashboard(props) {
         <div>
           <h3>Workflows</h3>
           <ul>
-            {workflows.map((workflow) => {
-              return (
+            {workflows.map(workflow =>
+              (
                 <li key={workflow.id}>
                   <Link to={`/project/${project.id}/workflows/${workflow.id}`}>{workflow.display_name}</Link>
                 </li>
-              );
-            })}
+              )
+            )}
           </ul>
           <h3>Tutorials</h3>
           <ul>
             {tutorials
               .filter(tutorial => (tutorial.language === project.primary_language))
-              .map((tutorial) => {
-                return (
+              .map(tutorial =>
+                (
                   <li key={tutorial.id}>
                     <TutorialLink project={project} tutorial={tutorial} />
                   </li>
-                );
-              })}
+                )
+              )}
           </ul>
           <h3>Field Guides</h3>
           <ul>
             {fieldguides
               .filter(fieldguide => (fieldguide.language === project.primary_language))
-              .map((fieldguide) => {
-                return (
+              .map(fieldguide =>
+                (
                   <li key={fieldguide.id}>
-                    <Link to={`/project/${project.id}/field_guides/${fieldguide.id}`}>{fieldguide.id}: {fieldguide.display_name}</Link>
+                    <Link
+                      to={`/project/${project.id}/field_guides/${fieldguide.id}`}
+                    >
+                      {fieldguide.id}: {fieldguide.display_name}
+                    </Link>
                   </li>
-                );
-              })}
+                )
+              )}
           </ul>
           <h3>Pages</h3>
           <ul>
             {props.pages
               .filter(page => (page.language === project.primary_language))
-              .map((page) => {
-                return (
+              .map(page =>
+                (
                   <li key={page.id}>
-                    <Link to={`/project/${project.id}/project_pages/${page.url_key}`}>{page.id}: {page.title}</Link>
+                    <Link
+                      to={`/project/${project.id}/project_pages/${page.url_key}`}
+                    >
+                      {page.id}: {page.title}
+                    </Link>
                   </li>
-                );
-              })}
+                )
+              )}
           </ul>
         </div>
       }
@@ -97,7 +102,18 @@ function ProjectDashboard(props) {
   );
 }
 
-ProjectDashboard.propTypes = propTypes;
+ProjectDashboard.propTypes = {
+  fieldguides: PropTypes.arrayOf(PropTypes.object).isRequired,
+  language: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
+  }),
+  pages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  project: PropTypes.object.isRequired,
+  tutorials: PropTypes.arrayOf(PropTypes.object).isRequired,
+  workflows: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 
 ProjectDashboard.defaultProps = {
   language: 'en',

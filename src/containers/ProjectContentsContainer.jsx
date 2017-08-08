@@ -8,22 +8,6 @@ import { DefaultButton } from 'pui-react-buttons';
 import * as contentsActions from '../ducks/resource';
 import isElementTranslatable from '../helpers/isElementTranslatable';
 
-const propTypes = {
-  actions: PropTypes.object.isRequired,
-  children: PropTypes.node,
-  language: PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string
-  }),
-  params: PropTypes.shape({
-    project_id: PropTypes.string,
-    resource_id: PropTypes.string,
-    resource_type: PropTypes.string
-  }),
-  project: PropTypes.object.isRequired,
-  resource: PropTypes.object.isRequired
-};
-
 class ProjectContentsContainer extends Component {
   constructor() {
     super();
@@ -58,10 +42,6 @@ class ProjectContentsContainer extends Component {
     }
   }
 
-  closeModal() {
-    this.setState({ modalOpen: false });
-  }
-  
   getTextFromPath(resource, path) {
     path = path.split('.');
     let text = resource;
@@ -70,6 +50,10 @@ class ProjectContentsContainer extends Component {
       path.shift();
     }
     return text;
+  }
+
+  closeModal() {
+    this.setState({ modalOpen: false });
   }
 
   handleChange(event) {
@@ -181,14 +165,37 @@ class ProjectContentsContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   resource: state.resource,
 });
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(contentsActions, dispatch),
 });
 
-ProjectContentsContainer.propTypes = propTypes;
+ProjectContentsContainer.propTypes = {
+  actions: PropTypes.object.isRequired,
+  children: PropTypes.node,
+  language: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
+  }),
+  params: PropTypes.shape({
+    project_id: PropTypes.string,
+    resource_id: PropTypes.string,
+    resource_type: PropTypes.string
+  }).isRequired,
+  project: PropTypes.object.isRequired,
+  resource: PropTypes.object.isRequired
+};
+
+ProjectContentsContainer.defaultProps = {
+  children: null,
+  language: {
+    label: '',
+    value: ''
+  }
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

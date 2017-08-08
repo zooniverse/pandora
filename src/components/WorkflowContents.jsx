@@ -1,15 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt, { options } from 'react-fix-it';
+import fixIt from 'react-fix-it';
 import TranslationField from './TranslationField';
-
-const propTypes = {
-  contents: PropTypes.object.isRequired,
-};
-
-options.log = (test) => {
-  console.warn(test);
-};
 
 function WorkflowContents(props) {
   const { contents } = props;
@@ -20,8 +12,8 @@ function WorkflowContents(props) {
     <div>
       <h2>Workflow Contents</h2>
       <p>Language: {translation.language}</p>
-      {keys.map((key) => {
-        return (
+      {keys.map(key =>
+        (
           <TranslationField
             key={key}
             translationKey="strings"
@@ -31,11 +23,17 @@ function WorkflowContents(props) {
           >
             {key}
           </TranslationField>
-        );
-      })}
+        )
+      )}
     </div>
   );
 }
 
-WorkflowContents.propTypes = propTypes;
+WorkflowContents.propTypes = {
+  contents: PropTypes.PropTypes.shape({
+    original: PropTypes.object,
+    translation: PropTypes.object
+  }).isRequired
+};
+
 export default fixIt(WorkflowContents);

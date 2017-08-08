@@ -39,7 +39,8 @@ TranslationField.propTypes = {
 TranslationField.defaultProps = {
   isMarkdown: undefined,
   original: '',
-  translation: ''
+  translation: '',
+  translationSubkey: undefined
 };
 
 export default TranslationField;

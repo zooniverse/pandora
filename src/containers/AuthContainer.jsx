@@ -40,9 +40,10 @@ AuthContainer.propTypes = {
 AuthContainer.defaultProps = {
   user: null,
   initialised: false,
+  dispatch: Function.prototype
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.login.user,
   initialised: state.login.initialised,
 });

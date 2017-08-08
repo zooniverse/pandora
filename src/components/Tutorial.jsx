@@ -1,15 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt, { options } from 'react-fix-it';
+import fixIt from 'react-fix-it';
 import TranslationField from './TranslationField';
-
-const propTypes = {
-  contents: PropTypes.object.isRequired,
-};
-
-options.log = (test) => {
-  console.warn(test);
-};
 
 function Tutorial(props) {
   const { contents } = props;
@@ -18,8 +10,8 @@ function Tutorial(props) {
   return (
     <div>
       <h2>Tutorial</h2>
-      {original.steps && original.steps.map((step, key) => {
-        return (
+      {original.steps && original.steps.map((step, key) =>
+        (
           <TranslationField
             key={key}
             isMarkdown={true}
@@ -29,11 +21,17 @@ function Tutorial(props) {
           >
             Step {key}
           </TranslationField>
-        );
-      })}
+        )
+      )}
     </div>
   );
 }
 
-Tutorial.propTypes = propTypes;
+Tutorial.propTypes = {
+  contents: PropTypes.PropTypes.shape({
+    original: PropTypes.object,
+    translation: PropTypes.object
+  }).isRequired
+};
+
 export default fixIt(Tutorial);
