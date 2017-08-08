@@ -22,7 +22,7 @@ function projectResourcesPromise(project_id, type, query) {
 }
 
 function workflowResourcesPromise(workflow_id, type, query) {
-  query = Object.assign({ workflow_id}, query)
+  query = Object.assign({ workflow_id }, query);
   return apiClient.type(type).get(query);
 }
 
@@ -35,7 +35,7 @@ function awaitTranslations(id, type, project) {
     case 'workflows':
       return workflowResourcesPromise(id, 'workflow_contents');
     case 'mini_courses':
-      return workflowResourcesPromise(id, 'tutorials', { kind: 'mini-course'});
+      return workflowResourcesPromise(id, 'tutorials', { kind: 'mini-course' });
     case 'tutorials':
       return workflowResourcesPromise(id, 'tutorials', { kind: 'tutorial' });
     case 'project_pages':
@@ -108,7 +108,7 @@ function createTranslation(original, translations, type, language) {
     delete newResource.href;
     delete newResource.created_at;
     delete newResource.updated_at;
-    delete newResource.links.attached_images
+    delete newResource.links.attached_images;
     newResource.language = language.value;
     dispatch({
       type: CREATE_TRANSLATION,

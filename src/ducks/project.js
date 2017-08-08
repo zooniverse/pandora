@@ -30,7 +30,7 @@ const initialState = {
   loading: false,
 };
 
-const projectReducer = (state = initialState, action) => {
+function projectReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_PROJECT:
       return Object.assign({}, initialState, { loading: true });
@@ -53,23 +53,23 @@ const projectReducer = (state = initialState, action) => {
     case FETCH_FIELDGUIDES_SUCCESS:
       return Object.assign({}, state, { fieldguides: action.payload, loading: false });
     case SET_LANGUAGE:
-      return Object.assign({}, state, {language: action.language});
+      return Object.assign({}, state, { language: action.language });
     default:
       return state;
   }
-};
+}
 
 // Action Creators
-const setLanguage = (language) => {
+function setLanguage(language) {
   return (dispatch) => {
     dispatch({
       type: SET_LANGUAGE,
       language
-    })
-  }
+    });
+  };
 }
 
-const fetchProject = (id) => {
+function fetchProject(id) {
   return (dispatch) => {
     dispatch({
       type: FETCH_PROJECT,
@@ -95,7 +95,7 @@ const fetchProject = (id) => {
       dispatch(fetchFieldGuides(project));
     });
   };
-};
+}
 
 function fetchWorkflows(project) {
   return (dispatch) => {

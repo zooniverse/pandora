@@ -12,7 +12,7 @@ const initialState = {
   loading: false,
 };
 
-const projectsReducer = (state = initialState, action) => {
+function projectsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_PROJECTS:
       return Object.assign({}, initialState, { loading: true });
@@ -23,10 +23,10 @@ const projectsReducer = (state = initialState, action) => {
     default:
       return state;
   }
-};
+}
 
 // Action Creators
-const fetchProjects = () => {
+function fetchProjects() {
   return (dispatch) => {
     dispatch({
       type: FETCH_PROJECTS,
@@ -42,7 +42,7 @@ const fetchProjects = () => {
       });
     });
   };
-};
+}
 
 // Exports
 export default projectsReducer;
