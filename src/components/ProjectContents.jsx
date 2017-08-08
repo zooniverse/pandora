@@ -1,15 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt, { options } from 'react-fix-it';
 import TranslationField from './TranslationField';
-
-const propTypes = {
-  contents: PropTypes.object.isRequired,
-};
-
-options.log = (test) => {
-  console.warn(test);
-};
 
 function ProjectContents(props) {
   const { contents } = props;
@@ -51,5 +42,10 @@ function ProjectContents(props) {
   );
 }
 
-ProjectContents.propTypes = propTypes;
-export default fixIt(ProjectContents);
+ProjectContents.propTypes = {
+  contents: PropTypes.shape({
+    original: PropTypes.object,
+    translation: PropTypes.object
+  }).isRequired
+};
+export default ProjectContents;

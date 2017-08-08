@@ -8,22 +8,6 @@ import { DefaultButton } from 'pui-react-buttons';
 import * as contentsActions from '../ducks/resource';
 import isElementTranslatable from '../helpers/isElementTranslatable';
 
-const propTypes = {
-  actions: PropTypes.object.isRequired,
-  children: PropTypes.node,
-  language: PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string
-  }),
-  params: PropTypes.shape({
-    project_id: PropTypes.string,
-    resource_id: PropTypes.string,
-    resource_type: PropTypes.string
-  }),
-  project: PropTypes.object.isRequired,
-  resource: PropTypes.object.isRequired
-};
-
 class ProjectContentsContainer extends Component {
   constructor() {
     super();
@@ -38,7 +22,7 @@ class ProjectContentsContainer extends Component {
       subfield: '',
       modalOpen: false,
       supportsMarkdown: false,
-      translationText: '',
+      translationText: ''
     };
   }
 
@@ -58,10 +42,6 @@ class ProjectContentsContainer extends Component {
     }
   }
 
-  closeModal() {
-    this.setState({ modalOpen: false });
-  }
-  
   getTextFromPath(resource, path) {
     path = path.split('.');
     let text = resource;
@@ -72,9 +52,13 @@ class ProjectContentsContainer extends Component {
     return text;
   }
 
+  closeModal() {
+    this.setState({ modalOpen: false });
+  }
+
   handleChange(event) {
     this.setState({
-      translationText: event.target.value,
+      translationText: event.target.value
     });
   }
 
@@ -100,7 +84,7 @@ class ProjectContentsContainer extends Component {
           fieldText,
           modalOpen: true,
           supportsMarkdown,
-          translationText,
+          translationText
         });
       } else {
         alert('Please select a language');
@@ -181,14 +165,47 @@ class ProjectContentsContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  resource: state.resource,
+const mapStateToProps = state => ({
+  resource: state.resource
 });
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(contentsActions, dispatch),
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(contentsActions, dispatch)
 });
 
-ProjectContentsContainer.propTypes = propTypes;
+ProjectContentsContainer.propTypes = {
+  actions: PropTypes.object.isRequired,
+  children: PropTypes.node,
+  language: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
+  }),
+  params: PropTypes.shape({
+    project_id: PropTypes.string,
+    resource_id: PropTypes.string,
+    resource_type: PropTypes.string
+  }).isRequired,
+  project: PropTypes.shape({
+    data: PropTypes.object,
+    fieldguides: PropTypes.array,
+    language: PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string
+    }),
+    pages: PropTypes.array,
+    tutorials: PropTypes.array,
+    workflows: PropTypes.array
+  }).isRequired,
+  resource: PropTypes.object.isRequired
+};
+
+ProjectContentsContainer.defaultProps = {
+  children: null,
+  language: {
+    label: '',
+    value: ''
+  }
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

@@ -25,6 +25,7 @@
     ],
     "react/prefer-stateless-function": [1],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "comma-dangle": ["warn", "never"],
     "keyword-spacing": 2,
     "no-console": 1,
     // specify the maximum length of a line in your program

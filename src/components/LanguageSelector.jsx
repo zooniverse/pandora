@@ -11,13 +11,20 @@ class LanguageSelector extends Component {
     this.onLanguageChange = this.onLanguageChange.bind(this);
     this.state = {
       newLanguages: []
-    }
+    };
   }
-  
+
+  onLanguageChange(e) {
+    const { value } = e.target;
+    const [option] = languages.filter(language => language.value === value);
+    this.props.onChange(option);
+  }
+
   handleSearch(event) {
     const searchStr = event.target.value;
     if (searchStr) {
-      const matchesSearch = (langObj) => langObj.label.toLowerCase().substr(0, searchStr.length) === searchStr.toLowerCase();
+      const matchesSearch = langObj =>
+        langObj.label.toLowerCase().substr(0, searchStr.length) === searchStr.toLowerCase();
       const newLanguages = languages.filter(matchesSearch);
       this.setState({ newLanguages });
     }
@@ -27,21 +34,14 @@ class LanguageSelector extends Component {
     this.props.onChange(option);
   }
 
-  onLanguageChange(e) {
-    const { value } = e.target;
-    const [option] = languages.filter(option => option.value === value);
-    this.props.onChange(option);
-  }
-
   render() {
-    const existingLanguages = [];
     let menuLanguages = this.state.newLanguages.slice();
-    this.props.translations.map((translation) => {
+    const existingLanguages = this.props.translations.map((translation) => {
       const [languageOption] = languages.filter(option => option.value === translation.language);
-      existingLanguages.push(languageOption);
       menuLanguages = menuLanguages.filter(option => option !== languageOption);
+      return languageOption;
     });
-    
+
     return (
       <div>
         <h3>Pick a language</h3>
@@ -80,12 +80,20 @@ class LanguageSelector extends Component {
 
 LanguageSelector.propTypes = {
   onChange: PropTypes.func,
-  translations: PropTypes.array
+  translations: PropTypes.arrayOf(PropTypes.object),
+  value: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
+  })
 };
 
 LanguageSelector.defaultProps = {
   onChange: () => null,
-  translations: []
+  translations: [],
+  value: {
+    label: '',
+    value: ''
+  }
 };
 
 export default LanguageSelector;

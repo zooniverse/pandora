@@ -1,15 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt, { options } from 'react-fix-it';
 import TranslationField from './TranslationField';
-
-const propTypes = {
-  contents: PropTypes.object.isRequired,
-};
-
-options.log = (test) => {
-  console.warn(test);
-};
 
 function FieldGuideItem(props) {
   const { index, item, translation } = props;
@@ -35,7 +26,7 @@ function FieldGuideItem(props) {
 }
 
 FieldGuideItem.propTypes = {
-  index: PropTypes.integer,
+  index: PropTypes.number.isRequired,
   item: PropTypes.shape({
     title: PropTypes.string,
     content: PropTypes.string
@@ -43,7 +34,7 @@ FieldGuideItem.propTypes = {
   translation: PropTypes.shape({
     title: PropTypes.string,
     content: PropTypes.string
-  })
+  }).isRequired
 };
 
 function FieldGuide(props) {
@@ -54,20 +45,26 @@ function FieldGuide(props) {
     <div>
       <h2>Field Guide</h2>
       <ul>
-        {original.items && original.items.map((item, i) => {
-          return (
+        {original.items && original.items.map((item, i) =>
+          (
             <FieldGuideItem
               key={item.id}
               index={i}
               item={item}
               translation={translation.items[i]}
             />
-          );
-        })}
+          )
+        )}
       </ul>
     </div>
   );
 }
 
-FieldGuide.propTypes = propTypes;
-export default fixIt(FieldGuide);
+FieldGuide.propTypes = {
+  contents: PropTypes.shape({
+    original: PropTypes.object,
+    translation: PropTypes.object
+  }).isRequired
+};
+
+export default FieldGuide;

@@ -7,11 +7,6 @@ import * as projectsActions from '../ducks/projects';
 
 import ProjectList from '../components/ProjectList';
 
-const propTypes = {
-  actions: PropTypes.object.isRequired,
-  projects: PropTypes.object.isRequired,
-};
-
 class ProjectListContainer extends Component {
 
   componentDidMount() {
@@ -22,28 +17,33 @@ class ProjectListContainer extends Component {
   render() {
     const { projects } = this.props;
     return (
-        <ProjectList projects={projects} />
+      <ProjectList projects={projects} />
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  projects: state.projects,
+const mapStateToProps = state => ({
+  projects: state.projects
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(projectsActions, dispatch),
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(projectsActions, dispatch)
 });
 
-ProjectListContainer.propTypes = propTypes;
+ProjectListContainer.propTypes = {
+  actions: PropTypes.object.isRequired,
+  projects: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.object)
+  }).isRequired
+};
 
 ProjectListContainer.defaultProps = {
   projects: {
     data: []
   }
-}
+};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(ProjectListContainer);

@@ -27,10 +27,10 @@ const initialState = {
   tutorials: [],
   workflows: [],
   error: false,
-  loading: false,
+  loading: false
 };
 
-const projectReducer = (state = initialState, action) => {
+function projectReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_PROJECT:
       return Object.assign({}, initialState, { loading: true });
@@ -53,26 +53,26 @@ const projectReducer = (state = initialState, action) => {
     case FETCH_FIELDGUIDES_SUCCESS:
       return Object.assign({}, state, { fieldguides: action.payload, loading: false });
     case SET_LANGUAGE:
-      return Object.assign({}, state, {language: action.language});
+      return Object.assign({}, state, { language: action.language });
     default:
       return state;
   }
-};
+}
 
 // Action Creators
-const setLanguage = (language) => {
+function setLanguage(language) {
   return (dispatch) => {
     dispatch({
       type: SET_LANGUAGE,
       language
-    })
-  }
+    });
+  };
 }
 
-const fetchProject = (id) => {
+function fetchProject(id) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_PROJECT,
+      type: FETCH_PROJECT
     });
     const query = {
       id,
@@ -95,18 +95,18 @@ const fetchProject = (id) => {
       dispatch(fetchFieldGuides(project));
     });
   };
-};
+}
 
 function fetchWorkflows(project) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_WORKFLOWS,
+      type: FETCH_WORKFLOWS
     });
     apiClient.type('workflows').get(project.links.workflows)
     .then((workflows) => {
       dispatch({
         type: FETCH_WORKFLOWS_SUCCESS,
-        payload: workflows,
+        payload: workflows
       });
     });
   };
@@ -115,13 +115,13 @@ function fetchWorkflows(project) {
 function fetchTutorials(project) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_TUTORIALS,
+      type: FETCH_TUTORIALS
     });
     apiClient.type('tutorials').get({ project_id: project.id })
     .then((tutorials) => {
       dispatch({
         type: FETCH_TUTORIALS_SUCCESS,
-        payload: tutorials,
+        payload: tutorials
       });
     });
   };
@@ -130,13 +130,13 @@ function fetchTutorials(project) {
 function fetchPages(project) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_PAGES,
+      type: FETCH_PAGES
     });
     project.get('pages')
     .then((pages) => {
       dispatch({
         type: FETCH_PAGES_SUCCESS,
-        payload: pages,
+        payload: pages
       });
     });
   };
@@ -145,13 +145,13 @@ function fetchPages(project) {
 function fetchFieldGuides(project) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_FIELDGUIDES,
+      type: FETCH_FIELDGUIDES
     });
     apiClient.type('field_guides').get({ project_id: project.id })
     .then((fieldguides) => {
       dispatch({
         type: FETCH_FIELDGUIDES_SUCCESS,
-        payload: fieldguides,
+        payload: fieldguides
       });
     });
   };

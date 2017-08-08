@@ -1,15 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Markdown } from 'markdownz';
-import fixIt, { options } from 'react-fix-it';
-
-const propTypes = {
-  contents: PropTypes.object.isRequired,
-};
-
-options.log = (test) => {
-  console.warn(test);
-};
 
 function ProjectPage(props) {
   const { contents } = props;
@@ -27,5 +17,10 @@ function ProjectPage(props) {
   );
 }
 
-ProjectPage.propTypes = propTypes;
-export default fixIt(ProjectPage);
+ProjectPage.propTypes = {
+  contents: PropTypes.shape({
+    original: PropTypes.object
+  }).isRequired
+};
+
+export default ProjectPage;

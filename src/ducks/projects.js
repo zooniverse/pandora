@@ -9,10 +9,10 @@ export const FETCH_PROJECTS_ERROR = 'FETCH_PROJECTS_ERROR';
 const initialState = {
   data: [],
   error: false,
-  loading: false,
+  loading: false
 };
 
-const projectsReducer = (state = initialState, action) => {
+function projectsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_PROJECTS:
       return Object.assign({}, initialState, { loading: true });
@@ -23,13 +23,13 @@ const projectsReducer = (state = initialState, action) => {
     default:
       return state;
   }
-};
+}
 
 // Action Creators
-const fetchProjects = () => {
+function fetchProjects() {
   return (dispatch) => {
     dispatch({
-      type: FETCH_PROJECTS,
+      type: FETCH_PROJECTS
     });
     const query = {
       current_user_roles: ['owner', 'translator']
@@ -38,11 +38,11 @@ const fetchProjects = () => {
     .then((projects) => {
       dispatch({
         type: FETCH_PROJECTS_SUCCESS,
-        payload: projects,
+        payload: projects
       });
     });
   };
-};
+}
 
 // Exports
 export default projectsReducer;
