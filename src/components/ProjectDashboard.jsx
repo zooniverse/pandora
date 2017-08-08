@@ -116,7 +116,10 @@ ProjectDashboard.propTypes = {
 
 
 ProjectDashboard.defaultProps = {
-  language: 'en',
+  language: {
+    label: '',
+    value: ''
+  },
   project: {
     tutorials: [],
     workflows: []
