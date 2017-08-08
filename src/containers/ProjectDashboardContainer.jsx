@@ -59,7 +59,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ProjectDashboardContainer.propTypes = {
-  actions: PropTypes.object.isRequired,
+  actions: PropTypes.objectOf(PropTypes.func).isRequired,
   children: PropTypes.node,
   project: PropTypes.shape({
     data: PropTypes.object,
