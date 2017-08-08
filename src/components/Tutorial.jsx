@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt from 'react-fix-it';
 import TranslationField from './TranslationField';
 
 function Tutorial(props) {
@@ -34,4 +33,4 @@ Tutorial.propTypes = {
   }).isRequired
 };
 
-export default fixIt(Tutorial);
+export default Tutorial;

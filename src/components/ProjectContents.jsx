@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt from 'react-fix-it';
 import TranslationField from './TranslationField';
 
 function ProjectContents(props) {
@@ -46,4 +45,4 @@ function ProjectContents(props) {
 ProjectContents.propTypes = {
   contents: PropTypes.object.isRequired
 };
-export default fixIt(ProjectContents);
+export default ProjectContents;

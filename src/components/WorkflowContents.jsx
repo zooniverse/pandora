@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt from 'react-fix-it';
 import TranslationField from './TranslationField';
 
 function WorkflowContents(props) {
@@ -36,4 +35,4 @@ WorkflowContents.propTypes = {
   }).isRequired
 };
 
-export default fixIt(WorkflowContents);
+export default WorkflowContents;

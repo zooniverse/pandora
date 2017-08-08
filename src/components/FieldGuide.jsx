@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt from 'react-fix-it';
 import TranslationField from './TranslationField';
 
 function FieldGuideItem(props) {
@@ -68,4 +67,4 @@ FieldGuide.propTypes = {
   }).isRequired
 };
 
-export default fixIt(FieldGuide);
+export default FieldGuide;

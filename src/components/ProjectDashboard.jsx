@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt from 'react-fix-it';
 import { Link } from 'react-router';
 import ProjectContentsContainer from '../containers/ProjectContentsContainer';
 import ProjectContents from './ProjectContents';
@@ -126,4 +125,4 @@ ProjectDashboard.defaultProps = {
   }
 };
 
-export default fixIt(ProjectDashboard);
+export default ProjectDashboard;

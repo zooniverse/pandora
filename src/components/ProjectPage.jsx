@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt from 'react-fix-it';
 
 function ProjectPage(props) {
   const { contents } = props;
@@ -24,4 +23,4 @@ ProjectPage.propTypes = {
   }).isRequired
 };
 
-export default fixIt(ProjectPage);
+export default ProjectPage;

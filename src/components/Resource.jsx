@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt from 'react-fix-it';
 import FieldGuide from './FieldGuide';
 import ProjectPage from './ProjectPage';
 import Tutorial from './Tutorial';
@@ -27,4 +26,4 @@ Resource.propTypes = {
   }).isRequired
 };
 
-export default fixIt(Resource);
+export default Resource;

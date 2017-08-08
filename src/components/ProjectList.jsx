@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fixIt from 'react-fix-it';
 import { Link } from 'react-router';
 
 function ProjectListItem(props) {
@@ -42,4 +41,4 @@ ProjectList.defaultProps = {
   }
 };
 
-export default fixIt(ProjectList);
+export default ProjectList;
