@@ -32,7 +32,9 @@ const mapDispatchToProps = dispatch => ({
 
 ProjectListContainer.propTypes = {
   actions: PropTypes.object.isRequired,
-  projects: PropTypes.object.isRequired
+  projects: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.object)
+  }).isRequired
 };
 
 ProjectListContainer.defaultProps = {

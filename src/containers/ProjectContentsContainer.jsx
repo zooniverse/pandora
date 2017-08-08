@@ -184,7 +184,17 @@ ProjectContentsContainer.propTypes = {
     resource_id: PropTypes.string,
     resource_type: PropTypes.string
   }).isRequired,
-  project: PropTypes.object.isRequired,
+  project: PropTypes.shape({
+    data: PropTypes.object,
+    fieldguides: PropTypes.array,
+    language: PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string
+    }),
+    pages: PropTypes.array,
+    tutorials: PropTypes.array,
+    workflows: PropTypes.array
+  }).isRequired,
   resource: PropTypes.object.isRequired
 };
 

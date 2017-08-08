@@ -43,6 +43,9 @@ function ProjectContents(props) {
 }
 
 ProjectContents.propTypes = {
-  contents: PropTypes.object.isRequired
+  contents: PropTypes.shape({
+    original: PropTypes.object,
+    translation: PropTypes.object
+  }).isRequired
 };
 export default ProjectContents;
