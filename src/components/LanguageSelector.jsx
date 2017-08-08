@@ -35,12 +35,11 @@ class LanguageSelector extends Component {
   }
 
   render() {
-    const existingLanguages = [];
     let menuLanguages = this.state.newLanguages.slice();
-    this.props.translations.map((translation) => {
+    const existingLanguages = this.props.translations.map((translation) => {
       const [languageOption] = languages.filter(option => option.value === translation.language);
-      existingLanguages.push(languageOption);
       menuLanguages = menuLanguages.filter(option => option !== languageOption);
+      return languageOption;
     });
 
     return (
