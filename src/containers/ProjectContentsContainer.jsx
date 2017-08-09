@@ -173,7 +173,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ProjectContentsContainer.propTypes = {
-  actions: PropTypes.object.isRequired,
+  actions: PropTypes.objectOf(PropTypes.func).isRequired,
   children: PropTypes.node,
   language: PropTypes.shape({
     label: PropTypes.string,

@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ProjectListContainer.propTypes = {
-  actions: PropTypes.object.isRequired,
+  actions: PropTypes.objectOf(PropTypes.func).isRequired,
   projects: PropTypes.shape({
     data: PropTypes.arrayOf(PropTypes.object)
   }).isRequired
