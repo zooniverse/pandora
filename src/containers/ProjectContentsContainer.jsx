@@ -26,6 +26,11 @@ class ProjectContentsContainer extends Component {
     };
   }
 
+  componentWillMount() {
+    const { actions } = this.props;
+    actions.resetTranslations();
+  }
+
   componentDidMount() {
     const { actions, params, project, language } = this.props;
     const type = params.resource_type;
