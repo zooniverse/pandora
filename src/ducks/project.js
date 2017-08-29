@@ -117,7 +117,7 @@ function fetchTutorials(project) {
     dispatch({
       type: FETCH_TUTORIALS
     });
-    apiClient.type('tutorials').get({ project_id: project.id })
+    apiClient.type('tutorials').get({ project_id: project.id, language: project.primary_language })
     .then((tutorials) => {
       dispatch({
         type: FETCH_TUTORIALS_SUCCESS,
@@ -132,7 +132,7 @@ function fetchPages(project) {
     dispatch({
       type: FETCH_PAGES
     });
-    project.get('pages')
+    project.get('pages', { language: project.primary_language })
     .then((pages) => {
       dispatch({
         type: FETCH_PAGES_SUCCESS,
@@ -147,7 +147,7 @@ function fetchFieldGuides(project) {
     dispatch({
       type: FETCH_FIELDGUIDES
     });
-    apiClient.type('field_guides').get({ project_id: project.id })
+    apiClient.type('field_guides').get({ project_id: project.id, language: project.primary_language })
     .then((fieldguides) => {
       dispatch({
         type: FETCH_FIELDGUIDES_SUCCESS,
