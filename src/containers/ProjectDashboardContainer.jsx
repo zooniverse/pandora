@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import LanguageSelector from '../components/LanguageSelector';
-import { fetchProject, setLanguage } from '../ducks/project';
+import { fetchProject, setLanguage, fetchLanguages } from '../ducks/project';
 import { createTranslation } from '../ducks/resource';
 import languages from '../constants/languages';
 
@@ -17,8 +17,9 @@ class ProjectDashboardContainer extends Component {
   }
 
   componentDidMount() {
-    const { actions } = this.props;
-    actions.fetchProject(this.props.params.project_id);
+    const { actions, params } = this.props;
+    actions.fetchProject(params.project_id);
+    actions.fetchLanguages(params.project_id);
   }
 
   onChangeLanguage(option) {
@@ -28,12 +29,10 @@ class ProjectDashboardContainer extends Component {
 
   render() {
     const project = this.props.project.data;
-    const { fieldguides, language, pages, workflows, tutorials } = this.props.project;
-    const { translations } = this.props.resource;
-    const projectLanguages = languages.filter(option =>
-      translations.find(translation => (translation.language === option.value))
-    );
-
+    const { fieldguides, language, languageCodes, pages, workflows, tutorials } = this.props.project;
+    const projectLanguages = languages
+      .filter(option => (languageCodes.indexOf(option.value) > -1))
+      .filter(option => (option.value !== project.primary_language));
     return (
       <div>
         <h2>Project Dashboard</h2>
@@ -51,6 +50,7 @@ class ProjectDashboardContainer extends Component {
 
 const mapStateToProps = state => ({
   language: state.language,
+  languages: state.languages,
   project: state.project,
   resource: state.resource
 });
@@ -58,7 +58,8 @@ const mapDispatchToProps = dispatch => ({
   actions: {
     fetchProject: bindActionCreators(fetchProject, dispatch),
     setLanguage: bindActionCreators(setLanguage, dispatch),
-    createTranslation: bindActionCreators(createTranslation, dispatch)
+    createTranslation: bindActionCreators(createTranslation, dispatch),
+    fetchLanguages: bindActionCreators(fetchLanguages, dispatch)
   }
 });
 
@@ -72,18 +73,14 @@ ProjectDashboardContainer.propTypes = {
       label: PropTypes.string,
       value: PropTypes.string
     }),
+    languageCodes: PropTypes.arrayOf(PropTypes.string),
     pages: PropTypes.array,
     tutorials: PropTypes.array,
     workflows: PropTypes.array
   }),
   params: PropTypes.shape({
     project_id: PropTypes.string
-  }).isRequired,
-  resource: PropTypes.shape({
-    original: PropTypes.object,
-    translation: PropTypes.object,
-    translations: PropTypes.array
-  })
+  }).isRequired
 };
 
 ProjectDashboardContainer.defaultProps = {
@@ -91,13 +88,9 @@ ProjectDashboardContainer.defaultProps = {
   project: {
     data: null,
     language: null,
+    languageCodes: [],
     tutorials: [],
     workflows: []
-  },
-  resource: {
-    original: null,
-    translation: null,
-    translations: []
   }
 };
 export default connect(
