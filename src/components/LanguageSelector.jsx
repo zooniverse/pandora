@@ -35,18 +35,13 @@ class LanguageSelector extends Component {
   }
 
   render() {
-    let menuLanguages = this.state.newLanguages.slice();
-    const existingLanguages = this.props.translations.map((translation) => {
-      const [languageOption] = languages.filter(option => option.value === translation.language);
-      menuLanguages = menuLanguages.filter(option => option !== languageOption);
-      return languageOption;
-    });
+    const menuLanguages = this.state.newLanguages.filter(option => this.props.languages.indexOf(option) === -1);
 
     return (
       <div>
         <h3>Pick a language</h3>
         <ul className="language-selector">
-          {existingLanguages.filter(Boolean).map((option) => {
+          {this.props.languages.filter(Boolean).map((option) => {
             const checked = this.props.value ? option.value === this.props.value.value : false;
             return (
               <li key={option.value}>
@@ -80,7 +75,7 @@ class LanguageSelector extends Component {
 
 LanguageSelector.propTypes = {
   onChange: PropTypes.func,
-  translations: PropTypes.arrayOf(PropTypes.object),
+  languages: PropTypes.arrayOf(PropTypes.object),
   value: PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string
@@ -89,7 +84,7 @@ LanguageSelector.propTypes = {
 
 LanguageSelector.defaultProps = {
   onChange: () => null,
-  translations: [],
+  languages: [],
   value: {
     label: '',
     value: ''

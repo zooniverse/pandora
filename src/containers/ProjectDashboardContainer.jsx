@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import LanguageSelector from '../components/LanguageSelector';
 import { fetchProject, setLanguage } from '../ducks/project';
 import { createTranslation } from '../ducks/resource';
+import languages from '../constants/languages';
 
 class ProjectDashboardContainer extends Component {
   constructor() {
@@ -29,11 +30,14 @@ class ProjectDashboardContainer extends Component {
     const project = this.props.project.data;
     const { fieldguides, language, pages, workflows, tutorials } = this.props.project;
     const { translations } = this.props.resource;
+    const projectLanguages = languages.filter(option =>
+      translations.find(translation => (translation.language === option.value))
+    );
 
     return (
       <div>
         <h2>Project Dashboard</h2>
-        <LanguageSelector translations={translations} value={language} onChange={this.onChangeLanguage} />
+        <LanguageSelector languages={projectLanguages} value={language} onChange={this.onChangeLanguage} />
         {project.primary_language &&
           React.cloneElement(
             this.props.children,
