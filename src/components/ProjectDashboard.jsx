@@ -46,7 +46,7 @@ function ProjectDashboard(props) {
             {workflows.map(workflow =>
               (
                 <li key={workflow.id}>
-                  <Link to={`/project/${project.id}/workflows/${workflow.id}`}>{workflow.display_name}</Link>
+                  <Link to={`/project/${project.id}/workflow/${workflow.id}`}>{workflow.display_name}</Link>
                 </li>
               )
             )}

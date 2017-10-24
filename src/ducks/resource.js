@@ -17,36 +17,6 @@ function filterResources(resources, primary_language) {
   return { original, translations };
 }
 
-function projectResourcesPromise(project_id, type, query) {
-  query = Object.assign({ project_id }, query);
-  return apiClient.type(type).get(query);
-}
-
-function workflowResourcesPromise(workflow_id, type, query) {
-  query = Object.assign({ workflow_id }, query);
-  return apiClient.type(type).get(query);
-}
-
-function awaitTranslations(id, type, project, languageOption) {
-  const language = languageOption ? languageOption.value : project.primary_language;
-  switch (type) {
-    case 'projects':
-      return projectResourcesPromise(project.id, 'project_contents');
-    case 'field_guides':
-      return projectResourcesPromise(project.id, 'field_guides', { language });
-    case 'workflows':
-      return workflowResourcesPromise(id, 'workflow_contents');
-    case 'mini_courses':
-      return workflowResourcesPromise(id, 'tutorials', { kind: 'mini-course', language });
-    case 'tutorials':
-      return workflowResourcesPromise(id, 'tutorials', { kind: 'tutorial', language });
-    case 'project_pages':
-      return project.get('pages', { url_key: id, language });
-    default:
-      return apiClient.type(type).get({ id });
-  }
-}
-
 // Reducer
 const initialState = {
   original: null,
@@ -86,43 +56,24 @@ function resetTranslations() {
   };
 }
 
-function fetchTranslations(id, type, project, language) {
-  type = type || 'projects';
+function fetchTranslations(translated_id, type, project, language) {
+  const translated_type = type || 'project';
   return (dispatch) => {
     dispatch({
       type: FETCH_TRANSLATIONS,
       resource_type: type
     });
-    awaitTranslations(id, type, project)
+    apiClient.type('translations').get({ translated_type, translated_id })
     .then((resources) => {
       const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
-      if (language && language.value !== primary_language) {
-        if (translations.length) {
-          dispatch(selectTranslation(original, translations, type, language));
-          dispatch({
-            type: FETCH_TRANSLATIONS_SUCCESS,
-            payload: { original, translations, loading: false }
-          });
-        } else {
-          awaitTranslations(id, type, project, language)
-          .then(([translation]) => {
-            if (translation) {
-              translations.push(translation);
-            }
-            dispatch(selectTranslation(original, translations, type, language));
-            dispatch({
-              type: FETCH_TRANSLATIONS_SUCCESS,
-              payload: { original, translations, loading: false }
-            });
-          });
-        }
-      } else {
-        dispatch({
-          type: FETCH_TRANSLATIONS_SUCCESS,
-          payload: { original, translations, loading: false }
-        });
+      if (translations.length && language) {
+        dispatch(selectTranslation(original, translations, type, language));
       }
+      dispatch({
+        type: FETCH_TRANSLATIONS_SUCCESS,
+        payload: { original, translations, loading: false }
+      });
     });
   };
 }

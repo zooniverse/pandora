@@ -10,7 +10,7 @@ const resources = {
   mini_courses: Tutorial,
   project_pages: ProjectPage,
   tutorials: Tutorial,
-  workflows: WorkflowContents
+  workflow: WorkflowContents
 };
 
 function Resource(props) {
