@@ -27,20 +27,21 @@ function workflowResourcesPromise(workflow_id, type, query) {
   return apiClient.type(type).get(query);
 }
 
-function awaitTranslations(id, type, project) {
+function awaitTranslations(id, type, project, languageOption) {
+  const language = languageOption ? languageOption.value : project.primary_language;
   switch (type) {
     case 'projects':
       return projectResourcesPromise(project.id, 'project_contents');
     case 'field_guides':
-      return projectResourcesPromise(project.id, 'field_guides');
+      return projectResourcesPromise(project.id, 'field_guides', { language });
     case 'workflows':
       return workflowResourcesPromise(id, 'workflow_contents');
     case 'mini_courses':
-      return workflowResourcesPromise(id, 'tutorials', { kind: 'mini-course' });
+      return workflowResourcesPromise(id, 'tutorials', { kind: 'mini-course', language });
     case 'tutorials':
-      return workflowResourcesPromise(id, 'tutorials', { kind: 'tutorial' });
+      return workflowResourcesPromise(id, 'tutorials', { kind: 'tutorial', language });
     case 'project_pages':
-      return project.get('pages', { url_key: id });
+      return project.get('pages', { url_key: id, language });
     default:
       return apiClient.type(type).get({ id });
   }
@@ -97,12 +98,31 @@ function fetchTranslations(id, type, project, language) {
       const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
       if (language && language.value !== primary_language) {
-        dispatch(selectTranslation(original, translations, type, language));
+        if (translations.length) {
+          dispatch(selectTranslation(original, translations, type, language));
+          dispatch({
+            type: FETCH_TRANSLATIONS_SUCCESS,
+            payload: { original, translations, loading: false }
+          });
+        } else {
+          awaitTranslations(id, type, project, language)
+          .then(([translation]) => {
+            if (translation) {
+              translations.push(translation);
+            }
+            dispatch(selectTranslation(original, translations, type, language));
+            dispatch({
+              type: FETCH_TRANSLATIONS_SUCCESS,
+              payload: { original, translations, loading: false }
+            });
+          });
+        }
+      } else {
+        dispatch({
+          type: FETCH_TRANSLATIONS_SUCCESS,
+          payload: { original, translations, loading: false }
+        });
       }
-      dispatch({
-        type: FETCH_TRANSLATIONS_SUCCESS,
-        payload: { original, translations, loading: false }
-      });
     });
   };
 }

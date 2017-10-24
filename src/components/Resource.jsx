@@ -16,7 +16,7 @@ const resources = {
 function Resource(props) {
   const { contents } = props;
   const ResourceViewer = resources[props.params.resource_type];
-  return (<ResourceViewer contents={contents} />);
+  return (contents.translation && <ResourceViewer contents={contents} />);
 }
 
 Resource.propTypes = {

@@ -17,12 +17,14 @@ export const FETCH_FIELDGUIDES = 'FETCH_FIELDGUIDES';
 export const FETCH_FIELDGUIDES_SUCCESS = 'FETCH_FIELDGUIDES_SUCCESS';
 export const FETCH_FIELDGUIDES_ERROR = 'FETCH_FIELDGUIDES_ERROR';
 export const SET_LANGUAGE = 'SET_LANGUAGE';
+export const FETCH_LANGUAGES_SUCCESS = 'FETCH_LANGUAGES_SUCCESS';
 
 // Reducer
 const initialState = {
   data: {},
   fieldguides: [],
   language: null,
+  languageCodes: [],
   pages: [],
   tutorials: [],
   workflows: [],
@@ -35,6 +37,7 @@ function projectReducer(state = initialState, action) {
     case FETCH_PROJECT:
       return Object.assign({}, initialState, { loading: true });
     case FETCH_PROJECT_SUCCESS:
+    case FETCH_LANGUAGES_SUCCESS:
       return Object.assign({}, state, action.payload);
     case FETCH_PROJECT_ERROR:
       return Object.assign({}, state, { error: action.payload, loading: false });
@@ -65,6 +68,22 @@ function setLanguage(language) {
     dispatch({
       type: SET_LANGUAGE,
       language
+    });
+  };
+}
+
+function fetchLanguages(project_id) {
+  return (dispatch) => {
+    apiClient
+    .type('project_contents')
+    .get({ project_id })
+    .then((resources) => {
+      dispatch({
+        type: FETCH_LANGUAGES_SUCCESS,
+        payload: {
+          languageCodes: resources.map(resource => resource.language)
+        }
+      });
     });
   };
 }
@@ -117,7 +136,7 @@ function fetchTutorials(project) {
     dispatch({
       type: FETCH_TUTORIALS
     });
-    apiClient.type('tutorials').get({ project_id: project.id })
+    apiClient.type('tutorials').get({ project_id: project.id, language: project.primary_language })
     .then((tutorials) => {
       dispatch({
         type: FETCH_TUTORIALS_SUCCESS,
@@ -132,7 +151,7 @@ function fetchPages(project) {
     dispatch({
       type: FETCH_PAGES
     });
-    project.get('pages')
+    project.get('pages', { language: project.primary_language })
     .then((pages) => {
       dispatch({
         type: FETCH_PAGES_SUCCESS,
@@ -147,7 +166,7 @@ function fetchFieldGuides(project) {
     dispatch({
       type: FETCH_FIELDGUIDES
     });
-    apiClient.type('field_guides').get({ project_id: project.id })
+    apiClient.type('field_guides').get({ project_id: project.id, language: project.primary_language })
     .then((fieldguides) => {
       dispatch({
         type: FETCH_FIELDGUIDES_SUCCESS,
@@ -162,5 +181,6 @@ export default projectReducer;
 
 export {
   fetchProject,
-  setLanguage
+  setLanguage,
+  fetchLanguages
 };
