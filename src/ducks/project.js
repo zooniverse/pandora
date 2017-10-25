@@ -64,11 +64,9 @@ function projectReducer(state = initialState, action) {
 
 // Action Creators
 function setLanguage(language) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_LANGUAGE,
-      language
-    });
+  return {
+    type: SET_LANGUAGE,
+    language
   };
 }
 
