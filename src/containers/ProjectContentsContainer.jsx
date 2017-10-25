@@ -77,11 +77,11 @@ class ProjectContentsContainer extends Component {
         let fieldText;
         let translationText;
         if (subfield && subfield.length) {
-          fieldText = original[field][subfield];
-          translationText = translation[field][subfield];
+          fieldText = original.strings[field][subfield];
+          translationText = translation.strings[field][subfield];
         } else {
-          fieldText = ProjectContentsContainer.getTextFromPath(original, field);
-          translationText = ProjectContentsContainer.getTextFromPath(translation, field);
+          fieldText = ProjectContentsContainer.getTextFromPath(original.strings, field);
+          translationText = ProjectContentsContainer.getTextFromPath(translation.strings, field);
         }
         this.setState({
           field,

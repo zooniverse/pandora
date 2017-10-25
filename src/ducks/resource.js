@@ -131,13 +131,14 @@ function selectTranslation(original, translations, type, language) {
 
 function updateTranslation(translation, field, value) {
   return (dispatch) => {
-    const changes = { [field]: value };
+    const changes = { [`strings.${field}`]: value };
     translation.update(changes);
     dispatch({
       type: UPDATE_TRANSLATION,
       payload: translation
     });
-    translation.save()
+    const { translated_type, translated_id } = translation;
+    translation.save({ translated_type, translated_id })
     .catch(error => console.error('Update translation error:', error));
   };
 }
