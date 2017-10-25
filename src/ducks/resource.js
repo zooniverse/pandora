@@ -84,25 +84,21 @@ function createTranslation(original, translations, type, language) {
     type = 'tutorials';
   }
   return (dispatch) => {
-    const newResource = Object.assign({}, original);
-    delete newResource.id;
-    delete newResource.href;
-    delete newResource.created_at;
-    delete newResource.updated_at;
-    delete newResource.links.attached_images;
-    newResource.language = language.value;
+    const newResource = {
+      translated_type: original.translated_type,
+      translated_id: original.translated_id,
+      language: language.value,
+      strings: original.strings
+    }
     dispatch({
       type: CREATE_TRANSLATION,
       newResource,
       original
     });
-    apiClient.type(type)
+    apiClient.type('translations')
     .create(newResource)
     .save()
       .then((translation) => {
-        if (original.links.attached_images) {
-          translation.links.attached_images = original.links.attached_images;
-        }
         translations.push(translation);
         dispatch({
           type: CREATE_TRANSLATION_SUCCESS,
