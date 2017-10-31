@@ -1,5 +1,5 @@
 const config = {
-  panoptesAppId: '24ad5676d5d25c6aa850dc5d5f63ec8c03dbc7ae113b6442b8571fce6c5b974c', // test-rog project for dev
+  panoptesAppId: '30963426190f0b1306331e603368527f3d0650920d5e1c9b6287ad09fdd3231e' // Panoptes staging API
 };
 
 export default config;
