@@ -4,11 +4,11 @@ import apiClient from 'panoptes-client/lib/api-client';
 export const RESET_TRANSLATIONS = 'RESET_TRANSLATIONS';
 export const FETCH_TRANSLATIONS = 'FETCH_TRANSLATIONS';
 export const FETCH_TRANSLATIONS_SUCCESS = 'FETCH_TRANSLATIONS_SUCCESS';
-export const FETCH_TRANSLATIONS_ERROR = 'FETCH_TRANSLATIONS_ERROR';
 export const CREATE_TRANSLATION = 'CREATE_TRANSLATION';
 export const CREATE_TRANSLATION_SUCCESS = 'CREATE_TRANSLATION_SUCCESS';
 export const SELECT_TRANSLATION = 'SELECT_TRANSLATION';
 export const UPDATE_TRANSLATION = 'UPDATE_TRANSLATION';
+export const TRANSLATIONS_ERROR = 'TRANSLATIONS_ERROR';
 
 // Helpers
 function filterResources(resources, primary_language) {
@@ -36,18 +36,26 @@ const resourceReducer = (state = initialState, action) => {
     case FETCH_TRANSLATIONS_SUCCESS:
     case CREATE_TRANSLATION_SUCCESS:
       return Object.assign({}, state, action.payload);
-    case FETCH_TRANSLATIONS_ERROR:
-      return Object.assign({}, state, { error: action.payload, loading: false });
     case SELECT_TRANSLATION:
       return Object.assign({}, state, action.payload);
     case UPDATE_TRANSLATION:
       return Object.assign({}, state, { translation: action.payload });
+    case TRANSLATIONS_ERROR:
+      return Object.assign({}, state, { error: action.payload, loading: false });
     default:
       return state;
   }
 };
 
 // Action Creators
+function handleError(error) {
+  console.warn(error);
+  return {
+    type: TRANSLATIONS_ERROR,
+    payload: error
+  };
+}
+
 function resetTranslations() {
   return (dispatch) => {
     dispatch({
@@ -74,6 +82,9 @@ function fetchTranslations(translated_id, type, project, language) {
         type: FETCH_TRANSLATIONS_SUCCESS,
         payload: { original, translations, loading: false }
       });
+    })
+    .catch((error) => {
+      dispatch(handleError(error));
     });
   };
 }
@@ -89,7 +100,7 @@ function createTranslation(original, translations, type, language) {
       translated_id: original.translated_id,
       language: language.value,
       strings: original.strings
-    }
+    };
     dispatch({
       type: CREATE_TRANSLATION,
       newResource,
@@ -105,7 +116,9 @@ function createTranslation(original, translations, type, language) {
           payload: { translation, translations, loading: false }
         });
       })
-      .catch(error => console.error(error));
+      .catch((error) => {
+        dispatch(handleError(error));
+      });
   };
 }
 
@@ -135,7 +148,9 @@ function updateTranslation(translation, field, value) {
     });
     const { translated_type, translated_id } = translation;
     translation.save({ translated_type, translated_id })
-    .catch(error => console.error('Update translation error:', error));
+    .catch((error) => {
+      dispatch(handleError(error));
+    });
   };
 }
 // Exports
