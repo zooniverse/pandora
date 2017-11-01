@@ -95,9 +95,8 @@ function createTranslation(original, translations, type, language) {
     type = 'tutorials';
   }
   return (dispatch) => {
+    const { translated_type, translated_id } = original;
     const newResource = {
-      translated_type: original.translated_type,
-      translated_id: original.translated_id,
       language: language.value,
       strings: original.strings
     };
@@ -108,7 +107,7 @@ function createTranslation(original, translations, type, language) {
     });
     apiClient.type('translations')
     .create(newResource)
-    .save()
+    .save({ translated_type, translated_id })
       .then((translation) => {
         translations.push(translation);
         dispatch({
