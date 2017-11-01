@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import LanguageSelector from '../components/LanguageSelector';
-import { fetchProject, setLanguage, fetchLanguages } from '../ducks/project';
+import { fetchProject, addLanguage, setLanguage, fetchLanguages } from '../ducks/project';
 import { createTranslation } from '../ducks/resource';
 import languages from '../constants/languages';
 
@@ -24,6 +24,11 @@ class ProjectDashboardContainer extends Component {
 
   onChangeLanguage(option) {
     const { actions } = this.props;
+    const { languageCodes } = this.props.project;
+    if (languageCodes.indexOf(option.value) === -1) {
+      languageCodes.push(option.value);
+      actions.addLanguage(languageCodes);
+    }
     actions.setLanguage(option);
   }
 
@@ -57,6 +62,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: {
     fetchProject: bindActionCreators(fetchProject, dispatch),
+    addLanguage: bindActionCreators(addLanguage, dispatch),
     setLanguage: bindActionCreators(setLanguage, dispatch),
     createTranslation: bindActionCreators(createTranslation, dispatch),
     fetchLanguages: bindActionCreators(fetchLanguages, dispatch)

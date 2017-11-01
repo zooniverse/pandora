@@ -16,6 +16,7 @@ export const FETCH_PAGES_ERROR = 'FETCH_PAGES_ERROR';
 export const FETCH_FIELDGUIDES = 'FETCH_FIELDGUIDES';
 export const FETCH_FIELDGUIDES_SUCCESS = 'FETCH_FIELDGUIDES_SUCCESS';
 export const FETCH_FIELDGUIDES_ERROR = 'FETCH_FIELDGUIDES_ERROR';
+export const ADD_LANGUAGE = 'ADD_LANGUAGE';
 export const SET_LANGUAGE = 'SET_LANGUAGE';
 export const FETCH_LANGUAGES_SUCCESS = 'FETCH_LANGUAGES_SUCCESS';
 
@@ -57,12 +58,20 @@ function projectReducer(state = initialState, action) {
       return Object.assign({}, state, { fieldguides: action.payload, loading: false });
     case SET_LANGUAGE:
       return Object.assign({}, state, { language: action.language });
+    case ADD_LANGUAGE:
+      return Object.assign({}, state, { languageCodes: action.languageCodes });
     default:
       return state;
   }
 }
 
 // Action Creators
+function addLanguage(languageCodes) {
+  return {
+    type: ADD_LANGUAGE,
+    languageCodes
+  };
+}
 function setLanguage(language) {
   return {
     type: SET_LANGUAGE,
@@ -73,8 +82,11 @@ function setLanguage(language) {
 function fetchLanguages(project_id) {
   return (dispatch) => {
     apiClient
-    .type('project_contents')
-    .get({ project_id })
+    .type('translations')
+    .get({ 
+      translated_type: 'Project',
+      translated_id: project_id 
+    })
     .then((resources) => {
       dispatch({
         type: FETCH_LANGUAGES_SUCCESS,
@@ -179,6 +191,7 @@ export default projectReducer;
 
 export {
   fetchProject,
+  addLanguage,
   setLanguage,
   fetchLanguages
 };
