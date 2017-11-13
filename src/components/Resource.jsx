@@ -6,11 +6,11 @@ import Tutorial from './Tutorial';
 import WorkflowContents from './WorkflowContents';
 
 const resources = {
-  field_guides: FieldGuide,
-  mini_courses: Tutorial,
-  project_pages: ProjectPage,
-  tutorials: Tutorial,
-  workflows: WorkflowContents
+  field_guide: FieldGuide,
+  mini_course: Tutorial,
+  project_page: ProjectPage,
+  tutorial: Tutorial,
+  workflow: WorkflowContents
 };
 
 function Resource(props) {

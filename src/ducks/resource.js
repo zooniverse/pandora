@@ -4,47 +4,17 @@ import apiClient from 'panoptes-client/lib/api-client';
 export const RESET_TRANSLATIONS = 'RESET_TRANSLATIONS';
 export const FETCH_TRANSLATIONS = 'FETCH_TRANSLATIONS';
 export const FETCH_TRANSLATIONS_SUCCESS = 'FETCH_TRANSLATIONS_SUCCESS';
-export const FETCH_TRANSLATIONS_ERROR = 'FETCH_TRANSLATIONS_ERROR';
 export const CREATE_TRANSLATION = 'CREATE_TRANSLATION';
 export const CREATE_TRANSLATION_SUCCESS = 'CREATE_TRANSLATION_SUCCESS';
 export const SELECT_TRANSLATION = 'SELECT_TRANSLATION';
 export const UPDATE_TRANSLATION = 'UPDATE_TRANSLATION';
+export const TRANSLATIONS_ERROR = 'TRANSLATIONS_ERROR';
 
 // Helpers
 function filterResources(resources, primary_language) {
   const original = resources.find(resource => resource.language === primary_language);
   const translations = resources.filter(resource => resource.language !== primary_language);
   return { original, translations };
-}
-
-function projectResourcesPromise(project_id, type, query) {
-  query = Object.assign({ project_id }, query);
-  return apiClient.type(type).get(query);
-}
-
-function workflowResourcesPromise(workflow_id, type, query) {
-  query = Object.assign({ workflow_id }, query);
-  return apiClient.type(type).get(query);
-}
-
-function awaitTranslations(id, type, project, languageOption) {
-  const language = languageOption ? languageOption.value : project.primary_language;
-  switch (type) {
-    case 'projects':
-      return projectResourcesPromise(project.id, 'project_contents');
-    case 'field_guides':
-      return projectResourcesPromise(project.id, 'field_guides', { language });
-    case 'workflows':
-      return workflowResourcesPromise(id, 'workflow_contents');
-    case 'mini_courses':
-      return workflowResourcesPromise(id, 'tutorials', { kind: 'mini-course', language });
-    case 'tutorials':
-      return workflowResourcesPromise(id, 'tutorials', { kind: 'tutorial', language });
-    case 'project_pages':
-      return project.get('pages', { url_key: id, language });
-    default:
-      return apiClient.type(type).get({ id });
-  }
 }
 
 // Reducer
@@ -66,18 +36,26 @@ const resourceReducer = (state = initialState, action) => {
     case FETCH_TRANSLATIONS_SUCCESS:
     case CREATE_TRANSLATION_SUCCESS:
       return Object.assign({}, state, action.payload);
-    case FETCH_TRANSLATIONS_ERROR:
-      return Object.assign({}, state, { error: action.payload, loading: false });
     case SELECT_TRANSLATION:
       return Object.assign({}, state, action.payload);
     case UPDATE_TRANSLATION:
       return Object.assign({}, state, { translation: action.payload });
+    case TRANSLATIONS_ERROR:
+      return Object.assign({}, state, { error: action.payload, loading: false });
     default:
       return state;
   }
 };
 
 // Action Creators
+function handleError(error) {
+  console.warn(error);
+  return {
+    type: TRANSLATIONS_ERROR,
+    payload: error
+  };
+}
+
 function resetTranslations() {
   return (dispatch) => {
     dispatch({
@@ -86,43 +64,27 @@ function resetTranslations() {
   };
 }
 
-function fetchTranslations(id, type, project, language) {
-  type = type || 'projects';
+function fetchTranslations(translated_id, type, project, language) {
+  const translated_type = type || 'project';
   return (dispatch) => {
     dispatch({
       type: FETCH_TRANSLATIONS,
       resource_type: type
     });
-    awaitTranslations(id, type, project)
+    apiClient.type('translations').get({ translated_type, translated_id })
     .then((resources) => {
       const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
-      if (language && language.value !== primary_language) {
-        if (translations.length) {
-          dispatch(selectTranslation(original, translations, type, language));
-          dispatch({
-            type: FETCH_TRANSLATIONS_SUCCESS,
-            payload: { original, translations, loading: false }
-          });
-        } else {
-          awaitTranslations(id, type, project, language)
-          .then(([translation]) => {
-            if (translation) {
-              translations.push(translation);
-            }
-            dispatch(selectTranslation(original, translations, type, language));
-            dispatch({
-              type: FETCH_TRANSLATIONS_SUCCESS,
-              payload: { original, translations, loading: false }
-            });
-          });
-        }
-      } else {
-        dispatch({
-          type: FETCH_TRANSLATIONS_SUCCESS,
-          payload: { original, translations, loading: false }
-        });
+      if (translations.length && language) {
+        dispatch(selectTranslation(original, translations, type, language));
       }
+      dispatch({
+        type: FETCH_TRANSLATIONS_SUCCESS,
+        payload: { original, translations, loading: false }
+      });
+    })
+    .catch((error) => {
+      dispatch(handleError(error));
     });
   };
 }
@@ -133,32 +95,29 @@ function createTranslation(original, translations, type, language) {
     type = 'tutorials';
   }
   return (dispatch) => {
-    const newResource = Object.assign({}, original);
-    delete newResource.id;
-    delete newResource.href;
-    delete newResource.created_at;
-    delete newResource.updated_at;
-    delete newResource.links.attached_images;
-    newResource.language = language.value;
+    const { translated_type, translated_id } = original;
+    const newResource = {
+      language: language.value,
+      strings: original.strings
+    };
     dispatch({
       type: CREATE_TRANSLATION,
       newResource,
       original
     });
-    apiClient.type(type)
+    apiClient.type('translations')
     .create(newResource)
-    .save()
+    .save({ translated_type, translated_id })
       .then((translation) => {
-        if (original.links.attached_images) {
-          translation.links.attached_images = original.links.attached_images;
-        }
         translations.push(translation);
         dispatch({
           type: CREATE_TRANSLATION_SUCCESS,
           payload: { translation, translations, loading: false }
         });
       })
-      .catch(error => console.error(error));
+      .catch((error) => {
+        dispatch(handleError(error));
+      });
   };
 }
 
@@ -180,14 +139,17 @@ function selectTranslation(original, translations, type, language) {
 
 function updateTranslation(translation, field, value) {
   return (dispatch) => {
-    const changes = { [field]: value };
+    const changes = { [`strings.${field}`]: value };
     translation.update(changes);
     dispatch({
       type: UPDATE_TRANSLATION,
       payload: translation
     });
-    translation.save()
-    .catch(error => console.error('Update translation error:', error));
+    const { translated_type, translated_id } = translation;
+    translation.save({ translated_type, translated_id })
+    .catch((error) => {
+      dispatch(handleError(error));
+    });
   };
 }
 // Exports

@@ -6,7 +6,7 @@ function WorkflowContents(props) {
   const { contents } = props;
   const original = contents.original || { strings: {} };
   const translation = contents.translation || { strings: {} };
-  const keys = original.strings ? Object.keys(original.strings) : [];
+  const keys = original.strings.tasks ? Object.keys(original.strings.tasks) : [];
   return (
     <div>
       <h2>Workflow Contents</h2>

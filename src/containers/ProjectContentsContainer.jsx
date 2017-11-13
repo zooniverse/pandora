@@ -49,11 +49,11 @@ class ProjectContentsContainer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { actions, params, project, language } = newProps;
+    const { actions, params, resource, language } = newProps;
     if (newProps.language !== this.props.language && newProps.language.value !== newProps.project.primary_language) {
       const type = params.resource_type;
-      const id = type ? params.resource_id : params.project_id;
-      actions.fetchTranslations(id, type, project, language);
+      const { original, translations } = resource;
+      actions.selectTranslation(original, translations, type, language);
     }
   }
 
@@ -77,11 +77,11 @@ class ProjectContentsContainer extends Component {
         let fieldText;
         let translationText;
         if (subfield && subfield.length) {
-          fieldText = original[field][subfield];
-          translationText = translation[field][subfield];
+          fieldText = original.strings[field][subfield];
+          translationText = translation.strings[field][subfield];
         } else {
-          fieldText = ProjectContentsContainer.getTextFromPath(original, field);
-          translationText = ProjectContentsContainer.getTextFromPath(translation, field);
+          fieldText = ProjectContentsContainer.getTextFromPath(original.strings, field);
+          translationText = ProjectContentsContainer.getTextFromPath(translation.strings, field);
         }
         this.setState({
           field,
