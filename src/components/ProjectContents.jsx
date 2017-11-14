@@ -17,6 +17,13 @@ function ProjectContents(props) {
         Title
       </TranslationField>
       <TranslationField
+        translationKey="display_name"
+        original={original.strings.display_name}
+        translation={translation.strings.display_name}
+      >
+        Display Name
+      </TranslationField>
+      <TranslationField
         translationKey="description"
         original={original.strings.description}
         translation={translation.strings.description}
