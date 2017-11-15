@@ -10,19 +10,19 @@ function TranslationField(props) {
     <div className="field-editor">
       <h3>
         {props.children}
-        {(props.original.length > 0) &&
-          <button
-            data-markdown={props.isMarkdown}
-            data-translation-key={props.translationKey}
-            data-translation-subkey={props.translationSubkey}
-          >
-            <FormEdit size="xsmall" />
-            Translate
-          </button>
-        }
       </h3>
       { original }
       { translation }
+      {(props.original.length > 0) &&
+        <button
+          data-markdown={props.isMarkdown}
+          data-translation-key={props.translationKey}
+          data-translation-subkey={props.translationSubkey}
+        >
+          <FormEdit size="xsmall" />
+          Translate
+        </button>
+      }
     </div>
   );
 }
