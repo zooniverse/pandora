@@ -103,7 +103,7 @@ class ProjectContentsContainer extends Component {
     const { actions, resource } = this.props;
     const translation = resource.translation;
     if (subfield && subfield.length) {
-      const changes = translation[field];
+      const changes = translation.strings[field];
       changes[subfield] = translationText;
       actions.updateTranslation(translation, field, changes);
     } else {

@@ -15,10 +15,10 @@ function WorkflowContents(props) {
         (
           <TranslationField
             key={key}
-            translationKey="strings"
+            translationKey="tasks"
             translationSubkey={key}
-            original={original.strings[key]}
-            translation={translation.strings[key]}
+            original={original.strings.tasks[key]}
+            translation={translation.strings.tasks[key]}
           >
             {key}
           </TranslationField>
