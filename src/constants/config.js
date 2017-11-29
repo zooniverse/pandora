@@ -10,4 +10,16 @@ const config = {
   }
 };
 
-export default config[process.env.NODE_ENV];
+function locationMatch(regex) {
+  var match;
+  if (typeof location !== 'undefined' && location !== null) {
+    match = location.search.match(regex);
+  }
+
+  return (match && match[1]) ? match[1] : undefined;
+}
+
+const envFromBrowser = locationMatch(/\W?env=(\w+)/);
+
+const env = envFromBrowser ? envFromBrowser : process.env.NODE_ENV;
+export default config[env];
