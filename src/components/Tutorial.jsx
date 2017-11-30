@@ -4,21 +4,22 @@ import TranslationField from './TranslationField';
 
 function Tutorial(props) {
   const { contents } = props;
-  const original = contents.original || { steps: [] };
+  const original = contents.original || { strings: {} };
   const translation = contents.translation || original;
+  const fields = Object.keys(original.strings);
   return (
     <div>
       <h2>Tutorial</h2>
-      {original.steps && original.steps.map((step, key) =>
+      {fields.map(field =>
         (
           <TranslationField
-            key={key}
+            key={field}
             isMarkdown={true}
-            translationKey={`steps.${key}.content`}
-            original={step.content}
-            translation={translation.steps[key].content}
+            translationKey={field}
+            original={original.strings[field]}
+            translation={translation.strings[field]}
           >
-            Step {key}
+            {field}
           </TranslationField>
         )
       )}
