@@ -9,15 +9,6 @@ import * as contentsActions from '../ducks/resource';
 import isElementTranslatable from '../helpers/isElementTranslatable';
 
 class ProjectContentsContainer extends Component {
-  static getTextFromPath(resource, path) {
-    path = path.split('.');
-    let text = resource;
-    while (path.length) {
-      text = text[path[0]];
-      path.shift();
-    }
-    return text;
-  }
 
   constructor() {
     super();
@@ -80,8 +71,8 @@ class ProjectContentsContainer extends Component {
           fieldText = original.strings[field][subfield];
           translationText = translation.strings[field][subfield];
         } else {
-          fieldText = ProjectContentsContainer.getTextFromPath(original.strings, field);
-          translationText = ProjectContentsContainer.getTextFromPath(translation.strings, field);
+          fieldText = original.strings[field];
+          translationText = translation.strings[field];
         }
         this.setState({
           field,
