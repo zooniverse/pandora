@@ -137,9 +137,14 @@ function selectTranslation(original, translations, type, language) {
   };
 }
 
-function updateTranslation(translation, field, value) {
+function updateTranslation(original, translation, updatedField, value) {
   return (dispatch) => {
-    const changes = { [`strings.${field}`]: value };
+    const strings = {};
+    Object.keys(original.strings).forEach((field) => {
+      strings[field] = translation.strings[field] || original.strings[field];
+    });
+    strings[updatedField] = value;
+    const changes = { strings };
     translation.update(changes);
     dispatch({
       type: UPDATE_TRANSLATION,

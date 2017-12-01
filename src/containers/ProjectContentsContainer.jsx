@@ -9,15 +9,6 @@ import * as contentsActions from '../ducks/resource';
 import isElementTranslatable from '../helpers/isElementTranslatable';
 
 class ProjectContentsContainer extends Component {
-  static getTextFromPath(resource, path) {
-    path = path.split('.');
-    let text = resource;
-    while (path.length) {
-      text = text[path[0]];
-      path.shift();
-    }
-    return text;
-  }
 
   constructor() {
     super();
@@ -80,8 +71,8 @@ class ProjectContentsContainer extends Component {
           fieldText = original.strings[field][subfield];
           translationText = translation.strings[field][subfield];
         } else {
-          fieldText = ProjectContentsContainer.getTextFromPath(original.strings, field);
-          translationText = ProjectContentsContainer.getTextFromPath(translation.strings, field);
+          fieldText = original.strings[field];
+          translationText = translation.strings[field];
         }
         this.setState({
           field,
@@ -101,13 +92,14 @@ class ProjectContentsContainer extends Component {
     event.preventDefault();
     const { field, subfield, translationText } = this.state;
     const { actions, resource } = this.props;
+    const original = resource.original;
     const translation = resource.translation;
     if (subfield && subfield.length) {
       const changes = translation[field];
       changes[subfield] = translationText;
-      actions.updateTranslation(translation, field, changes);
+      actions.updateTranslation(original, translation, field, changes);
     } else {
-      actions.updateTranslation(translation, field, translationText);
+      actions.updateTranslation(original, translation, field, translationText);
     }
     this.closeModal();
   }
