@@ -92,13 +92,14 @@ class ProjectContentsContainer extends Component {
     event.preventDefault();
     const { field, subfield, translationText } = this.state;
     const { actions, resource } = this.props;
+    const original = resource.original;
     const translation = resource.translation;
     if (subfield && subfield.length) {
       const changes = translation[field];
       changes[subfield] = translationText;
-      actions.updateTranslation(translation, field, changes);
+      actions.updateTranslation(original, translation, field, changes);
     } else {
-      actions.updateTranslation(translation, field, translationText);
+      actions.updateTranslation(original, translation, field, translationText);
     }
     this.closeModal();
   }
