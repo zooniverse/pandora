@@ -5,8 +5,8 @@ import TranslationField from './TranslationField';
 function WorkflowContents(props) {
   const { contents } = props;
   const original = contents.original || { strings: {} };
-  const translation = contents.translation || { strings: {} };
-  const keys = original.strings.tasks ? Object.keys(original.strings.tasks) : [];
+  const translation = contents.translation || original;
+  const keys = original.strings ? Object.keys(original.strings) : [];
   return (
     <div>
       <h2>Workflow Contents</h2>
@@ -15,8 +15,7 @@ function WorkflowContents(props) {
         (
           <TranslationField
             key={key}
-            translationKey="strings"
-            translationSubkey={key}
+            translationKey={key}
             original={original.strings[key]}
             translation={translation.strings[key]}
           >
