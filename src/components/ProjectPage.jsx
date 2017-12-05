@@ -1,18 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TranslationField from './TranslationField';
 
 function ProjectPage(props) {
   const { contents } = props;
-  const page = contents.original || {};
+  const original = contents.original.strings || {};
+  const translation = contents.translation.strings || original;
   return (
     <div>
       <h2>Project Page</h2>
-      <dl>
-        <dt>title</dt>
-        <dd>{page.title}</dd>
-        <dt>content</dt>
-        <dd>{page.content}</dd>
-      </dl>
+      <TranslationField
+        isMarkdown={false}
+        translationKey="title"
+        original={original.title}
+        translation={translation.title}
+      >
+        Title
+      </TranslationField>
+      <TranslationField
+        isMarkdown={true}
+        translationKey="content"
+        original={original.content}
+        translation={translation.content}
+      >
+        Content
+      </TranslationField>
     </div>
   );
 }
