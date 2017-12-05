@@ -75,7 +75,7 @@ function fetchTranslations(translated_id, type, project, language) {
     .then((resources) => {
       const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
-      if (translations.length && language) {
+      if (language) {
         dispatch(selectTranslation(original, translations, type, language));
       }
       dispatch({
