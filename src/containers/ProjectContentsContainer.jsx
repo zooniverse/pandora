@@ -23,7 +23,8 @@ class ProjectContentsContainer extends Component {
       subfield: '',
       modalOpen: false,
       supportsMarkdown: false,
-      translationText: ''
+      translationText: '',
+      previewing: true
     };
   }
 
@@ -54,6 +55,7 @@ class ProjectContentsContainer extends Component {
 
   handleChange(event) {
     this.setState({
+      previewing: false,
       translationText: event.target.value
     });
   }
@@ -79,6 +81,7 @@ class ProjectContentsContainer extends Component {
           subfield,
           fieldText,
           modalOpen: true,
+          previewing: true,
           supportsMarkdown,
           translationText
         });
@@ -113,7 +116,7 @@ class ProjectContentsContainer extends Component {
           name={field}
           onChange={this.handleChange}
           placeholder="Translate some text"
-          previewing={true}
+          previewing={this.state.previewing}
           value={translationText}
         />
       );
