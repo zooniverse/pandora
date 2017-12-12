@@ -75,13 +75,13 @@ function fetchTranslations(translated_id, type, project, language) {
     .then((resources) => {
       const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
-      if (language) {
-        dispatch(selectTranslation(original, translations, type, language));
-      }
       dispatch({
         type: FETCH_TRANSLATIONS_SUCCESS,
         payload: { original, translations, loading: false }
       });
+      if (language) {
+        dispatch(selectTranslation(original, translations, type, language));
+      }
     })
     .catch((error) => {
       dispatch(handleError(error));
@@ -129,6 +129,7 @@ function selectTranslation(original, translations, type, language) {
       dispatch({
         type: SELECT_TRANSLATION,
         resource_type: type,
+        language: language,
         payload: { translation }
       });
     } else {
