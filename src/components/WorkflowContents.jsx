@@ -11,7 +11,9 @@ function WorkflowContents(props) {
     <div>
       <h2>Workflow Contents</h2>
       <p>Language: {translation.language}</p>
-      {keys.map(key =>
+      {keys
+        .sort((a, b) => a.localeCompare(b))
+        .map(key =>
         (
           <TranslationField
             key={key}
