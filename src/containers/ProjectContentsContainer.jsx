@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { MarkdownEditor } from 'markdownz';
+import { Markdown, MarkdownEditor } from 'markdownz';
 import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
 import { DefaultButton } from 'pui-react-buttons';
 import * as contentsActions from '../ducks/resource';
@@ -135,16 +135,24 @@ class ProjectContentsContainer extends Component {
 
   render() {
     const { project, resource } = this.props;
+    const { fieldText, modalOpen, supportsMarkdown } = this.state;
     return (
       <div>
         <BaseModal
           acquireFocus={false}
-          show={this.state.modalOpen}
+          show={modalOpen}
           onHide={this.closeModal}
         >
           <ModalBody>
             <h2>Original</h2>
-            <p>{this.state.fieldText}</p>
+            {supportsMarkdown ?
+              <Markdown>
+                {fieldText}
+              </Markdown> :
+              <p>
+                {fieldText}
+              </p>
+            }
             <h2>Your translation</h2>
             {this.renderInput()}
             <DefaultButton onClick={this.handleSubmit}>
