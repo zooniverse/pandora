@@ -24,7 +24,7 @@ class ProjectContentsContainer extends Component {
       modalOpen: false,
       supportsMarkdown: false,
       translationText: '',
-      previewing: true
+      previewing: false
     };
   }
 
@@ -81,7 +81,7 @@ class ProjectContentsContainer extends Component {
           subfield,
           fieldText,
           modalOpen: true,
-          previewing: true,
+          previewing: false,
           supportsMarkdown,
           translationText
         });
