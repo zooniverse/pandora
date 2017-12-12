@@ -161,7 +161,7 @@ function fetchPages(project) {
     dispatch({
       type: FETCH_PAGES
     });
-    project.get('pages', { language: project.primary_language })
+    project.get('pages')
     .then((pages) => {
       dispatch({
         type: FETCH_PAGES_SUCCESS,

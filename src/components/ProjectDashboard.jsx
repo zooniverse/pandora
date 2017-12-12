@@ -70,7 +70,7 @@ function ProjectDashboard(props) {
           <h3>Pages</h3>
           <ul>
             {props.pages
-              .filter(page => (page.language === project.primary_language))
+              .filter(page => page.content)
               .map(page =>
                 (
                   <li key={page.id}>
