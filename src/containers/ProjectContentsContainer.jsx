@@ -144,20 +144,24 @@ class ProjectContentsContainer extends Component {
           onHide={this.closeModal}
         >
           <ModalBody>
-            <h2>Original</h2>
-            {supportsMarkdown ?
-              <Markdown>
-                {fieldText}
-              </Markdown> :
-              <p>
-                {fieldText}
-              </p>
-            }
-            <h2>Your translation</h2>
-            {this.renderInput()}
-            <DefaultButton onClick={this.handleSubmit}>
-              Submit
-            </DefaultButton>
+          <div>
+              <h2>Original</h2>
+              {supportsMarkdown ?
+                <Markdown>
+                  {fieldText}
+                </Markdown> :
+                <p>
+                  {fieldText}
+                </p>
+              }
+            </div>
+            <div>
+              <h2>Your translation</h2>
+              {this.renderInput()}
+              <DefaultButton onClick={this.handleSubmit}>
+                Submit
+              </DefaultButton>
+            </div>
           </ModalBody>
           <ModalFooter>
             <DefaultButton onClick={this.closeModal}>
