@@ -1,2 +1,13 @@
+.editor-area
+  textarea
+    width: 90%
+
 .markdown-editor-preview
   display none
+  
+[data-previewing=true]
+  .editor-area
+    .markdown-editor-preview
+      display: block
+    textarea
+      display: none
