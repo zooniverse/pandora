@@ -144,7 +144,7 @@ class ProjectContentsContainer extends Component {
           onHide={this.closeModal}
         >
           <ModalBody>
-          <div>
+          <div className="original">
               <h2>Original</h2>
               {supportsMarkdown ?
                 <Markdown>
@@ -155,7 +155,7 @@ class ProjectContentsContainer extends Component {
                 </p>
               }
             </div>
-            <div>
+            <div className="translation">
               <h2>Your translation</h2>
               {this.renderInput()}
               <DefaultButton onClick={this.handleSubmit}>
