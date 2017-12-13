@@ -141,6 +141,7 @@ class ProjectContentsContainer extends Component {
         <BaseModal
           acquireFocus={false}
           show={modalOpen}
+          title={this.state.field}
           onHide={this.closeModal}
         >
           <ModalBody>
