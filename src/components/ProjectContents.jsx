@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TranslationField from './TranslationField';
 
 function ProjectContents(props) {
-  const { contents } = props;
+  const { contents, language } = props;
   const original = contents.original || { strings: {} };
   const translation = contents.translation || { strings: {} };
   return (
@@ -11,6 +11,7 @@ function ProjectContents(props) {
       <h2>Project</h2>
       <TranslationField
         translationKey="title"
+        language={language}
         original={original.strings.title}
         translation={translation.strings.title}
       >
@@ -18,6 +19,7 @@ function ProjectContents(props) {
       </TranslationField>
       <TranslationField
         translationKey="display_name"
+        language={language}
         original={original.strings.display_name}
         translation={translation.strings.display_name}
       >
@@ -25,6 +27,7 @@ function ProjectContents(props) {
       </TranslationField>
       <TranslationField
         translationKey="description"
+        language={language}
         original={original.strings.description}
         translation={translation.strings.description}
       >
@@ -33,6 +36,7 @@ function ProjectContents(props) {
       <TranslationField
         isMarkdown={true}
         translationKey="introduction"
+        language={language}
         original={original.strings.introduction}
         translation={translation.strings.introduction}
       >
@@ -40,6 +44,7 @@ function ProjectContents(props) {
       </TranslationField>
       <TranslationField
         translationKey="researcher_quote"
+        language={language}
         original={original.strings.researcher_quote}
         translation={translation.strings.researcher_quote}
       >
@@ -53,6 +58,10 @@ ProjectContents.propTypes = {
   contents: PropTypes.shape({
     original: PropTypes.object,
     translation: PropTypes.object
+  }).isRequired,
+  language: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
   }).isRequired
 };
 export default ProjectContents;

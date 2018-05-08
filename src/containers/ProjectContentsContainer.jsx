@@ -109,16 +109,19 @@ class ProjectContentsContainer extends Component {
 
   renderInput() {
     const { field, supportsMarkdown, translationText } = this.state;
+    const languageCode = this.props.language ? this.props.language.value : undefined;
     if (supportsMarkdown) {
       return (
-        <MarkdownEditor
-          autoFocus
-          name={field}
-          onChange={this.handleChange}
-          placeholder="Translate some text"
-          previewing={this.state.previewing}
-          value={translationText}
-        />
+        <div lang={languageCode}>
+          <MarkdownEditor
+            autoFocus
+            name={field}
+            onChange={this.handleChange}
+            placeholder="Translate some text"
+            previewing={this.state.previewing}
+            value={translationText}
+          />
+        </div>
       );
     } else {
       return (
@@ -128,13 +131,14 @@ class ProjectContentsContainer extends Component {
           placeholder="Translate some text"
           type="text"
           value={translationText}
+          lang={languageCode}
         />
       );
     }
   }
 
   render() {
-    const { project, resource } = this.props;
+    const { language, project, resource } = this.props;
     const { fieldText, modalOpen, supportsMarkdown } = this.state;
     return (
       <div>
@@ -171,7 +175,7 @@ class ProjectContentsContainer extends Component {
           </ModalFooter>
         </BaseModal>
         <div onClick={this.handleClick}>
-          {React.cloneElement(this.props.children, { contents: resource, project })}
+          {React.cloneElement(this.props.children, { contents: resource, language, project })}
         </div>
       </div>
     );

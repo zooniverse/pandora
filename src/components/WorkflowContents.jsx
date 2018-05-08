@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TranslationField from './TranslationField';
 
 function WorkflowContents(props) {
-  const { contents } = props;
+  const { contents, language } = props;
   const original = contents.original || { strings: {} };
   const translation = contents.translation || original;
   const keys = original.strings ? Object.keys(original.strings) : [];
@@ -18,6 +18,7 @@ function WorkflowContents(props) {
           <TranslationField
             key={key}
             translationKey={key}
+            language={language}
             original={original.strings[key]}
             translation={translation.strings[key]}
           >
@@ -33,6 +34,10 @@ WorkflowContents.propTypes = {
   contents: PropTypes.PropTypes.shape({
     original: PropTypes.object,
     translation: PropTypes.object
+  }).isRequired,
+  language: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
   }).isRequired
 };
 
