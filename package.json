@@ -43,6 +43,7 @@
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.24.1",
     "image-webpack-loader": "^3.0.0",
+    "jsdom": "^11.10.0",
     "json-loader": "^0.5.4",
     "mocha": "^3.2.0",
     "nib": "^1.1.2",
@@ -68,8 +69,8 @@
   "repository": "https://github.com/zooniverse/pandora",
   "scripts": {
     "start": "BABEL_ENV=development webpack-dashboard -p 3001 -- babel-node server.js",
-    "test": "NODE_ENV=development BABEL_ENV=test mocha $(find test -name *.test.jsx) --compilers js:babel-core/register || true",
-    "test-travis": "NODE_ENV=development BABEL_ENV=test mocha $(find test -name *.test.jsx) --compilers js:babel-core/register",
+    "test": "NODE_ENV=development BABEL_ENV=test mocha test/setup.js $(find test -name *.test.jsx) --compilers js:babel-core/register || true",
+    "test-travis": "NODE_ENV=development BABEL_ENV=test mocha test/setup.js $(find test -name *.test.jsx) --compilers js:babel-core/register",
     "eslint": "eslint .",
     "build": "BABEL_ENV=production webpack --config webpack.production.config.js -p",
     "deploy": "NODE_ENV=production npm run build && publisssh dist zooniverse-static/pandora.zooniverse.org"
