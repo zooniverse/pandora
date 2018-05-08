@@ -14,16 +14,27 @@ const resources = {
 };
 
 function Resource(props) {
-  const { contents } = props;
+  const { contents, language } = props;
   const ResourceViewer = resources[props.params.resource_type];
-  return (contents.translation && <ResourceViewer contents={contents} />);
+  return (contents.translation && <ResourceViewer contents={contents} language={language} />);
 }
 
 Resource.propTypes = {
   contents: PropTypes.object.isRequired,
+  language: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
+  }).isRequired,
   params: PropTypes.shape({
     resource_type: PropTypes.string
   }).isRequired
 };
+
+Resource.defaultProps = {
+  language: {
+    label: 'English',
+    value: 'en'
+  }
+}
 
 export default Resource;

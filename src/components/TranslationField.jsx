@@ -4,15 +4,20 @@ import { Markdown } from 'markdownz';
 import FormEdit from 'grommet/components/icons/base/FormEdit';
 
 function TranslationField(props) {
+  const languageCode = props.language ? props.language.value : undefined;
   const original = props.isMarkdown ? <Markdown>{props.original}</Markdown> : <p>{props.original}</p>;
-  const translation = props.isMarkdown ? <Markdown>{props.translation}</Markdown> : <p>{props.translation}</p>;
+  const translation = props.isMarkdown ?
+    <Markdown>{props.translation}</Markdown> :
+    <p>{props.translation}</p>;
   return (
     <div className="field-editor">
       <h3>
         {props.children}
       </h3>
       { original }
-      { translation }
+      <div lang={languageCode}>
+        { translation }
+      </div>
       {(props.original.length > 0) &&
         <button
           data-markdown={props.isMarkdown}
