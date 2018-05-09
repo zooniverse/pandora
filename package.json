@@ -4,7 +4,7 @@
   "dependencies": {
     "history": "^4.6.1",
     "markdownz": "^7.2.1",
-    "panoptes-client": "^2.9",
+    "panoptes-client": "^2.9.7",
     "prop-types": "^15.5.10",
     "pui-react-buttons": "^8.3.1",
     "pui-react-iconography": "^8.3.1",
