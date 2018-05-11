@@ -6,6 +6,7 @@ import LanguageSelector from '../components/LanguageSelector';
 import { fetchProject, addLanguage, setLanguage, fetchLanguages } from '../ducks/project';
 import { createTranslation } from '../ducks/resource';
 import languages from '../constants/languages';
+import config from '../constants/config';
 
 class ProjectDashboardContainer extends Component {
   constructor() {
@@ -42,6 +43,17 @@ class ProjectDashboardContainer extends Component {
       <div>
         <h2>Project Dashboard</h2>
         <LanguageSelector languages={projectLanguages} value={language} onChange={this.onChangeLanguage} />
+        {language &&
+          <p className="preview">
+            <a
+              className="grommetux-button"
+              target="preview"
+              href={`${config.projectHost}/projects/${project.slug}?language=${language.value}`}
+            >
+              Preview your translation
+            </a>
+          </p>
+        }
         {project.primary_language &&
           React.cloneElement(
             this.props.children,
