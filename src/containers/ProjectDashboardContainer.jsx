@@ -19,8 +19,13 @@ class ProjectDashboardContainer extends Component {
 
   componentDidMount() {
     const { actions, params } = this.props;
+    const { query } = this.props.location;
     actions.fetchProject(params.project_id);
     actions.fetchLanguages(params.project_id);
+    if (query.language) {
+      const language = languages.filter(option => option.value === query.language)[0];
+      actions.setLanguage(language);
+    }
   }
 
   onChangeLanguage(option) {
@@ -84,6 +89,9 @@ const mapDispatchToProps = dispatch => ({
 ProjectDashboardContainer.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
   children: PropTypes.node,
+  location: PropTypes.shape({
+    query: PropTypes.object
+  }),
   project: PropTypes.shape({
     data: PropTypes.object,
     fieldguides: PropTypes.array,
@@ -103,6 +111,7 @@ ProjectDashboardContainer.propTypes = {
 
 ProjectDashboardContainer.defaultProps = {
   children: null,
+  location: {},
   project: {
     data: null,
     language: null,
