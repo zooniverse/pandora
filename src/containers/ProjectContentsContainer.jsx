@@ -125,14 +125,17 @@ class ProjectContentsContainer extends Component {
       );
     } else {
       return (
-        <input
-          autoFocus
-          onChange={this.handleChange}
-          placeholder="Translate some text"
-          type="text"
-          value={translationText}
-          lang={languageCode}
-        />
+        <div lang={languageCode}>
+          <textarea
+            autoFocus
+            onChange={this.handleChange}
+            placeholder="Translate some text"
+            cols={35}
+            rows={4}
+          >
+            {translationText}
+          </textarea>
+        </div>
       );
     }
   }
