@@ -6,7 +6,7 @@
 import React from 'react';
 import assert from 'assert';
 import { shallow } from 'enzyme';
-import App from '../../src/components/App';
+import { App } from '../../src/components/App';
 import AuthContainer from '../../src/containers/AuthContainer';
 
 describe('App', () => {
