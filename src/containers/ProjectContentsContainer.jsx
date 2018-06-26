@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Markdown, MarkdownEditor } from 'markdownz';
 import Layer from 'grommet/components/Layer';
-import { DefaultButton } from 'pui-react-buttons';
+import Button from 'grommet/components/Button';
 import * as contentsActions from '../ducks/resource';
 import isElementTranslatable from '../helpers/isElementTranslatable';
 
@@ -162,9 +162,10 @@ class ProjectContentsContainer extends Component {
               <div className="translation">
                 <h2>Your translation</h2>
                 {this.renderInput()}
-                <DefaultButton onClick={this.handleSubmit}>
-                  Submit
-                </DefaultButton>
+                <Button
+                  label="Save"
+                  onClick={this.handleSubmit}
+                />
               </div>
             </div>
           </Layer>

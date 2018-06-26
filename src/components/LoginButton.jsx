@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DefaultButton } from 'pui-react-buttons';
+import Button from 'grommet/components/Button';
 
 const LoginButton = ({ login }) =>
   (
-    <DefaultButton type="submit" onClick={login}>Login</DefaultButton>
+    <Button
+      label="Login"
+      type="submit"
+      onClick={login}
+    />
   );
 
 LoginButton.propTypes = {
