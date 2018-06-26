@@ -10,7 +10,6 @@
     "pui-react-buttons": "^8.3.1",
     "pui-react-iconography": "^8.3.3",
     "pui-react-mixins": "^8.3.1",
-    "pui-react-modals": "^8.3.1",
     "react": "^15.5",
     "react-dom": "^15.5",
     "react-redux": "^4.4.6",
