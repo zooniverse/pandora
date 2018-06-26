@@ -2,6 +2,7 @@
   "name": "Pandora",
   "author": "Zooniverse",
   "dependencies": {
+    "grommet": "^1.11.0",
     "history": "^4.6.1",
     "markdownz": "^7.6.1",
     "panoptes-client": "^2.9.7",
