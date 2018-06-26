@@ -2,21 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import GrommetApp from 'grommet/components/App';
+import Header from 'grommet/components/Header';
+import Section from 'grommet/components/Section';
 
 import AuthContainer from '../containers/AuthContainer';
 
 function App(props) {
   return (
-    <div>
-      <header className="site-header">
+    <GrommetApp>
+      <Header className="site-header">
         <h1 className="title">Pandora</h1>
         <Link to="/about" className="link">About</Link>
         <AuthContainer />
-      </header>
-      <section className="content-section">
+      </Header>
+      <Section className="content-section">
         {props.user ? props.children : <p>You must be logged in to edit translations.</p>}
-      </section>
-    </div>
+      </Section>
+    </GrommetApp>
   );
 }
 
