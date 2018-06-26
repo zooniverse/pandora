@@ -11,7 +11,7 @@ function App(props) {
   return (
     <GrommetApp>
       <Header className="site-header">
-        <h1 className="title">Pandora</h1>
+        <h1 className="title">Translate your projects</h1>
         <AuthContainer />
       </Header>
       <Section className="content-section">
