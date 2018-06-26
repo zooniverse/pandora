@@ -1,25 +1,30 @@
-.talk-comment-buttons-container
-  button
-    background: white
-    border: 1px solid #555
-    font-size: .8em
-    line-height: 1.1
-    padding: .4em
+.modal-body
+  min-width: 60vw
 
-.editor-area
-  height: 90%
-  overflow: scroll
+  .talk-comment-buttons-container
+    white-space: nowrap
 
-  textarea
-    width: 90%
-    height: 100%
+    button:not(grommetux-button):not(.grommetux-button--box)
+      background: white
+      font-size: .8em
+      line-height: 1.1
+      min-width: 0
+      padding: .2em
 
-.markdown-editor-preview
-  display none
-  
-[data-previewing=true]
   .editor-area
-    .markdown-editor-preview
-      display: block
+    height: 90%
+    overflow: scroll
+
     textarea
-      display: none
+      width: 100%
+      height: 100%
+
+  .markdown-editor-preview
+    display none
+  
+  [data-previewing=true]
+    .editor-area
+      .markdown-editor-preview
+        display: block
+      textarea
+        display: none
