@@ -11,6 +11,13 @@ function TranslationField(props) {
   const translation = props.isMarkdown ?
     <Markdown>{props.translation}</Markdown> :
     <p>{props.translation}</p>;
+
+  function onClick(e) {
+    props.isMarkdown && e.target.setAttribute('data-markdown', props.isMarkdown);
+    props.translationKey && e.target.setAttribute('data-translation-key', props.translationKey);
+    props.translationSubkey && e.target.setAttribute('data-translation-subkey', props.translationSubkey);
+  }
+
   return (
     <div className="field-editor">
       <Heading
@@ -29,7 +36,7 @@ function TranslationField(props) {
           data-translation-subkey={props.translationSubkey}
           icon={<FormEdit size="small" />}
           label="Translate"
-          onClick={() => true}
+          onClick={onClick}
         />
       }
     </div>
