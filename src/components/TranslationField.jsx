@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Markdown } from 'markdownz';
 import FormEdit from 'grommet/components/icons/base/FormEdit';
+import Heading from 'grommet/components/Heading';
+import Button from 'grommet/components/Button';
 
 function TranslationField(props) {
   const languageCode = props.language ? props.language.value : undefined;
@@ -11,22 +13,24 @@ function TranslationField(props) {
     <p>{props.translation}</p>;
   return (
     <div className="field-editor">
-      <h3>
+      <Heading
+        tag="h3"
+      >
         {props.children}
-      </h3>
+      </Heading>
       { original }
       <div lang={languageCode}>
         { translation }
       </div>
       {(props.original.length > 0) &&
-        <button
+        <Button
           data-markdown={props.isMarkdown}
           data-translation-key={props.translationKey}
           data-translation-subkey={props.translationSubkey}
-        >
-          <FormEdit size="xsmall" />
-          Translate
-        </button>
+          icon={<FormEdit size="small" />}
+          label="Translate"
+          onClick={() => true}
+        />
       }
     </div>
   );
