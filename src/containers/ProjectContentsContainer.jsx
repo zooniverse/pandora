@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Markdown, MarkdownEditor } from 'markdownz';
-import { BaseModal, ModalBody, ModalFooter } from 'pui-react-modals';
-import { DefaultButton } from 'pui-react-buttons';
+import Layer from 'grommet/components/Layer';
+import Button from 'grommet/components/Button';
 import * as contentsActions from '../ducks/resource';
 import isElementTranslatable from '../helpers/isElementTranslatable';
 
@@ -145,38 +145,31 @@ class ProjectContentsContainer extends Component {
     const { fieldText, modalOpen, supportsMarkdown } = this.state;
     return (
       <div>
-        <BaseModal
-          acquireFocus={false}
-          show={modalOpen}
-          title={this.state.field}
-          onHide={this.closeModal}
-        >
-          <ModalBody>
-          <div className="original">
-              <h2>Original</h2>
-              {supportsMarkdown ?
-                <Markdown>
-                  {fieldText}
-                </Markdown> :
-                <p>
-                  {fieldText}
-                </p>
-              }
+        {modalOpen &&
+          <Layer onClose={this.closeModal} closer={true}>
+            <div className="modal-body">
+              <div className="original">
+                <h2>Original</h2>
+                {supportsMarkdown ?
+                  <Markdown>
+                    {fieldText}
+                  </Markdown> :
+                  <p>
+                    {fieldText}
+                  </p>
+                }
+              </div>
+              <div className="translation">
+                <h2>Your translation</h2>
+                {this.renderInput()}
+                <Button
+                  label="Save"
+                  onClick={this.handleSubmit}
+                />
+              </div>
             </div>
-            <div className="translation">
-              <h2>Your translation</h2>
-              {this.renderInput()}
-              <DefaultButton onClick={this.handleSubmit}>
-                Submit
-              </DefaultButton>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <DefaultButton onClick={this.closeModal}>
-              Close
-            </DefaultButton>
-          </ModalFooter>
-        </BaseModal>
+          </Layer>
+        }
         <div onClick={this.handleClick}>
           {React.cloneElement(this.props.children, { contents: resource, language, project })}
         </div>
