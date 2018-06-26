@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import oauth from 'panoptes-client/lib/oauth';
 
 import App from './components/App';
-import About from './components/About';
 import config from './constants/config';
 import configureStore from './store';
 import ProjectContentsContainer from './containers/ProjectContentsContainer';
@@ -33,7 +32,6 @@ oauth.init(config.panoptesAppId)
                 <Route path=":resource_id" component={Resource} />
               </Route>
             </Route>
-            <Route path="/about" component={About} />
           </Route>
         </Router>
       </Provider>),

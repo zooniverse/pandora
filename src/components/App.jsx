@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import GrommetApp from 'grommet/components/App';
 import Header from 'grommet/components/Header';
@@ -13,7 +12,6 @@ function App(props) {
     <GrommetApp>
       <Header className="site-header">
         <h1 className="title">Pandora</h1>
-        <Link to="/about" className="link">About</Link>
         <AuthContainer />
       </Header>
       <Section className="content-section">
