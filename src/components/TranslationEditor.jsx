@@ -5,6 +5,10 @@ import Layer from 'grommet/components/Layer';
 import { Markdown, MarkdownEditor } from 'markdownz';
 
 function TranslationEditor(props) {
+  let textInput;
+  function onSave(e) {
+    props.onSave(e, textInput.value)
+  }
   return (
     <Layer onClose={props.onClose} closer={true}>
       <div className="modal-body">
@@ -24,6 +28,7 @@ function TranslationEditor(props) {
           <div lang={props.language.value}>
             {props.isMarkdown ?
               <MarkdownEditor
+                ref={(component) => textInput = component}
                 autoFocus
                 name={props.translationKey}
                 onChange={props.onChange}
@@ -31,18 +36,18 @@ function TranslationEditor(props) {
                 value={props.translation}
               /> :
               <textarea
+                ref={(node) => textInput = node}
                 autoFocus
                 onChange={props.onChange}
                 cols={35}
                 rows={4}
-              >
-                {props.translation}
-              </textarea>
+                value={props.translation}
+              />
             }
           </div>
           <Button
             label="Save"
-            onClick={props.onSave}
+            onClick={onSave}
           />
         </div>
       </div>
