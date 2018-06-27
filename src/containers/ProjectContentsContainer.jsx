@@ -29,13 +29,7 @@ class ProjectContentsContainer extends Component {
 
   render() {
     const { language, project, resource } = this.props;
-    return (
-      <div>
-        <div onClick={this.handleClick}>
-          {React.cloneElement(this.props.children, { contents: resource, language, project })}
-        </div>
-      </div>
-    );
+    return React.cloneElement(this.props.children, { contents: resource, language, project });
   }
 }
 
