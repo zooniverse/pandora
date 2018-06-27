@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Markdown, MarkdownEditor } from 'markdownz';
-import Layer from 'grommet/components/Layer';
-import Button from 'grommet/components/Button';
 import * as contentsActions from '../ducks/resource';
 import isElementTranslatable from '../helpers/isElementTranslatable';
+import TranslationEditor from '../components/TranslationEditor';
 
 class ProjectContentsContainer extends Component {
 
@@ -16,7 +14,6 @@ class ProjectContentsContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.renderInput = this.renderInput.bind(this);
     this.state = {
       field: '',
       fieldText: '',
@@ -71,7 +68,6 @@ class ProjectContentsContainer extends Component {
           field,
           fieldText,
           modalOpen: true,
-          previewing: false,
           supportsMarkdown,
           translationText
         });
@@ -91,68 +87,22 @@ class ProjectContentsContainer extends Component {
     this.closeModal();
   }
 
-  renderInput() {
-    const { field, supportsMarkdown, translationText } = this.state;
-    const languageCode = this.props.language ? this.props.language.value : undefined;
-    if (supportsMarkdown) {
-      return (
-        <div lang={languageCode}>
-          <MarkdownEditor
-            autoFocus
-            name={field}
-            onChange={this.handleChange}
-            placeholder="Translate some text"
-            previewing={this.state.previewing}
-            value={translationText}
-          />
-        </div>
-      );
-    } else {
-      return (
-        <div lang={languageCode}>
-          <textarea
-            autoFocus
-            onChange={this.handleChange}
-            placeholder="Translate some text"
-            cols={35}
-            rows={4}
-          >
-            {translationText}
-          </textarea>
-        </div>
-      );
-    }
-  }
-
   render() {
     const { language, project, resource } = this.props;
-    const { fieldText, modalOpen, supportsMarkdown } = this.state;
+    const { field, fieldText, translationText, modalOpen, supportsMarkdown } = this.state;
     return (
       <div>
         {modalOpen &&
-          <Layer onClose={this.closeModal} closer={true}>
-            <div className="modal-body">
-              <div className="original">
-                <h2>Original</h2>
-                {supportsMarkdown ?
-                  <Markdown>
-                    {fieldText}
-                  </Markdown> :
-                  <p>
-                    {fieldText}
-                  </p>
-                }
-              </div>
-              <div className="translation">
-                <h2>Your translation</h2>
-                {this.renderInput()}
-                <Button
-                  label="Save"
-                  onClick={this.handleSubmit}
-                />
-              </div>
-            </div>
-          </Layer>
+          <TranslationEditor
+            isMarkdown={supportsMarkdown}
+            language={this.props.language}
+            onChange={this.handleChange}
+            onClose={this.closeModal}
+            onSave={this.handleSubmit}
+            original={fieldText}
+            translation={translationText}
+            translationKey={field}
+          />
         }
         <div onClick={this.handleClick}>
           {React.cloneElement(this.props.children, { contents: resource, language, project })}
