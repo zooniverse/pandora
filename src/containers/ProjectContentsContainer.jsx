@@ -20,7 +20,6 @@ class ProjectContentsContainer extends Component {
     this.state = {
       field: '',
       fieldText: '',
-      subfield: '',
       modalOpen: false,
       supportsMarkdown: false,
       translationText: '',
@@ -63,22 +62,13 @@ class ProjectContentsContainer extends Component {
   handleClick(event) {
     if (isElementTranslatable(event.target)) {
       const field = event.target.getAttribute('data-translation-key');
-      const subfield = event.target.getAttribute('data-translation-subkey');
       const supportsMarkdown = event.target.getAttribute('data-markdown');
       const { original, translation } = this.props.resource;
       if (translation) {
-        let fieldText;
-        let translationText;
-        if (subfield && subfield.length) {
-          fieldText = original.strings[field][subfield];
-          translationText = translation.strings[field][subfield];
-        } else {
-          fieldText = original.strings[field];
-          translationText = translation.strings[field];
-        }
+        const fieldText = original.strings[field];
+        const translationText = translation.strings[field];
         this.setState({
           field,
-          subfield,
           fieldText,
           modalOpen: true,
           previewing: false,
@@ -93,17 +83,11 @@ class ProjectContentsContainer extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { field, subfield, translationText } = this.state;
+    const { field, translationText } = this.state;
     const { actions, resource } = this.props;
     const original = resource.original;
     const translation = resource.translation;
-    if (subfield && subfield.length) {
-      const changes = translation[field];
-      changes[subfield] = translationText;
-      actions.updateTranslation(original, translation, field, changes);
-    } else {
-      actions.updateTranslation(original, translation, field, translationText);
-    }
+    actions.updateTranslation(original, translation, field, translationText);
     this.closeModal();
   }
 

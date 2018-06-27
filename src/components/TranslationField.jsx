@@ -15,7 +15,6 @@ function TranslationField(props) {
   function onClick(e) {
     props.isMarkdown && e.target.setAttribute('data-markdown', props.isMarkdown);
     props.translationKey && e.target.setAttribute('data-translation-key', props.translationKey);
-    props.translationSubkey && e.target.setAttribute('data-translation-subkey', props.translationSubkey);
   }
 
   return (
@@ -33,7 +32,6 @@ function TranslationField(props) {
         <Button
           data-markdown={props.isMarkdown}
           data-translation-key={props.translationKey}
-          data-translation-subkey={props.translationSubkey}
           icon={<FormEdit size="small" />}
           label="Translate"
           onClick={onClick}
@@ -48,15 +46,13 @@ TranslationField.propTypes = {
   isMarkdown: PropTypes.bool,
   original: PropTypes.string,
   translation: PropTypes.string,
-  translationKey: PropTypes.string.isRequired,
-  translationSubkey: PropTypes.string
+  translationKey: PropTypes.string.isRequired
 };
 
 TranslationField.defaultProps = {
   isMarkdown: undefined,
   original: '',
-  translation: '',
-  translationSubkey: undefined
+  translation: ''
 };
 
 export default TranslationField;
