@@ -27,20 +27,6 @@ class ProjectContentsContainer extends Component {
     }
   }
 
-  closeModal() {
-    this.setState({ modalOpen: false });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    const { field, translationText } = this.state;
-    const { actions, resource } = this.props;
-    const original = resource.original;
-    const translation = resource.translation;
-    actions.updateTranslation(original, translation, field, translationText);
-    this.closeModal();
-  }
-
   render() {
     const { language, project, resource } = this.props;
     return (
