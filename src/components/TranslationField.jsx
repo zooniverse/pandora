@@ -55,7 +55,7 @@ class TranslationField extends React.Component {
             </Heading>
           </Box>
           <Box>
-            {(original.length > 0) &&
+            {(!editing && original.length > 0) &&
               <Button
                 fill={false}
                 icon={<FormEdit size="small" />}
@@ -65,23 +65,7 @@ class TranslationField extends React.Component {
             }
           </Box>
         </Box>
-        <Box
-          basis="full"
-          direction="row"
-        >
-          <Box
-            basis="1/2"
-          >
-            { originalFormatted }
-          </Box>
-          <Box
-            basis="1/2"
-            lang={languageCode}
-          >
-            { translationFormatted }
-          </Box>
-        </Box>
-        {editing &&
+        {editing ?
           <TranslationEditor
             isMarkdown={isMarkdown}
             language={language}
@@ -90,7 +74,23 @@ class TranslationField extends React.Component {
             original={original}
             translation={translation}
             translationKey={translationKey}
-          />
+          /> :
+          <Box
+            basis="full"
+            direction="row"
+          >
+            <Box
+              basis="1/2"
+            >
+              { originalFormatted }
+            </Box>
+            <Box
+              basis="1/2"
+              lang={languageCode}
+            >
+              { translationFormatted }
+            </Box>
+          </Box>
         }
       </Box>
     );
