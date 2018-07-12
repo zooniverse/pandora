@@ -21,6 +21,7 @@ function WorkflowContents(props) {
             language={language}
             original={original.strings[key]}
             translation={translation.strings[key]}
+            isMarkdown={true}
           >
             {key}
           </TranslationField>
