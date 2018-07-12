@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Markdown } from 'markdownz';
 import FormEdit from 'grommet/components/icons/base/FormEdit';
 import Heading from 'grommet/components/Heading';
+import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
+import Columns from 'grommet/components/Columns';
 import TranslationEditor from './TranslationEditor';
 
 class TranslationField extends React.Component {
@@ -38,23 +40,40 @@ class TranslationField extends React.Component {
     const translationFormatted = isMarkdown ? <Markdown>{translation}</Markdown> : <p>{translation}</p>;
 
     return (
-      <div className="field-editor">
-        <Heading
-          tag="h3"
+      <Box className="field-editor">
+        <Box
+          basis="full"
+          direction="row"
         >
-          {children}
-        </Heading>
-        { originalFormatted }
-        <div lang={languageCode}>
-          { translationFormatted }
-        </div>
-        {(original.length > 0) &&
-          <Button
-            icon={<FormEdit size="small" />}
-            label="Translate"
-            onClick={language ? this.edit.bind(this) : undefined}
-          />
-        }
+          <Box
+            basis="3/4"
+          >
+            <Heading
+              basis="3/4"
+              tag="h3"
+            >
+              {children}
+            </Heading>
+          </Box>
+          <Box>
+            {(original.length > 0) &&
+              <Button
+                fill={false}
+                icon={<FormEdit size="small" />}
+                label="Translate"
+                onClick={language ? this.edit.bind(this) : undefined}
+              />
+            }
+          </Box>
+        </Box>
+        <Columns>
+          <Box direction="row">
+            { originalFormatted }
+          </Box>
+          <Box direction="row" lang={languageCode}>
+            { translationFormatted }
+          </Box>
+        </Columns>
         {editing &&
           <TranslationEditor
             isMarkdown={isMarkdown}
@@ -66,7 +85,7 @@ class TranslationField extends React.Component {
             translationKey={translationKey}
           />
         }
-      </div>
+      </Box>
     );
   }
 }
