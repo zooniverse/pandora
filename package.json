@@ -70,6 +70,7 @@
     "test-travis": "NODE_ENV=development BABEL_ENV=test mocha test/setup.js $(find test -name *.test.jsx) --compilers js:babel-core/register",
     "eslint": "eslint .",
     "build": "BABEL_ENV=production webpack --config webpack.production.config.js -p",
-    "deploy": "NODE_ENV=production npm run build && publisssh dist zooniverse-static/pandora.zooniverse.org"
+    "deploy": "NODE_ENV=production npm run build && publisssh dist zooniverse-static/pandora.zooniverse.org",
+    "deploy-beta": "NODE_ENV=production npm run build && publisssh dist zooniverse-static/pandora.zooniverse.org/beta"
   }
 }
