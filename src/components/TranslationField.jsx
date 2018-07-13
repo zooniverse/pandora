@@ -5,7 +5,6 @@ import FormEdit from 'grommet/components/icons/base/FormEdit';
 import Heading from 'grommet/components/Heading';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import Columns from 'grommet/components/Columns';
 import TranslationEditor from './TranslationEditor';
 
 class TranslationField extends React.Component {
@@ -66,14 +65,22 @@ class TranslationField extends React.Component {
             }
           </Box>
         </Box>
-        <Columns>
-          <Box direction="row">
+        <Box
+          basis="full"
+          direction="row"
+        >
+          <Box
+            basis="1/2"
+          >
             { originalFormatted }
           </Box>
-          <Box direction="row" lang={languageCode}>
+          <Box
+            basis="1/2"
+            lang={languageCode}
+          >
             { translationFormatted }
           </Box>
-        </Columns>
+        </Box>
         {editing &&
           <TranslationEditor
             isMarkdown={isMarkdown}
