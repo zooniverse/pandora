@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Layer from 'grommet/components/Layer';
 import { Markdown, MarkdownEditor } from 'markdownz';
@@ -42,9 +43,15 @@ class TranslationEditor extends React.Component {
     const { translationText } = this.state;
     return (
       <Layer onClose={onClose} closer={true}>
-        <div className="modal-body">
-          <div className="original">
-            <h2>Original</h2>
+        <Box
+          basis="full"
+          className="modal-body"
+          direction="row"
+        >
+          <Box
+            basis="1/2"
+            className="original"
+          >
             {isMarkdown ?
               <Markdown>
                 {original}
@@ -53,33 +60,34 @@ class TranslationEditor extends React.Component {
                 {original}
               </p>
             }
-          </div>
-          <div className="translation">
-            <h2>Your translation</h2>
-            <div lang={language.value}>
-              {isMarkdown ?
-                <MarkdownEditor
-                  autoFocus
-                  name={translationKey}
-                  onChange={this.onChange.bind(this)}
-                  previewing={false}
-                  value={translationText}
-                /> :
-                <textarea
-                  autoFocus
-                  onChange={this.onChange.bind(this)}
-                  cols={35}
-                  rows={4}
-                  value={translationText}
-                />
-              }
-            </div>
+          </Box>
+          <Box
+            basis="1/2"
+            className="translation"
+            lang={language.value}
+          >
+            {isMarkdown ?
+              <MarkdownEditor
+                autoFocus
+                name={translationKey}
+                onChange={this.onChange.bind(this)}
+                previewing={false}
+                value={translationText}
+              /> :
+              <textarea
+                autoFocus
+                onChange={this.onChange.bind(this)}
+                cols={35}
+                rows={4}
+                value={translationText}
+              />
+            }
             <Button
               label="Save"
               onClick={this.save.bind(this)}
             />
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Layer>
     );
   }
