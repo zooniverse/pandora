@@ -1,5 +1,3 @@
-[![bitHound Score](https://www.bithound.io/github/Granze/react-starterify/badges/score.svg)](https://www.bithound.io/github/zooniverse/zoo-react-starterify/master)
-
 # Pandora
 
 _It unleashes translations on Panoptes._
