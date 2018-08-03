@@ -53,7 +53,15 @@ class LanguageSelector extends Component {
                     value={option.value}
                     onChange={this.onLanguageChange}
                   />
-                  <span className="grommetux-button">{option.label}</span>
+                  <span
+                    className={
+                      checked ?
+                      "grommetux-button grommetux-button--primary" :
+                      "grommetux-button"
+                    }
+                  >
+                    {option.label}
+                  </span>
                 </label>
               </li>
             );
