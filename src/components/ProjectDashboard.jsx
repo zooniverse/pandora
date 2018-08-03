@@ -25,7 +25,7 @@ function ProjectDashboard(props) {
   return (
     <div>
       <ProjectContentsContainer {...props}>
-        <ProjectContents />
+        {language ? <ProjectContents /> : <p>Select a language to start.</p>}
       </ProjectContentsContainer>
       { language &&
         <div>
