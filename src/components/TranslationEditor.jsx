@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import Layer from 'grommet/components/Layer';
 import { Markdown, MarkdownEditor } from 'markdownz';
 import * as contentsActions from '../ducks/resource';
 
@@ -42,53 +41,62 @@ class TranslationEditor extends React.Component {
     const { isMarkdown, language, onClose, original, translationKey } = this.props;
     const { translationText } = this.state;
     return (
-      <Layer onClose={onClose} closer={true}>
+      <Box
+        basis="full"
+        className="modal-body"
+        direction="row"
+      >
         <Box
-          basis="full"
-          className="modal-body"
-          direction="row"
+          basis="1/2"
+          className="original"
         >
+          {isMarkdown ?
+            <Markdown>
+              {original}
+            </Markdown> :
+            <p>
+              {original}
+            </p>
+          }
+        </Box>
+        <Box
+          basis="1/2"
+          className="translation"
+          lang={language.value}
+        >
+          {isMarkdown ?
+            <MarkdownEditor
+              autoFocus
+              name={translationKey}
+              onChange={this.onChange.bind(this)}
+              previewing={false}
+              value={translationText}
+            /> :
+            <textarea
+              autoFocus
+              onChange={this.onChange.bind(this)}
+              cols={35}
+              rows={4}
+              value={translationText}
+            />
+          }
           <Box
-            basis="1/2"
-            className="original"
+            basis="full"
+            direction="row"
+            justify="end"
           >
-            {isMarkdown ?
-              <Markdown>
-                {original}
-              </Markdown> :
-              <p>
-                {original}
-              </p>
-            }
-          </Box>
-          <Box
-            basis="1/2"
-            className="translation"
-            lang={language.value}
-          >
-            {isMarkdown ?
-              <MarkdownEditor
-                autoFocus
-                name={translationKey}
-                onChange={this.onChange.bind(this)}
-                previewing={false}
-                value={translationText}
-              /> :
-              <textarea
-                autoFocus
-                onChange={this.onChange.bind(this)}
-                cols={35}
-                rows={4}
-                value={translationText}
-              />
-            }
+            <Button
+              label="Cancel"
+              onClick={onClose}
+              secondary={true}
+            />
             <Button
               label="Save"
               onClick={this.save.bind(this)}
             />
           </Box>
         </Box>
-      </Layer>
+      </Box>
     );
   }
 }
