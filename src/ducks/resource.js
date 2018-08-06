@@ -50,9 +50,10 @@ const resourceReducer = (state = initialState, action) => {
 // Action Creators
 function handleError(error) {
   console.warn(error);
+  const { message, status, statusText } = error
   return {
     type: TRANSLATIONS_ERROR,
-    payload: error
+    payload: { message, status, statusText }
   };
 }
 
