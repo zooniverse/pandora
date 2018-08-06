@@ -25,6 +25,11 @@ class ProjectContentsContainer extends Component {
       const { original, translations } = resource;
       actions.selectTranslation(original, translations, type, language);
     }
+    if (newProps.resource.error) {
+      const { message, status, statusText } = newProps.resource.error;
+      alert(`${status}: ${statusText}\n ${message}`);
+      actions.resetErrors();
+    }
   }
 
   render() {
