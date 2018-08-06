@@ -10,16 +10,14 @@ import * as contentsActions from '../ducks/resource';
 class TranslationEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      translationText: props.translation
-    };
+    const translationText = props.translation ? props.translation : props.original;
+    this.state = { translationText };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.translation !== this.props.translation) {
-      this.setState({
-        translationText: nextProps.translation
-      });
+      const translationText = nextProps.translation ? nextProps.translation : nextProps.original;
+      this.setState({ translationText });
     }
   }
 
