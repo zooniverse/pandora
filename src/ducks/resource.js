@@ -53,7 +53,10 @@ const resourceReducer = (state = initialState, action) => {
 // Action Creators
 function handleError(error) {
   console.warn(error);
-  const { message, status, statusText } = error
+  let { message, status, statusText } = error
+  message = message ? message : 'An unknown error occurred.'
+  status = status ? status : 0;
+  statusText = statusText ? statusText : 'Bad response from server.'
   return {
     type: TRANSLATIONS_ERROR,
     payload: { message, status, statusText }
