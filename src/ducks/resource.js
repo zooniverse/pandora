@@ -2,6 +2,7 @@ import apiClient from 'panoptes-client/lib/api-client';
 
 // Action Types
 export const RESET_TRANSLATIONS = 'RESET_TRANSLATIONS';
+export const RESET_ERRORS = 'RESET_ERRORS';
 export const FETCH_TRANSLATIONS = 'FETCH_TRANSLATIONS';
 export const FETCH_TRANSLATIONS_SUCCESS = 'FETCH_TRANSLATIONS_SUCCESS';
 export const CREATE_TRANSLATION = 'CREATE_TRANSLATION';
@@ -42,6 +43,8 @@ const resourceReducer = (state = initialState, action) => {
       return Object.assign({}, state, { translation: action.payload });
     case TRANSLATIONS_ERROR:
       return Object.assign({}, state, { error: action.payload, loading: false });
+    case RESET_ERRORS:
+      return Object.assign({}, state, { error: initialState.error, loading: false });
     default:
       return state;
   }
@@ -57,6 +60,9 @@ function handleError(error) {
   };
 }
 
+function resetErrors() {
+  return { type: RESET_ERRORS };
+}
 function resetTranslations() {
   return (dispatch) => {
     dispatch({
@@ -167,5 +173,6 @@ export {
   selectTranslation,
   updateTranslation,
   fetchTranslations,
-  resetTranslations
+  resetTranslations,
+  resetErrors
 };
