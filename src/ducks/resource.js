@@ -98,7 +98,7 @@ function createTranslation(original, translations, type, language) {
     const { translated_type, translated_id } = original;
     const newResource = {
       language: language.value,
-      strings: original.strings
+      strings: {}
     };
     dispatch({
       type: CREATE_TRANSLATION,
@@ -142,7 +142,7 @@ function updateTranslation(original, translation, updatedField, value) {
   return (dispatch) => {
     const strings = {};
     Object.keys(original.strings).forEach((field) => {
-      strings[field] = translation.strings[field] || original.strings[field];
+      strings[field] = translation.strings[field] || '';
     });
     strings[updatedField] = value;
     const changes = { strings };
