@@ -24,9 +24,12 @@ function ProjectDashboard(props) {
   const { fieldguides, language, project, tutorials, workflows } = props;
   return (
     <div>
-      <ProjectContentsContainer {...props}>
-        {language ? <ProjectContents /> : <p>Select a language to start.</p>}
-      </ProjectContentsContainer>
+      {language ?
+        <ProjectContentsContainer {...props}>
+          <ProjectContents />
+        </ProjectContentsContainer> :
+        <p>Select a language to start.</p>
+      }
       { language &&
         <div>
           <h3>Workflows</h3>
