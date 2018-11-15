@@ -108,7 +108,8 @@ function createTranslation(original, translations, type, language) {
     const { translated_type, translated_id } = original;
     const newResource = {
       language: language.value,
-      strings: {}
+      strings: {},
+      string_versions: {}
     };
     dispatch({
       type: CREATE_TRANSLATION,
@@ -151,11 +152,17 @@ function selectTranslation(original, translations, type, language) {
 function updateTranslation(original, translation, updatedField, value) {
   return (dispatch) => {
     const strings = {};
+    const string_versions = {};
+
     Object.keys(original.strings).forEach((field) => {
       strings[field] = translation.strings[field] || '';
+      string_versions[field] = translation.string_versions[field];
     });
+
     strings[updatedField] = value;
-    const changes = { strings };
+    string_versions[updatedField] = original.string_versions[updatedField];
+
+    const changes = { strings, string_versions };
     translation.update(changes);
     dispatch({
       type: UPDATE_TRANSLATION,
