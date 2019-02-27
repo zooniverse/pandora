@@ -52,6 +52,7 @@ class TranslationField extends React.Component {
               tag="h3"
             >
               {children}
+              {this.props.isOutdated ? ' (Out of date)' : null}
             </Heading>
           </Box>
           <Box>
@@ -77,6 +78,7 @@ class TranslationField extends React.Component {
           /> :
           <Box
             basis="full"
+            className={this.props.isOutdated ? 'outdated' : undefined}
             direction="row"
           >
             <Box
@@ -100,6 +102,7 @@ class TranslationField extends React.Component {
 TranslationField.propTypes = {
   children: PropTypes.node.isRequired,
   isMarkdown: PropTypes.bool,
+  isOutdated: PropTypes.bool,
   language: PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string
@@ -111,6 +114,7 @@ TranslationField.propTypes = {
 
 TranslationField.defaultProps = {
   isMarkdown: undefined,
+  isOutdated: false,
   language: {
     label: 'English',
     value: 'en'

@@ -6,6 +6,9 @@ function ProjectPage(props) {
   const { contents, language } = props;
   const original = contents.original.strings || {};
   const translation = contents.translation.strings || original;
+  function isOutdated(field) {
+    return translation.string_versions && translation.string_versions[field] < original.string_versions[field];
+  }
   return (
     <div>
       <h2>Project Page</h2>
@@ -15,6 +18,7 @@ function ProjectPage(props) {
         language={language}
         original={original.title}
         translation={translation.title}
+        isOutdated={isOutdated('title')}
       >
         Title
       </TranslationField>
@@ -24,6 +28,7 @@ function ProjectPage(props) {
         language={language}
         original={original.content}
         translation={translation.content}
+        isOutdated={isOutdated('content')}
       >
         Content
       </TranslationField>

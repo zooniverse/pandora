@@ -6,6 +6,9 @@ function ProjectContents(props) {
   const { contents, language } = props;
   const original = contents.original || { strings: {} };
   const translation = contents.translation || { strings: {} };
+  function isOutdated(field) {
+    return translation.string_versions && translation.string_versions[field] < original.string_versions[field];
+  }
   return (
     <div>
       <h2>Project</h2>
@@ -14,6 +17,7 @@ function ProjectContents(props) {
         language={language}
         original={original.strings.title}
         translation={translation.strings.title}
+        isOutdated={isOutdated('title')}
       >
         Title
       </TranslationField>
@@ -22,6 +26,7 @@ function ProjectContents(props) {
         language={language}
         original={original.strings.display_name}
         translation={translation.strings.display_name}
+        isOutdated={isOutdated('display_name')}
       >
         Display Name
       </TranslationField>
@@ -30,6 +35,7 @@ function ProjectContents(props) {
         language={language}
         original={original.strings.description}
         translation={translation.strings.description}
+        isOutdated={isOutdated('description')}
       >
         Description
       </TranslationField>
@@ -39,6 +45,7 @@ function ProjectContents(props) {
         language={language}
         original={original.strings.introduction}
         translation={translation.strings.introduction}
+        isOutdated={isOutdated('introduction')}
       >
         Introduction
       </TranslationField>
@@ -47,6 +54,7 @@ function ProjectContents(props) {
         language={language}
         original={original.strings.researcher_quote}
         translation={translation.strings.researcher_quote}
+        isOutdated={isOutdated('researcher_quote')}
       >
         Researcher quote
       </TranslationField>

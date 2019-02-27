@@ -7,6 +7,9 @@ function Tutorial(props) {
   const original = contents.original || { strings: {} };
   const translation = contents.translation || original;
   const fields = Object.keys(original.strings);
+  function isOutdated(field) {
+    return translation.string_versions && translation.string_versions[field] < original.string_versions[field];
+  }
   return (
     <div>
       <h2>Tutorial</h2>
@@ -19,6 +22,7 @@ function Tutorial(props) {
             language={language}
             original={original.strings[field]}
             translation={translation.strings[field]}
+            isOutdated={isOutdated(field)}
           >
             {field}
           </TranslationField>
