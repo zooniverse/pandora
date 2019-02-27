@@ -7,6 +7,9 @@ function WorkflowContents(props) {
   const original = contents.original || { strings: {} };
   const translation = contents.translation || original;
   const keys = original.strings ? Object.keys(original.strings) : [];
+  function isOutdated(field) {
+    return translation.string_versions && translation.string_versions[field] < original.string_versions[field];
+  }
   return (
     <div>
       <h2>Workflow Contents</h2>
@@ -22,6 +25,7 @@ function WorkflowContents(props) {
             original={original.strings[key]}
             translation={translation.strings[key]}
             isMarkdown={true}
+            isOutdated={isOutdated(key)}
           >
             {key}
           </TranslationField>
