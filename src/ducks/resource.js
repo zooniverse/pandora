@@ -105,6 +105,10 @@ function createTranslation(original, translations, type, language) {
     type = 'tutorials';
   }
   return (dispatch) => {
+    if (!original) {
+      const errorMessage = `No primary language version exists for ${type}`
+      throw new Error(errorMessage)
+    }
     const { translated_type, translated_id } = original;
     const newResource = {
       language: language.value,
