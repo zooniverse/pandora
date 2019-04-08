@@ -4,10 +4,26 @@ import { connect } from 'react-redux';
 import GrommetApp from 'grommet/components/App';
 import Header from 'grommet/components/Header';
 import Section from 'grommet/components/Section';
+import apiClient from 'panoptes-client/lib/api-client';
+import oauth from 'panoptes-client/lib/oauth';
 
 import AuthContainer from '../containers/AuthContainer';
 
 function App(props) {
+  apiClient.beforeEveryRequest = function checkSessionToken() {
+    return oauth.checkBearerToken()
+      .then((token) => {
+        // If the App thinks you're logged in, but the token says otherwise, reject with an error.
+        if (props.initialised && props.user && !token) {
+          return Promise.reject(new Error('Your Panoptes session has expired.'));
+          // The intent is that if the user is supposed to be logged in but
+          // isn't, the whole request (that comes after .beforeEveryRequest)
+          // should not continue.
+        }
+        return token;
+      });
+  };
+
   return (
     <GrommetApp>
       <Header className="site-header">
