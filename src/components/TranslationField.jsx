@@ -56,7 +56,7 @@ class TranslationField extends React.Component {
             </Heading>
           </Box>
           <Box>
-            {(!editing && original.length > 0) &&
+            {(!editing && original && original.length > 0) &&
               <Button
                 fill={false}
                 icon={<FormEdit size="small" />}
