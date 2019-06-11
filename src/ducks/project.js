@@ -1,5 +1,7 @@
 import apiClient from 'panoptes-client/lib/api-client';
 
+const ALLOWED_ROLES = ['owner', 'collaborator', 'translator'];
+
 // Action Types
 export const FETCH_PROJECT = 'FETCH_PROJECT';
 export const FETCH_PROJECT_SUCCESS = 'FETCH_PROJECT_SUCCESS';
@@ -105,7 +107,7 @@ function fetchProject(id) {
     });
     const query = {
       id,
-      current_user_roles: ['owner', 'translator'],
+      current_user_roles: ALLOWED_ROLES,
       include: ['workflows']
     };
     apiClient.type('projects').get(query)
