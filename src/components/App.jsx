@@ -24,6 +24,7 @@ function App(props) {
       });
   };
 
+  const isStaging = process.env.NODE_ENV === 'staging';
   return (
     <GrommetApp>
       <Header className="site-header">
@@ -31,6 +32,12 @@ function App(props) {
         <AuthContainer />
       </Header>
       <Section className="content-section">
+        {isStaging &&
+          <div>
+            <p>You can now edit your project translations at <a href="https://translations.zooniverse.org">https://translations.zooniverse.org</a></p>
+            <p>A big thanks to everyone who helped us test out translations for Panoptes. This site will continue to be used for testing of new features.</p>
+          </div>
+        }
         {props.user ? props.children : <p>You must be logged in to edit translations.</p>}
       </Section>
     </GrommetApp>
