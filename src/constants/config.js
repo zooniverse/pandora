@@ -8,7 +8,7 @@ const config = {
     projectHost: 'http://localhost'
   },
   production: {
-    panoptesAppId: '3f84294e3000152acf5f9e74f7aeeb3a823dd024458841ee3d6420d24564ede0',
+    panoptesAppId: '2393eff8192d75cb9e9be32fb28fe7c218a37eb8f59f5a746bb4dab7224ee989',
     projectHost: 'https://www.zooniverse.org'
   }
 };
