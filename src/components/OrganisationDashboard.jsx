@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ResourceContainer from '../containers/ResourceContainer';
-import Resource from './Resource';
+import Organisation from './Organisation';
 
 function OrganisationDashboard(props) {
   const { language, organisation } = props;
+  const params = {
+    resource_type: 'organization',
+    resource_id: props.params.organization_id
+  }
   return (
     <div>
       {language ?
-        <ResourceContainer {...props} resource_type='organization'>
-          <Resource resource_type='organization' />
+        <ResourceContainer {...props} params={params}>
+          <Organisation />
         </ResourceContainer> :
         <p>Select a language to start.</p>
       }
