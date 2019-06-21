@@ -58,6 +58,15 @@ function ProjectContents(props) {
       >
         Researcher quote
       </TranslationField>
+      <TranslationField
+        translationKey="workflow_description"
+        language={language}
+        original={original.strings.workflow_description}
+        translation={translation.strings.workflow_description}
+        isOutdated={isOutdated('workflow_description')}
+      >
+        Workflow description
+      </TranslationField>
     </div>
   );
 }
