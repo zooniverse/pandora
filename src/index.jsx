@@ -10,6 +10,8 @@ import configureStore from './store';
 import ResourceContainer from './containers/ResourceContainer';
 import ProjectDashboardContainer from './containers/ProjectDashboardContainer';
 import ProjectDashboard from './components/ProjectDashboard';
+import OrganisationDashboardContainer from './containers/OrganisationDashboardContainer';
+import OrganisationDashboard from './components/OrganisationDashboard';
 import Home from './components/Home';
 import Resource from './components/Resource';
 
@@ -31,6 +33,9 @@ oauth.init(config.panoptesAppId)
               <Route path=":resource_type/" component={ResourceContainer}>
                 <Route path=":resource_id" component={Resource} />
               </Route>
+            </Route>
+            <Route path="/organization/:organization_id" component={OrganisationDashboardContainer}>
+              <IndexRoute component={OrganisationDashboard} />
             </Route>
           </Route>
         </Router>
