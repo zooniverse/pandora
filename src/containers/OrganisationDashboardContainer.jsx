@@ -41,10 +41,10 @@ class OrganisationDashboardContainer extends Component {
 
   render() {
     const organisation = this.props.organisation.data;
-    const { language, languageCodes } = this.props.organisation;
+    const { language, languageCodes, primary_language } = this.props.organisation;
     const organisationLanguages = languages
       .filter(option => (languageCodes.indexOf(option.value) > -1))
-      .filter(option => (option.value !== organisation.primary_language));
+      .filter(option => (option.value !== primary_language));
     return (
       <div>
         <h2>
@@ -66,10 +66,10 @@ class OrganisationDashboardContainer extends Component {
             </a>
           </p>
         }
-        {organisation.primary_language &&
+        {primary_language &&
           React.cloneElement(
             this.props.children,
-            { language, organisation }
+            { language, organisation, primary_language }
           )
         }
       </div>
@@ -101,15 +101,12 @@ OrganisationDashboardContainer.propTypes = {
   }),
   organisation: PropTypes.shape({
     data: PropTypes.object,
-    fieldguides: PropTypes.array,
     language: PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string
     }),
     languageCodes: PropTypes.arrayOf(PropTypes.string),
-    pages: PropTypes.array,
-    tutorials: PropTypes.array,
-    workflows: PropTypes.array
+    primary_language: PropTypes.string
   }),
   params: PropTypes.shape({
     organisation_id: PropTypes.string
@@ -123,8 +120,7 @@ OrganisationDashboardContainer.defaultProps = {
     data: null,
     language: null,
     languageCodes: [],
-    tutorials: [],
-    workflows: []
+    primary_language: 'en'
   }
 };
 export default connect(

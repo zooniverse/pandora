@@ -12,15 +12,15 @@ class ResourceContainer extends Component {
   }
 
   componentDidMount() {
-    const { actions, params, project, language } = this.props;
+    const { actions, params, primary_language, language } = this.props;
     const type = params.resource_type;
     const id = type ? params.resource_id : params.project_id;
-    actions.fetchTranslations(id, type, project, language);
+    actions.fetchTranslations(id, type, primary_language, language);
   }
 
   componentWillReceiveProps(newProps) {
     const { actions, params, resource, language } = newProps;
-    if (newProps.language !== this.props.language && newProps.language.value !== newProps.project.primary_language) {
+    if (newProps.language !== this.props.language && newProps.language.value !== newProps.primary_language) {
       const type = params.resource_type;
       const { original, translations } = resource;
       actions.selectTranslation(original, translations, type, language);
@@ -57,17 +57,7 @@ ResourceContainer.propTypes = {
     resource_id: PropTypes.string,
     resource_type: PropTypes.string
   }).isRequired,
-  project: PropTypes.shape({
-    data: PropTypes.object,
-    fieldguides: PropTypes.array,
-    language: PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string
-    }),
-    pages: PropTypes.array,
-    tutorials: PropTypes.array,
-    workflows: PropTypes.array
-  }).isRequired,
+  primary_language: PropTypes.string,
   resource: PropTypes.object.isRequired
 };
 
@@ -76,7 +66,8 @@ ResourceContainer.defaultProps = {
   language: {
     label: '',
     value: ''
-  }
+  },
+  primary_language: 'en'
 };
 
 export default connect(

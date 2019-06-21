@@ -41,10 +41,10 @@ class ProjectDashboardContainer extends Component {
 
   render() {
     const project = this.props.project.data;
-    const { fieldguides, language, languageCodes, pages, workflows, tutorials } = this.props.project;
+    const { fieldguides, language, languageCodes, pages, primary_language, workflows, tutorials } = this.props.project;
     const projectLanguages = languages
       .filter(option => (languageCodes.indexOf(option.value) > -1))
-      .filter(option => (option.value !== project.primary_language));
+      .filter(option => (option.value !== primary_language));
     return (
       <div>
         <h2>
@@ -66,10 +66,10 @@ class ProjectDashboardContainer extends Component {
             </a>
           </p>
         }
-        {project.primary_language &&
+        {primary_language &&
           React.cloneElement(
             this.props.children,
-            { fieldguides, language, pages, project, tutorials, workflows }
+            { fieldguides, language, pages, primary_language, project, tutorials, workflows }
           )
         }
       </div>
