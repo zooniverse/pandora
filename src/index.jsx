@@ -7,7 +7,7 @@ import oauth from 'panoptes-client/lib/oauth';
 import App from './components/App';
 import config from './constants/config';
 import configureStore from './store';
-import ProjectContentsContainer from './containers/ProjectContentsContainer';
+import ResourceContainer from './containers/ResourceContainer';
 import ProjectDashboardContainer from './containers/ProjectDashboardContainer';
 import ProjectDashboard from './components/ProjectDashboard';
 import Home from './components/Home';
@@ -28,7 +28,7 @@ oauth.init(config.panoptesAppId)
             <IndexRoute component={Home} />
             <Route path="/project/:project_id" component={ProjectDashboardContainer}>
               <IndexRoute component={ProjectDashboard} />
-              <Route path=":resource_type/" component={ProjectContentsContainer}>
+              <Route path=":resource_type/" component={ResourceContainer}>
                 <Route path=":resource_id" component={Resource} />
               </Route>
             </Route>

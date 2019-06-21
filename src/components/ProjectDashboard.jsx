@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import ProjectContentsContainer from '../containers/ProjectContentsContainer';
+import ResourceContainer from '../containers/ResourceContainer';
 import ProjectContents from './ProjectContents';
 
 function TutorialLink(props) {
@@ -25,9 +25,9 @@ function ProjectDashboard(props) {
   return (
     <div>
       {language ?
-        <ProjectContentsContainer {...props}>
+        <ResourceContainer {...props}>
           <ProjectContents />
-        </ProjectContentsContainer> :
+        </ResourceContainer> :
         <p>Select a language to start.</p>
       }
       { language &&

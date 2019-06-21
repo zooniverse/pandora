@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as contentsActions from '../ducks/resource';
 
-class ProjectContentsContainer extends Component {
+class ResourceContainer extends Component {
 
   componentWillMount() {
     const { actions } = this.props;
@@ -33,8 +33,8 @@ class ProjectContentsContainer extends Component {
   }
 
   render() {
-    const { language, project, resource } = this.props;
-    return React.cloneElement(this.props.children, { contents: resource, language, project });
+    const { language, resource } = this.props;
+    return React.cloneElement(this.props.children, { contents: resource, language });
   }
 }
 
@@ -45,7 +45,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(contentsActions, dispatch)
 });
 
-ProjectContentsContainer.propTypes = {
+ResourceContainer.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
   children: PropTypes.node,
   language: PropTypes.shape({
@@ -71,7 +71,7 @@ ProjectContentsContainer.propTypes = {
   resource: PropTypes.object.isRequired
 };
 
-ProjectContentsContainer.defaultProps = {
+ResourceContainer.defaultProps = {
   children: null,
   language: {
     label: '',
@@ -82,4 +82,4 @@ ProjectContentsContainer.defaultProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProjectContentsContainer);
+)(ResourceContainer);
