@@ -22,10 +22,14 @@ TutorialLink.propTypes = {
 
 function ProjectDashboard(props) {
   const { fieldguides, language, project, tutorials, workflows } = props;
+  const params = {
+    resource_type: 'project',
+    resource_id: props.params.project_id
+  }
   return (
     <div>
       {language ?
-        <ResourceContainer {...props}>
+        <ResourceContainer {...props} params={params}>
           <ProjectContents />
         </ResourceContainer> :
         <p>Select a language to start.</p>

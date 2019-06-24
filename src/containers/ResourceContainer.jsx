@@ -13,17 +13,16 @@ class ResourceContainer extends Component {
 
   componentDidMount() {
     const { actions, params, primary_language, language } = this.props;
-    const type = params.resource_type;
-    const id = type ? params.resource_id : params.project_id;
-    actions.fetchTranslations(id, type, primary_language, language);
+    const { resource_id, resource_type } = params;
+    actions.fetchTranslations(resource_id, resource_type, primary_language, language);
   }
 
   componentWillReceiveProps(newProps) {
     const { actions, params, resource, language } = newProps;
     if (newProps.language !== this.props.language && newProps.language.value !== newProps.primary_language) {
-      const type = params.resource_type;
+      const { resource_type } = params;
       const { original, translations } = resource;
-      actions.selectTranslation(original, translations, type, language);
+      actions.selectTranslation(original, translations, resource_type, language);
     }
     if (newProps.resource.error) {
       const { message, status, statusText } = newProps.resource.error;
@@ -53,7 +52,6 @@ ResourceContainer.propTypes = {
     value: PropTypes.string
   }),
   params: PropTypes.shape({
-    project_id: PropTypes.string,
     resource_id: PropTypes.string,
     resource_type: PropTypes.string
   }).isRequired,
