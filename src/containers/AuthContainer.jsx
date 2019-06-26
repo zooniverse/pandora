@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { checkLoginUser, loginToPanoptes, logoutFromPanoptes } from '../ducks/login';
 
+import AdminToggle from './AdminContainer';
 import LoginButton from '../components/LoginButton';
 import LogoutButton from '../components/LogoutButton';
 
@@ -26,7 +27,12 @@ class AuthContainer extends React.Component {
 
   render() {
     return (this.props.user)
-      ? <LogoutButton user={this.props.user} logout={this.logout} />
+      ? (
+        <React.Fragment>
+          <LogoutButton user={this.props.user} logout={this.logout} />
+          <AdminToggle user={this.props.user} />
+        </React.Fragment>
+      )
       : <LoginButton login={this.login} />;
   }
 }

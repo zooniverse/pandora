@@ -19,9 +19,9 @@ class ProjectDashboardContainer extends Component {
   }
 
   componentDidMount() {
-    const { actions, params } = this.props;
+    const { actions, adminMode, params } = this.props;
     const { query } = this.props.location;
-    actions.fetchProject(params.project_id);
+    actions.fetchProject(params.project_id, adminMode);
     actions.fetchLanguages(params.project_id);
     if (query.language) {
       const language = languages.filter(option => option.value === query.language)[0];
@@ -78,8 +78,7 @@ class ProjectDashboardContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  language: state.language,
-  languages: state.languages,
+  adminMode: state.login.adminMode,
   project: state.project,
   resource: state.resource
 });
@@ -96,6 +95,7 @@ const mapDispatchToProps = dispatch => ({
 ProjectDashboardContainer.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
   children: PropTypes.node,
+  isAdmin: PropTypes.bool,
   location: PropTypes.shape({
     query: PropTypes.object
   }),
@@ -118,6 +118,7 @@ ProjectDashboardContainer.propTypes = {
 
 ProjectDashboardContainer.defaultProps = {
   children: null,
+  isAdmin: false,
   location: {},
   project: {
     data: null,

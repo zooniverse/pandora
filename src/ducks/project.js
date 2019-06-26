@@ -100,15 +100,14 @@ function fetchLanguages(project_id) {
   };
 }
 
-function fetchProject(id) {
+function fetchProject(id, isAdmin) {
   return (dispatch) => {
     dispatch({
       type: FETCH_PROJECT
     });
-    const query = {
-      id,
-      current_user_roles: ALLOWED_ROLES,
-      include: ['workflows']
+    let query = { id };
+    if (!isAdmin) {
+      query.current_user_roles = ALLOWED_ROLES;
     };
     apiClient.type('projects').get(query)
     .then(([project]) => {
