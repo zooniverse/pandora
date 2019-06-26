@@ -70,15 +70,15 @@ function fetchLanguages(organisation_id) {
   };
 }
 
-function fetchOrganisation(id) {
+function fetchOrganisation(id, isAdmin) {
   return (dispatch) => {
     dispatch({
       type: FETCH_ORGANISATION
     });
-    const query = {
-      id,
-      current_user_roles: ALLOWED_ROLES
-    };
+    const query = { id };
+    if (!isAdmin) {
+      query.current_user_roles = ALLOWED_ROLES;
+    }
     apiClient.type('organizations').get(query)
     .then(([organisation]) => {
       dispatch({

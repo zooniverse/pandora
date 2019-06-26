@@ -19,9 +19,9 @@ class OrganisationDashboardContainer extends Component {
   }
 
   componentDidMount() {
-    const { actions, params } = this.props;
+    const { actions, adminMode, params } = this.props;
     const { query } = this.props.location;
-    actions.fetchOrganisation(params.organization_id);
+    actions.fetchOrganisation(params.organization_id, adminMode);
     actions.fetchLanguages(params.organization_id);
     if (query.language) {
       const language = languages.filter(option => option.value === query.language)[0];
@@ -78,6 +78,7 @@ class OrganisationDashboardContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  adminMode: state.login.adminMode,
   language: state.language,
   languages: state.languages,
   organisation: state.organisation,
@@ -95,6 +96,7 @@ const mapDispatchToProps = dispatch => ({
 
 OrganisationDashboardContainer.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
+  adminMode: PropTypes.bool,
   children: PropTypes.node,
   location: PropTypes.shape({
     query: PropTypes.object
@@ -114,6 +116,7 @@ OrganisationDashboardContainer.propTypes = {
 };
 
 OrganisationDashboardContainer.defaultProps = {
+  adminMode: false,
   children: null,
   location: {},
   organisation: {
