@@ -27,6 +27,8 @@ export class AdminContainer extends React.Component {
   }
 
   setAdminState(isAdmin) {
+    const { user } = this.props;
+    isAdmin = user.admin && isAdmin;
     apiClient.update({
       'params.admin': isAdmin || undefined,
     });
@@ -41,7 +43,8 @@ export class AdminContainer extends React.Component {
   }
 
   toggleAdminMode(e) {
-    const isAdmin = e.target.checked;
+    const { user } = this.props;
+    const isAdmin = user.admin && e.target.checked;
     this.setAdminState(isAdmin);
   }
 
