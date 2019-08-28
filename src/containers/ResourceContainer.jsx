@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as contentsActions from '../ducks/resource';
 
-class ProjectContentsContainer extends Component {
+class ResourceContainer extends Component {
 
   componentWillMount() {
     const { actions } = this.props;
@@ -12,18 +12,17 @@ class ProjectContentsContainer extends Component {
   }
 
   componentDidMount() {
-    const { actions, params, project, language } = this.props;
-    const type = params.resource_type;
-    const id = type ? params.resource_id : params.project_id;
-    actions.fetchTranslations(id, type, project, language);
+    const { actions, params, primary_language, language } = this.props;
+    const { resource_id, resource_type } = params;
+    actions.fetchTranslations(resource_id, resource_type, primary_language, language);
   }
 
   componentWillReceiveProps(newProps) {
     const { actions, params, resource, language } = newProps;
-    if (newProps.language !== this.props.language && newProps.language.value !== newProps.project.primary_language) {
-      const type = params.resource_type;
+    if (newProps.language !== this.props.language && newProps.language.value !== newProps.primary_language) {
+      const { resource_type } = params;
       const { original, translations } = resource;
-      actions.selectTranslation(original, translations, type, language);
+      actions.selectTranslation(original, translations, resource_type, language);
     }
     if (newProps.resource.error) {
       const { message, status, statusText } = newProps.resource.error;
@@ -33,8 +32,8 @@ class ProjectContentsContainer extends Component {
   }
 
   render() {
-    const { language, project, resource } = this.props;
-    return React.cloneElement(this.props.children, { contents: resource, language, project });
+    const { language, resource } = this.props;
+    return React.cloneElement(this.props.children, { contents: resource, language });
   }
 }
 
@@ -45,7 +44,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(contentsActions, dispatch)
 });
 
-ProjectContentsContainer.propTypes = {
+ResourceContainer.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
   children: PropTypes.node,
   language: PropTypes.shape({
@@ -53,33 +52,23 @@ ProjectContentsContainer.propTypes = {
     value: PropTypes.string
   }),
   params: PropTypes.shape({
-    project_id: PropTypes.string,
     resource_id: PropTypes.string,
     resource_type: PropTypes.string
   }).isRequired,
-  project: PropTypes.shape({
-    data: PropTypes.object,
-    fieldguides: PropTypes.array,
-    language: PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string
-    }),
-    pages: PropTypes.array,
-    tutorials: PropTypes.array,
-    workflows: PropTypes.array
-  }).isRequired,
+  primary_language: PropTypes.string,
   resource: PropTypes.object.isRequired
 };
 
-ProjectContentsContainer.defaultProps = {
+ResourceContainer.defaultProps = {
   children: null,
   language: {
     label: '',
     value: ''
-  }
+  },
+  primary_language: 'en'
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProjectContentsContainer);
+)(ResourceContainer);

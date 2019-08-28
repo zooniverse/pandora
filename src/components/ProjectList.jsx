@@ -21,7 +21,7 @@ function ProjectList(props) {
   const { projects } = props;
   return (
     <div>
-      <h2>Projects</h2>
+      <h2>Your Projects</h2>
       <ul>
         {projects.data.map(project => <ProjectListItem key={project.id} project={project} />)}
       </ul>

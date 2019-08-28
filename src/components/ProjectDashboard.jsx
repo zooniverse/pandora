@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import ProjectContentsContainer from '../containers/ProjectContentsContainer';
+import ResourceContainer from '../containers/ResourceContainer';
 import ProjectContents from './ProjectContents';
 
 function TutorialLink(props) {
@@ -22,12 +22,16 @@ TutorialLink.propTypes = {
 
 function ProjectDashboard(props) {
   const { fieldguides, language, project, tutorials, workflows } = props;
+  const params = {
+    resource_type: 'project',
+    resource_id: props.params.project_id
+  }
   return (
     <div>
       {language ?
-        <ProjectContentsContainer {...props}>
+        <ResourceContainer {...props} params={params}>
           <ProjectContents />
-        </ProjectContentsContainer> :
+        </ResourceContainer> :
         <p>Select a language to start.</p>
       }
       { language &&

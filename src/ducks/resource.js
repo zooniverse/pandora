@@ -74,7 +74,7 @@ function resetTranslations() {
   };
 }
 
-function fetchTranslations(translated_id, type, project, language) {
+function fetchTranslations(translated_id, type, primary_language, language) {
   const translated_type = type || 'project';
   return (dispatch) => {
     dispatch({
@@ -83,7 +83,6 @@ function fetchTranslations(translated_id, type, project, language) {
     });
     apiClient.type('translations').get({ translated_type, translated_id })
     .then((resources) => {
-      const { primary_language } = project;
       const { original, translations } = filterResources(resources, primary_language);
       dispatch({
         type: FETCH_TRANSLATIONS_SUCCESS,

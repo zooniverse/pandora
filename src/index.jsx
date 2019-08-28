@@ -7,10 +7,12 @@ import oauth from 'panoptes-client/lib/oauth';
 import App from './components/App';
 import config from './constants/config';
 import configureStore from './store';
-import ProjectContentsContainer from './containers/ProjectContentsContainer';
+import ResourceContainer from './containers/ResourceContainer';
 import ProjectDashboardContainer from './containers/ProjectDashboardContainer';
 import ProjectDashboard from './components/ProjectDashboard';
-import ProjectList from './containers/ProjectListContainer';
+import OrganisationDashboardContainer from './containers/OrganisationDashboardContainer';
+import OrganisationDashboard from './components/OrganisationDashboard';
+import Home from './components/Home';
 import Resource from './components/Resource';
 
 // Todo: let's find a better way to include Styles,
@@ -25,12 +27,15 @@ oauth.init(config.panoptesAppId)
       <Provider store={store}>
         <Router history={hashHistory}>
           <Route path="/" component={App}>
-            <IndexRoute component={ProjectList} />
+            <IndexRoute component={Home} />
             <Route path="/project/:project_id" component={ProjectDashboardContainer}>
               <IndexRoute component={ProjectDashboard} />
-              <Route path=":resource_type/" component={ProjectContentsContainer}>
+              <Route path=":resource_type/" component={ResourceContainer}>
                 <Route path=":resource_id" component={Resource} />
               </Route>
+            </Route>
+            <Route path="/organization/:organization_id" component={OrganisationDashboardContainer}>
+              <IndexRoute component={OrganisationDashboard} />
             </Route>
           </Route>
         </Router>

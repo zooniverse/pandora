@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FieldGuide from './FieldGuide';
+import Organisation from './Organisation';
 import ProjectPage from './ProjectPage';
 import Tutorial from './Tutorial';
 import WorkflowContents from './WorkflowContents';
@@ -8,6 +9,7 @@ import WorkflowContents from './WorkflowContents';
 const resources = {
   field_guide: FieldGuide,
   mini_course: Tutorial,
+  organization: Organisation,
   project_page: ProjectPage,
   tutorial: Tutorial,
   workflow: WorkflowContents

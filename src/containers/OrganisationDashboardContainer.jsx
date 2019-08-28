@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import LanguageSelector from '../components/LanguageSelector';
-import { fetchProject, addLanguage, setLanguage, fetchLanguages } from '../ducks/project';
+import { fetchOrganisation, addLanguage, setLanguage, fetchLanguages } from '../ducks/organisation';
 import { createTranslation } from '../ducks/resource';
 import languages from '../constants/languages';
 import config from '../constants/config';
 
-class ProjectDashboardContainer extends Component {
+class OrganisationDashboardContainer extends Component {
   constructor() {
     super();
     this.onChangeLanguage = this.onChangeLanguage.bind(this);
@@ -21,8 +21,8 @@ class ProjectDashboardContainer extends Component {
   componentDidMount() {
     const { actions, adminMode, params } = this.props;
     const { query } = this.props.location;
-    actions.fetchProject(params.project_id, adminMode);
-    actions.fetchLanguages(params.project_id);
+    actions.fetchOrganisation(params.organization_id, adminMode);
+    actions.fetchLanguages(params.organization_id);
     if (query.language) {
       const language = languages.filter(option => option.value === query.language)[0];
       actions.setLanguage(language);
@@ -31,7 +31,7 @@ class ProjectDashboardContainer extends Component {
 
   onChangeLanguage(option) {
     const { actions } = this.props;
-    const { languageCodes } = this.props.project;
+    const { languageCodes } = this.props.organisation;
     if (languageCodes.indexOf(option.value) === -1) {
       languageCodes.push(option.value);
       actions.addLanguage(languageCodes);
@@ -40,27 +40,27 @@ class ProjectDashboardContainer extends Component {
   }
 
   render() {
-    const project = this.props.project.data;
-    const { fieldguides, language, languageCodes, pages, primary_language, workflows, tutorials } = this.props.project;
-    const projectLanguages = languages
+    const organisation = this.props.organisation.data;
+    const { language, languageCodes, primary_language } = this.props.organisation;
+    const organisationLanguages = languages
       .filter(option => (languageCodes.indexOf(option.value) > -1))
       .filter(option => (option.value !== primary_language));
     return (
       <div>
         <h2>
           <Link
-            to={`/project/${project.id}`}
+            to={`/organisation/${organisation.id}`}
           >
-            {project.display_name}
+            {organisation.display_name}
           </Link>
         </h2>
-        <LanguageSelector languages={projectLanguages} value={language} onChange={this.onChangeLanguage} />
+        <LanguageSelector languages={organisationLanguages} value={language} onChange={this.onChangeLanguage} />
         {language &&
           <p className="preview">
             <a
               className="grommetux-button"
               target="preview"
-              href={`${config.projectHost}/projects/${project.slug}?language=${language.value}`}
+              href={`${config.projectHost}/organizations/${organisation.slug}?language=${language.value}`}
             >
               Preview your translation
             </a>
@@ -69,7 +69,7 @@ class ProjectDashboardContainer extends Component {
         {primary_language &&
           React.cloneElement(
             this.props.children,
-            { fieldguides, language, pages, primary_language, project, tutorials, workflows }
+            { language, organisation, primary_language }
           )
         }
       </div>
@@ -79,12 +79,14 @@ class ProjectDashboardContainer extends Component {
 
 const mapStateToProps = state => ({
   adminMode: state.login.adminMode,
-  project: state.project,
+  language: state.language,
+  languages: state.languages,
+  organisation: state.organisation,
   resource: state.resource
 });
 const mapDispatchToProps = dispatch => ({
   actions: {
-    fetchProject: bindActionCreators(fetchProject, dispatch),
+    fetchOrganisation: bindActionCreators(fetchOrganisation, dispatch),
     addLanguage: bindActionCreators(addLanguage, dispatch),
     setLanguage: bindActionCreators(setLanguage, dispatch),
     createTranslation: bindActionCreators(createTranslation, dispatch),
@@ -92,43 +94,39 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-ProjectDashboardContainer.propTypes = {
+OrganisationDashboardContainer.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
+  adminMode: PropTypes.bool,
   children: PropTypes.node,
-  isAdmin: PropTypes.bool,
   location: PropTypes.shape({
     query: PropTypes.object
   }),
-  project: PropTypes.shape({
+  organisation: PropTypes.shape({
     data: PropTypes.object,
-    fieldguides: PropTypes.array,
     language: PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string
     }),
     languageCodes: PropTypes.arrayOf(PropTypes.string),
-    pages: PropTypes.array,
-    tutorials: PropTypes.array,
-    workflows: PropTypes.array
+    primary_language: PropTypes.string
   }),
   params: PropTypes.shape({
-    project_id: PropTypes.string
+    organisation_id: PropTypes.string
   }).isRequired
 };
 
-ProjectDashboardContainer.defaultProps = {
+OrganisationDashboardContainer.defaultProps = {
+  adminMode: false,
   children: null,
-  isAdmin: false,
   location: {},
-  project: {
+  organisation: {
     data: null,
     language: null,
     languageCodes: [],
-    tutorials: [],
-    workflows: []
+    primary_language: 'en'
   }
 };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProjectDashboardContainer);
+)(OrganisationDashboardContainer);
