@@ -6,14 +6,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const nib = require('nib');
 
 module.exports = {
-
   devtool: 'eval-source-map',
 
+  mode: 'development',
+
   entry: [
-    'eventsource-polyfill', // necessary for hot reloading with IE
-    'webpack-hot-middleware/client?reload=true',
     path.join(__dirname, 'src/index.jsx'),
   ],
+
+  devServer: {
+    historyApiFallback: true,
+    host: process.env.HOST || "localhost",
+    open: true,
+    overlay: true,
+    port: 3000
+  },
 
   output: {
     path: path.join(__dirname, '/dist/'),
@@ -29,7 +36,6 @@ module.exports = {
       filename: 'index.html',
       gtm: '',
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('staging'),
@@ -42,13 +48,6 @@ module.exports = {
   },
 
   module: {
-    // preLoaders: [
-    //   {
-    //     test: /\.jsx?$/,
-    //     exclude: /node_modules/,
-    //     loader: 'eslint-loader',
-    //   },
-    // ],
     rules: [{
       test: /\.jsx?$/,
       exclude: /(node_modules)/,
@@ -78,7 +77,24 @@ module.exports = {
           use: [nib()],
         },
       }],
-    }],
+      }, {
+        test: /\.scss$/,
+        use: [{
+          loader: 'style-loader' // creates style nodes from JS strings
+        }, {
+          loader: 'css-loader', // translates CSS into CommonJS
+          options: {
+            import: true
+          }
+        }, {
+          loader: 'sass-loader',
+          options: {
+            sassOptions: {
+              includePaths: ['./node_modules', './node_modules/grommet/node_modules']
+            }
+          }
+        }]
+      }],
   },
   node: {
     fs: 'empty',
