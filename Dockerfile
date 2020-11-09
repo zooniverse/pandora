@@ -1,9 +1,7 @@
-FROM node:10.17.0-alpine
+FROM node:10
 
 WORKDIR /src
 RUN chown -R node:node /src
-
-RUN apk add --no-cache git
 
 USER node
 
