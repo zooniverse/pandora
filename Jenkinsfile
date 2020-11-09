@@ -1,40 +1,49 @@
 #!groovy
 
-node {
-  checkout scm
+def newImage = null
 
-  def dockerRepoName = 'zooniverse/translations'
-  def dockerImageName = "${dockerRepoName}:${env.GIT_COMMIT}"
-  def newImage = null
+pipeline {
+  agent none
 
-  stage('Build Docker image') {
-    newImage = docker.build(dockerImageName)
+  options {
+    quietPeriod(120) // builds happen at least 120 seconds apart
+    disableConcurrentBuilds()
+  }
 
-    if (BRANCH_NAME == 'master') {
-      stage('Update latest tag') {
-        newImage.push('latest')
+  stages {
+
+    stage('Build Docker image and stage site') {
+      agent any
+
+      steps {
+        script {
+          def dockerRepoName = 'zooniverse/translations'
+          def dockerImageName = "${dockerRepoName}:${GIT_COMMIT}"
+          newImage = docker.build(dockerImageName)
+          newImage.inside {
+            sh """
+              cd /src
+              npm run --silent stage
+            """
+          }
+        }
       }
     }
-  }
 
-  // always stage branches (including master) to pandora.zooniverse.org
-  stage('Deploy current branch') {
-    newImage.inside {
-      sh """
-        cd /src
-        npm run --silent stage
-      """
-    }
-  }
+    stage('update latest tag') {
+      when { branch 'master' }
+      agent any
 
-  // deploy master branch changes to translations.zooniverse.org
-  stage('Deploy production') {
-    if (BRANCH_NAME == 'master') {
-      newImage.inside {
-        sh """
-          cd /src
-          npm run --silent deploy
-        """
+      steps {
+        script {
+          newImage.push('latest')
+          newImage.inside {
+            sh """
+              cd /src
+              npm run --silent deploy
+            """
+          }
+        }
       }
     }
   }
