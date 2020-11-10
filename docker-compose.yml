@@ -17,4 +17,7 @@ services:
       - PANOPTES_API_HOST=${PANOPTES_API_HOST}
     volumes:
       - ${PWD}:/src
-      - /src/node_modules
+      - node_modules:/src/node_modules
+
+volumes:
+  node_modules:
