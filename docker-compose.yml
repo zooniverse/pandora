@@ -4,10 +4,6 @@ services:
   app:
     build:
       context: ./
-      dockerfile: Dockerfile
-    entrypoint:
-      - "npm"
-    command: ["start"]
     ports:
       - "3000:3000"
     environment:
