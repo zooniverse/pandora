@@ -64,11 +64,13 @@
   "license": "Apache-2.0",
   "repository": "https://github.com/zooniverse/pandora",
   "scripts": {
-    "start": "BABEL_ENV=development webpack-dashboard -p 3001 -- webpack-dev-server --config ./webpack.config.js",
+    "_start": "NODE_ENV=staging BABEL_ENV=development webpack-dashboard -p 3001 -- webpack-dev-server --config ./webpack.config.js",
+    "start": "export HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; npm run _start;",
     "test": "NODE_ENV=development BABEL_ENV=test mocha test/setup.js test/enzyme-configuration.js $(find test -name *.test.jsx) --compilers js:@babel/register || true",
     "test-travis": "NODE_ENV=development BABEL_ENV=test mocha test/setup.js test/enzyme-configuration.js $(find test -name *.test.jsx) --compilers js:@babel/register",
     "eslint": "eslint .",
-    "build": "BABEL_ENV=production webpack --config webpack.production.config.js -p",
+    "_build": "BABEL_ENV=production webpack --config webpack.production.config.js -p",
+    "build": "export HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; npm run _build;",
     "deploy": "NODE_ENV=production npm run build && publisssh dist zooniverse-static/translations.zooniverse.org",
     "stage": "NODE_ENV=staging npm run build && publisssh dist zooniverse-static/pandora.zooniverse.org"
   }

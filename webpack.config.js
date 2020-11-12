@@ -30,16 +30,18 @@ module.exports = {
 
   plugins: [
     new DashboardPlugin({ port: 3001 }),
+    new webpack.EnvironmentPlugin([
+      'HEAD_COMMIT',
+      'NODE_ENV',
+      'PANOPTES_API_HOST'
+    ]),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl.html',
       inject: 'body',
       filename: 'index.html',
       gtm: '',
     }),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('staging'),
-    }),
+    new webpack.NoEmitOnErrorsPlugin()
   ],
 
   resolve: {

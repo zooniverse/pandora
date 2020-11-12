@@ -9,6 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
+    <!--Last build: <%= new Date() %>-->
+    <!--Deployed commit: <%= process.env.HEAD_COMMIT %>-->
+    <!--Build env: <%= process.env.NODE_ENV %>-->
     <div id="root"></div>
     <%= htmlWebpackPlugin.options.gtm %>
   </body>
