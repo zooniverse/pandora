@@ -41,6 +41,11 @@ module.exports = {
 
   plugins: [
     new CleanWebpackPlugin(),
+    new webpack.EnvironmentPlugin([
+      'HEAD_COMMIT',
+      'NODE_ENV',
+      'PANOPTES_API_HOST'
+    ]),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl.html',
       inject: 'body',
