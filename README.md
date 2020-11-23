@@ -1,26 +1,52 @@
 # Pandora
 
-_It unleashes translations on Panoptes._
-
-![Odilon Redon, Pandora, oil on canvas, 1910/1912](./src/images/pandora.jpg)
+An editor for translations of [Panoptes](https://github.com/zooniverse/Panoptes) resources.
 
 ## Usage
 
-__Install the dependencies:__
+### With docker-compose
+
+Build an image with node 10 and dependencies installed:
+
+```docker-compose build```
+
+Run a development server on `localhost:3000`, with hot-reloading
+
+```docker-compose up```
+
+Stop the development service
+
+```docker-compose down```
+
+### Publish to S3
+
+The Jenkinsfile is set up to to build and publish GitHub PR branches to https://pandora.zooniverse.org.
+
+Merges to the GitHub main branch are automatically built and published to https://translations.zooniverse.org
+
+### With npm
+
+Any version of node > 10 should work.
+
+Install the dependencies:
 
 `npm install`
 
-__Test:__
+Test:
 
 ```npm run test```
 
-__Development mode with livereload:__
+Run a development server on `localhost:3000`, with hot reloading:
 
 ```npm run start```
 
-__When you are done, create a production-ready version of the JS bundle:__
+Build and publish to staging (https://pandora.zooniverse.org)
 
-```npm run build```
+```npm run stage```
+
+Build and publish to production (https://translations.zooniverse.org)
+
+```npm run deploy```
 
 ## Credits
 
