@@ -58,8 +58,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "engines": {
-    "node": "^10.0.0",
-    "npm": "^6.0.0"
+    "node": ">=10",
+    "npm": ">=6"
   },
   "license": "Apache-2.0",
   "repository": "https://github.com/zooniverse/pandora",
