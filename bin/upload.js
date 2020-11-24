@@ -15,7 +15,7 @@ async function uploadBuild() {
     remotePath,
     concurrency: '200',
     cacheControl: {
-      '**/index.html': 'no-cache, must-revalidate',
+      '**/index.html': 'max-age=60, s-maxage=60',
       '**/*.*': 'public, max-age=604800, immutable'
     },
     accessControlLevel: 'public-read'
