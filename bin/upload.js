@@ -16,7 +16,7 @@ async function uploadBuild() {
     concurrency: '200',
     cacheControl: {
       '**/index.html': 'no-cache, must-revalidate',
-      '**/*.*': 'max-age=86400'
+      '**/*.*': 'public, max-age=604800, immutable'
     },
     accessControlLevel: 'public-read'
   })
