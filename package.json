@@ -72,7 +72,7 @@
     "_build": "BABEL_ENV=production webpack --config webpack.production.config.js -p",
     "build": "export HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; npm run _build;",
     "_deploy": "node ./bin/upload.js",
-    "deploy": "NODE_ENV=production npm run build && npm run _deploy translations.zooniverse.org",
-    "stage": "NODE_ENV=staging npm run build && npm run _deploy pandora.zooniverse.org"
+    "deploy": "export NODE_ENV=production; npm run build && npm run _deploy translations.zooniverse.org",
+    "stage": "export NODE_ENV=staging; npm run build && npm run _deploy pandora.zooniverse.org"
   }
 }
