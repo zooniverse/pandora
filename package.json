@@ -69,7 +69,7 @@
     "test": "NODE_ENV=development BABEL_ENV=test mocha test/setup.js test/enzyme-configuration.js $(find test -name *.test.jsx) --compilers js:@babel/register || true",
     "test-travis": "NODE_ENV=development BABEL_ENV=test mocha test/setup.js test/enzyme-configuration.js $(find test -name *.test.jsx) --compilers js:@babel/register",
     "eslint": "eslint .",
-    "_build": "BABEL_ENV=production webpack --config webpack.production.config.js -p",
+    "_build": "BABEL_ENV=production webpack --config webpack.production.config.js",
     "build": "export HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; npm run _build;",
     "_deploy": "node ./bin/upload.js",
     "deploy": "export NODE_ENV=production; npm run build && npm run _deploy translations.zooniverse.org",
