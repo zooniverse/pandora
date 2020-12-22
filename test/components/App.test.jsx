@@ -7,7 +7,7 @@ import React from 'react';
 import assert from 'assert';
 import { shallow } from 'enzyme';
 import { App } from '../../src/components/App';
-import GrommetApp from 'grommet/components/App';
+import { Grommet } from 'grommet';
 import AuthContainer from '../../src/containers/AuthContainer';
 
 describe('App', () => {
@@ -17,7 +17,7 @@ describe('App', () => {
 
   it('should have a Grommet App as container', function() {
     const wrapper = shallow(<App />);
-    assert.strictEqual(wrapper.type(), GrommetApp);
+    assert.strictEqual(wrapper.type(), Grommet);
   });
 
   it('should render AuthContainer', () => {
