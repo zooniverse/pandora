@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import AppLink from './AppLink';
 import ResourceContainer from '../containers/ResourceContainer';
 import ProjectContents from './ProjectContents';
 
 function TutorialLink(props) {
   const { tutorial, project } = props;
   return (
-    <Link
+    <AppLink
+      label={`${tutorial.id }: ${tutorial.display_name}`}
       to={`/project/${project.id}/tutorial/${tutorial.id}`}
-    >
-      {tutorial.id}: {tutorial.display_name}
-    </Link>
+    />
   );
 }
 
@@ -41,7 +40,10 @@ function ProjectDashboard(props) {
             {workflows.map(workflow =>
               (
                 <li key={workflow.id}>
-                  <Link to={`/project/${project.id}/workflow/${workflow.id}`}>{workflow.display_name}</Link>
+                  <AppLink
+                    label={workflow.display_name}
+                    to={`/project/${project.id}/workflow/${workflow.id}`}
+                  />
                 </li>
               )
             )}
@@ -65,11 +67,10 @@ function ProjectDashboard(props) {
               .map(fieldguide =>
                 (
                   <li key={fieldguide.id}>
-                    <Link
+                    <AppLink
+                      label={`${fieldguide.id}: ${fieldguide.display_name}`}
                       to={`/project/${project.id}/field_guide/${fieldguide.id}`}
-                    >
-                      {fieldguide.id}: {fieldguide.display_name}
-                    </Link>
+                    />
                   </li>
                 )
               )}
@@ -81,11 +82,10 @@ function ProjectDashboard(props) {
               .map(page =>
                 (
                   <li key={page.id}>
-                    <Link
+                    <AppLink
+                      label={`${page.id}: ${page.title}`}
                       to={`/project/${project.id}/project_page/${page.id}`}
-                    >
-                      {page.id}: {page.title}
-                    </Link>
+                    />
                   </li>
                 )
               )}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
+import AppLink from '../components/AppLink';
 import LanguageSelector from '../components/LanguageSelector';
 import { fetchOrganisation, addLanguage, setLanguage, fetchLanguages } from '../ducks/organisation';
 import { createTranslation } from '../ducks/resource';
@@ -48,11 +48,10 @@ class OrganisationDashboardContainer extends Component {
     return (
       <div>
         <h2>
-          <Link
+          <AppLink
+            label={organisation.display_name}
             to={`/organisation/${organisation.id}`}
-          >
-            {organisation.display_name}
-          </Link>
+          />
         </h2>
         <LanguageSelector languages={organisationLanguages} value={language} onChange={this.onChangeLanguage} />
         {language &&

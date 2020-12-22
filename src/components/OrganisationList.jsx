@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import AppLink from './AppLink'
 
 function OrganisationListItem(props) {
   return (
     <li key={props.organisation.id}>
-      <Link to={`/organization/${props.organisation.id}`} >{props.organisation.display_name}</Link>
+      <AppLink
+        label={props.organisation.display_name}
+        to={`/organization/${props.organisation.id}`}
+      />
     </li>
   );
 }

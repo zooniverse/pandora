@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import GrommetApp from 'grommet/components/App';
-import Header from 'grommet/components/Header';
-import Section from 'grommet/components/Section';
+import {
+  Main,
+  Grommet
+} from 'grommet';
+import zooTheme from '@zooniverse/grommet-theme'
+import { ZooFooter } from '@zooniverse/react-components'
 import apiClient from 'panoptes-client/lib/api-client';
 import oauth from 'panoptes-client/lib/oauth';
 
@@ -26,12 +29,10 @@ function App(props) {
 
   const isStaging = process.env.NODE_ENV === 'staging';
   return (
-    <GrommetApp>
-      <Header className="site-header">
+    <Grommet theme={zooTheme}>
+      <AuthContainer />
+      <Main pad='medium'>
         <h1 className="title">Translate your projects</h1>
-        <AuthContainer />
-      </Header>
-      <Section className="content-section">
         {isStaging &&
           <div>
             <p>You can now edit your project translations at <a href="https://translations.zooniverse.org">https://translations.zooniverse.org</a></p>
@@ -39,8 +40,9 @@ function App(props) {
           </div>
         }
         {props.user ? props.children : <p>You must be logged in to edit translations.</p>}
-      </Section>
-    </GrommetApp>
+      </Main>
+      <ZooFooter />
+    </Grommet>
   );
 }
 

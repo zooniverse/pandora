@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import AppLink from './AppLink'
 
 function ProjectListItem(props) {
   return (
     <li key={props.project.id}>
-      <Link to={`/project/${props.project.id}`} >{props.project.display_name}</Link>
+      <AppLink
+        label={props.project.display_name}
+        to={`/project/${props.project.id}`}
+      />
     </li>
   );
 }
