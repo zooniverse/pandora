@@ -37,6 +37,7 @@ class TranslationField extends React.Component {
     const languageCode = language ? language.value : undefined;
     const originalFormatted = isMarkdown ? <Markdown>{original}</Markdown> : <p>{original}</p>;
     const translationFormatted = isMarkdown ? <Markdown>{translation}</Markdown> : <p>{translation}</p>;
+    const hasText = original?.length > 0 || translation?.length > 0
 
     return (
       <Box className="field-editor">
@@ -56,7 +57,7 @@ class TranslationField extends React.Component {
             </Heading>
           </Box>
           <Box>
-            {(!editing && original && original.length > 0) &&
+            {(!editing && hasText) &&
               <Button
                 fill={false}
                 icon={<FormEdit size="small" />}
