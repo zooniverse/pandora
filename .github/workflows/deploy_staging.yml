@@ -62,7 +62,7 @@ jobs:
               "author_link": "https://github.com/${{ github.actor }}/",
               "author_icon": "https://github.com/${{ github.actor }}.png?size=40",
               "title": "Pandora Staging deploy complete",
-              "title_link": "https://pandora.preview.zooniverse.org",
+              "title_link": "https://pandora.zooniverse.org",
               "fields": [
                   {
                       "title": "Status",
