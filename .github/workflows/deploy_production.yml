@@ -34,13 +34,13 @@ jobs:
             az storage blob upload-batch \
               --account-name zooniversestatic \
               --content-cache-control 'public, immutable, max-age=604800' \
-              --destination '$web/alice.zooniverse.org' \
+              --destination '$web/translations.zooniverse.org' \
               --source ./build
             az storage blob upload \
               --account-name zooniversestatic \
               --content-cache-control 'public, max-age=60, s-maxage=60' \
               --container-name '$web' \
-              --name 'alice.zooniverse.org/index.html' \
+              --name 'translations.zooniverse.org/index.html' \
               --file ./build/index.html
 
     - name: Slack notification
@@ -62,8 +62,8 @@ jobs:
               "author_name": "${{ github.actor }}",
               "author_link": "https://github.com/${{ github.actor }}/",
               "author_icon": "https://github.com/${{ github.actor }}.png?size=40",
-              "title": "ALICE Production deploy complete",
-              "title_link": "https://alice.zooniverse.org",
+              "title": "Translations Production deploy complete",
+              "title_link": "https://translations.zooniverse.org",
               "fields": [
                   {
                       "title": "Status",
