@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
+import AppLink from '../components/AppLink';
 import LanguageSelector from '../components/LanguageSelector';
 import { fetchProject, addLanguage, setLanguage, fetchLanguages } from '../ducks/project';
 import { createTranslation } from '../ducks/resource';
@@ -48,17 +48,15 @@ class ProjectDashboardContainer extends Component {
     return (
       <div>
         <h2>
-          <Link
+          <AppLink
+            label={project.display_name}
             to={`/project/${project.id}`}
-          >
-            {project.display_name}
-          </Link>
+          />
         </h2>
         <LanguageSelector languages={projectLanguages} value={language} onChange={this.onChangeLanguage} />
         {language &&
           <p className="preview">
             <a
-              className="grommetux-button"
               target="preview"
               href={`${config.projectHost}/projects/${project.slug}?language=${language.value}`}
             >

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'grommet/components/Select';
+import { Select } from 'grommet';
 import languages from '../constants/languages';
 
 class LanguageSelector extends Component {
@@ -37,6 +37,7 @@ class LanguageSelector extends Component {
   render() {
     const menuLanguages = this.state.newLanguages.filter(option => this.props.languages.indexOf(option) === -1);
 
+    console.log('menuLanugages', menuLanguages)
     return (
       <div>
         <h3>Pick a language</h3>

@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { checkLoginUser, loginToPanoptes, logoutFromPanoptes } from '../ducks/login';
-
+import { ZooHeader } from '@zooniverse/react-components'
 import AdminToggle from './AdminContainer';
-import LoginButton from '../components/LoginButton';
-import LogoutButton from '../components/LogoutButton';
 
 class AuthContainer extends React.Component {
   constructor(props) {
@@ -26,14 +24,8 @@ class AuthContainer extends React.Component {
   }
 
   render() {
-    return (this.props.user)
-      ? (
-        <React.Fragment>
-          <LogoutButton user={this.props.user} logout={this.logout} />
-          <AdminToggle user={this.props.user} />
-        </React.Fragment>
-      )
-      : <LoginButton login={this.login} />;
+    const { user } = this.props
+    return (<ZooHeader signIn={this.login} signOut={this.logout} user={user ||  {}} />)
   }
 }
 

@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Markdown } from 'markdownz';
-import FormEdit from 'grommet/components/icons/base/FormEdit';
-import Heading from 'grommet/components/Heading';
-import Box from 'grommet/components/Box';
-import Button from 'grommet/components/Button';
+import { FormEdit } from 'grommet-icons';
+import { Box, Button, Heading } from 'grommet';
 import TranslationEditor from './TranslationEditor';
 
 class TranslationField extends React.Component {
@@ -50,7 +48,7 @@ class TranslationField extends React.Component {
           >
             <Heading
               basis="3/4"
-              tag="h3"
+              level="3"
             >
               {children}
               {this.props.isOutdated ? ' (Out of date)' : null}

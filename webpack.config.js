@@ -88,13 +88,6 @@ module.exports = {
           options: {
             import: true
           }
-        }, {
-          loader: 'sass-loader',
-          options: {
-            sassOptions: {
-              includePaths: ['./node_modules', './node_modules/grommet/node_modules']
-            }
-          }
         }]
       }],
   },

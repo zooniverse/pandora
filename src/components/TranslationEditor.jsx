@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Box from 'grommet/components/Box';
-import Button from 'grommet/components/Button';
+import { Box, Button } from 'grommet';
 import { Markdown, MarkdownEditor } from 'markdownz';
 import * as contentsActions from '../ducks/resource';
 
