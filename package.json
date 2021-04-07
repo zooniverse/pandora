@@ -73,6 +73,7 @@
     "build": "export HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; npm run _build;",
     "_deploy": "node ./bin/upload.js",
     "deploy": "export NODE_ENV=production; npm run build && npm run _deploy translations.zooniverse.org",
+    "_build-staging": "export NODE_ENV=staging; npm run build",
     "_build-production": "export NODE_ENV=production; npm run build",
     "stage": "export NODE_ENV=staging; npm run build && npm run _deploy pandora.zooniverse.org"
   }
