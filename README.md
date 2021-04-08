@@ -18,15 +18,9 @@ Stop the development service
 
 ```docker-compose down```
 
-### Publish to S3
-
-The Jenkinsfile is set up to to build and publish GitHub PR branches to https://pandora.zooniverse.org.
-
-Merges to the GitHub main branch are automatically built and published to https://translations.zooniverse.org
-
 ### With npm
 
-Any version of node > 10 should work.
+Any version of node > 14 should work.
 
 Install the dependencies:
 
@@ -40,13 +34,17 @@ Run a development server on `localhost:3000`, with hot reloading:
 
 ```npm run start```
 
-Build and publish to staging (https://pandora.zooniverse.org)
+## Deployment
 
-```npm run stage```
+Deployment is handled by Github Action. Both staging and production deployment can be run ad hoc in the actions tab as needed if you have the appropriate permissions on the repository.
 
-Build and publish to production (https://translations.zooniverse.org)
+### Staging
 
-```npm run deploy```
+On merge to master, a Github Action is triggered to deploy to staging to `https://pandora.zooniverse.org`.
+
+### Production
+
+Production deployments are triggered by an update to which commit the `production-release` tag is pointed to. This tag should be updated via chat ops and then a Github Action will run that builds and uploads the files to our cloud provider found at `https://translations.zooniverse.org`.
 
 ## Credits
 

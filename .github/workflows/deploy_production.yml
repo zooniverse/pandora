@@ -10,7 +10,7 @@ on:
     workflow_dispatch:
 
 jobs:
-  deploy_staging_branch:
+  deploy_production:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
