@@ -57,15 +57,15 @@
     "webpack-dev-server": "^3.11.0"
   },
   "engines": {
-    "node": ">=14",
-    "npm": ">=6"
+    "node": ">=15",
+    "npm": ">=7"
   },
   "license": "Apache-2.0",
   "repository": "https://github.com/zooniverse/pandora",
   "scripts": {
     "_start": "NODE_ENV=staging BABEL_ENV=development webpack-dashboard -p 3001 -- webpack-dev-server --config ./webpack.config.js",
     "start": "export HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; npm run _start;",
-    "test": "NODE_ENV=development BABEL_ENV=test mocha test/setup.js test/enzyme-configuration.js $(find test -name *.test.jsx) --require @babel/register",
+    "test": "NODE_ENV=development BABEL_ENV=test mocha test/setup.js test/enzyme-configuration.js $(find test -name *.test.jsx) --require @babel/register --exit",
     "eslint": "eslint .",
     "_build": "BABEL_ENV=production webpack --config webpack.production.config.js",
     "build": "export HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; npm run _build;",
