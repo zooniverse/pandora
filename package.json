@@ -4,7 +4,7 @@
   "dependencies": {
     "grommet": "^1.13.0",
     "history": "^4.10.1",
-    "markdownz": "^7.7.2",
+    "markdownz": "^7.8.1",
     "panoptes-client": "^3.3.2",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
