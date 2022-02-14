@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build production
     uses: zooniverse/ci-cd/.github/workflows/npm_build.yaml@main
     with:
       commit_id: ${{ github.sha }}
