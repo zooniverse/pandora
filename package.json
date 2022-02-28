@@ -52,9 +52,9 @@
     "stylus": "^0.54.8",
     "stylus-loader": "^4.3.3",
     "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-dashboard": "^3.3.3",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-cli": "^4.9.2",
+    "webpack-dashboard": "^3.3.7",
+    "webpack-dev-server": "^4.7.4"
   },
   "engines": {
     "node": ">=16",
@@ -67,7 +67,7 @@
     "start": "export HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; npm run _start;",
     "test": "NODE_ENV=development BABEL_ENV=test mocha test/setup.js test/enzyme-configuration.js $(find test -name *.test.jsx) --require @babel/register --exit",
     "eslint": "eslint .",
-    "_build": "BABEL_ENV=production webpack --config webpack.production.config.js",
+    "_build": "BABEL_ENV=production webpack --config webpack.production.config.js --progress",
     "build": "export HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; npm run _build;",
     "_build-staging": "export NODE_ENV=staging; npm run build",
     "_build-production": "export NODE_ENV=production; npm run build"
