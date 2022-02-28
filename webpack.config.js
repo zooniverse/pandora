@@ -15,10 +15,16 @@ module.exports = {
   ],
 
   devServer: {
+    allowedHosts: [
+      '.zooniverse.org'
+    ],
     historyApiFallback: true,
     host: process.env.HOST || "localhost",
-    open: true,
-    overlay: true,
+    client: {
+      overlay: true,
+      progress: true
+    },
+    server: 'https',
     port: 3000
   },
 
@@ -32,8 +38,7 @@ module.exports = {
     new DashboardPlugin({ port: 3001 }),
     new webpack.EnvironmentPlugin([
       'HEAD_COMMIT',
-      'NODE_ENV',
-      'PANOPTES_API_HOST'
+      'NODE_ENV'
     ]),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl.html',
