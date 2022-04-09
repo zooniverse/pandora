@@ -41,7 +41,7 @@
     "image-webpack-loader": "^6.0.0",
     "jsdom": "^16.6.0",
     "mini-css-extract-plugin": "^1.6.0",
-    "mocha": "^9.0.2",
+    "mocha": "^9.2.2",
     "nib": "^1.1.2",
     "node-sass": "^7.0.0",
     "react-svg-loader": "^3.0.3",
