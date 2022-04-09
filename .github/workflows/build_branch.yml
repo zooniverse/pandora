@@ -1,0 +1,28 @@
+name: Build Pandora Branches
+
+on:
+    # Run this workflow on creation (or sync to source branch) of a new pull request
+    pull_request:
+
+jobs:
+  build:
+    name: Build branch
+    uses: zooniverse/ci-cd/.github/workflows/npm_build.yaml@main
+    with:
+      commit_id: ${{ github.sha }}
+      node_version: '16.x'
+      output: 'dist'
+      script: '_build-staging'
+  slack_notifiaction:
+    name: Send Slack notification
+    uses: zooniverse/ci-cd/.github/workflows/slack_notification.yaml@main
+    needs: build
+    if: always()
+    with:
+      commit_id: ${{ github.sha }}
+      job_name: Build branch / build
+      status: ${{ needs.build.result }}
+      title: 'Pandora branch build complete'
+      title_link: 'https://pandora.zooniverse.org'
+    secrets:
+      slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
