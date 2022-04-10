@@ -24,7 +24,7 @@ Any version of node > 14 should work.
 
 Install the dependencies:
 
-`npm install`
+`npm ci`
 
 Test:
 
