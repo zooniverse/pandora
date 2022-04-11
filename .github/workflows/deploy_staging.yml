@@ -3,7 +3,7 @@ name: Deploy Pandora Staging
 on:
     # Run this workflow on push to master (incl PR merges)
     push:
-        branches: [ master ]
+        branches: [ main ]
 
 jobs:
   build:
