@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import { Markdown, MarkdownEditor } from 'markdownz';
-import * as contentsActions from '../ducks/resource';
+import { updateTranslation } from '../ducks/resource';
 
 class TranslationEditor extends React.Component {
   constructor(props) {
@@ -14,9 +13,10 @@ class TranslationEditor extends React.Component {
     this.state = { translationText };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.translation !== this.props.translation) {
-      const translationText = nextProps.translation ? nextProps.translation : nextProps.original;
+  componentDidUpdate(prevProps) {
+    const { original, translation } = this.props;
+    if (prevProps.translation !== translation) {
+      const translationText = translation || original;
       this.setState({ translationText });
     }
   }
@@ -29,9 +29,9 @@ class TranslationEditor extends React.Component {
 
   save(event) {
     event.preventDefault();
-    const { actions, resource, translationKey } = this.props;
+    const { dispatch, resource, translationKey } = this.props;
     const { translationText } = this.state;
-    actions.updateTranslation(resource.original, resource.translation, translationKey, translationText);
+    dispatch(updateTranslation(resource.original, resource.translation, translationKey, translationText));
     this.props.onSave(event);
   }
 
@@ -129,9 +129,6 @@ TranslationEditor.defaultProps = {
 const mapStateToProps = state => ({
   resource: state.resource
 });
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(contentsActions, dispatch)
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(TranslationEditor);
+export default connect(mapStateToProps)(TranslationEditor);
 export { TranslationEditor };

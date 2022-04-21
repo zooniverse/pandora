@@ -20,9 +20,9 @@ export class AdminContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.adminMode !== this.props.adminMode) {
-      this.setAdminState(nextProps.adminMode);
+  componentDidUpdate(prevProps) {
+    if (prevProps.adminMode !== this.props.adminMode) {
+      this.setAdminState(this.props.adminMode);
     }
   }
 
@@ -30,7 +30,7 @@ export class AdminContainer extends React.Component {
     const { user } = this.props;
     isAdmin = user.admin && isAdmin;
     apiClient.update({
-      'params.admin': isAdmin || undefined,
+      'params.admin': isAdmin || undefined
     });
 
     if (isAdmin) {
@@ -57,9 +57,9 @@ export class AdminContainer extends React.Component {
           name="admin-checkbox"
           label="Admin mode"
           onChange={this.toggleAdminMode}
-          toggle={true}
+          toggle
         />
-      )
+      );
     }
 
     return null;
@@ -71,7 +71,7 @@ AdminContainer.defaultProps = {
   adminMode: false,
   dispatch: () => {},
   initialised: false,
-  user: null,
+  user: null
 };
 
 AdminContainer.propTypes = {
@@ -80,15 +80,15 @@ AdminContainer.propTypes = {
   initialised: PropTypes.bool,
   user: PropTypes.shape({
     id: PropTypes.string,
-    admin: PropTypes.bool,
-  }),
+    admin: PropTypes.bool
+  })
 };
 
 function mapStateToProps(state) {
   return {
     adminMode: state.login.adminMode,
     initialised: state.login.initialised,
-    user: state.login.user,
+    user: state.login.user
   };
 }
 

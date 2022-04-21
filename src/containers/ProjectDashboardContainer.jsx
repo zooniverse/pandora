@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import LanguageSelector from '../components/LanguageSelector';
 import { fetchProject, addLanguage, setLanguage, fetchLanguages } from '../ducks/project';
@@ -19,24 +18,24 @@ class ProjectDashboardContainer extends Component {
   }
 
   componentDidMount() {
-    const { actions, adminMode, params } = this.props;
+    const { dispatch, adminMode, params } = this.props;
     const { query } = this.props.location;
-    actions.fetchProject(params.project_id, adminMode);
-    actions.fetchLanguages(params.project_id);
+    dispatch(fetchProject(params.project_id, adminMode));
+    dispatch(fetchLanguages(params.project_id));
     if (query.language) {
       const language = languages.filter(option => option.value === query.language)[0];
-      actions.setLanguage(language);
+      dispatch(setLanguage(language));
     }
   }
 
   onChangeLanguage(option) {
-    const { actions } = this.props;
+    const { dispatch } = this.props;
     const { languageCodes } = this.props.project;
     if (languageCodes.indexOf(option.value) === -1) {
       languageCodes.push(option.value);
-      actions.addLanguage(languageCodes);
+      dispatch(addLanguage(languageCodes));
     }
-    actions.setLanguage(option);
+    dispatch(setLanguage(option));
   }
 
   render() {
@@ -82,15 +81,6 @@ const mapStateToProps = state => ({
   project: state.project,
   resource: state.resource
 });
-const mapDispatchToProps = dispatch => ({
-  actions: {
-    fetchProject: bindActionCreators(fetchProject, dispatch),
-    addLanguage: bindActionCreators(addLanguage, dispatch),
-    setLanguage: bindActionCreators(setLanguage, dispatch),
-    createTranslation: bindActionCreators(createTranslation, dispatch),
-    fetchLanguages: bindActionCreators(fetchLanguages, dispatch)
-  }
-});
 
 ProjectDashboardContainer.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
@@ -128,7 +118,4 @@ ProjectDashboardContainer.defaultProps = {
     workflows: []
   }
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProjectDashboardContainer);
+export default connect(mapStateToProps)(ProjectDashboardContainer);
