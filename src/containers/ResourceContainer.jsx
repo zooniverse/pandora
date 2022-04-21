@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchTranslations, resetErrors, resetTranslations, selectTranslations } from '../ducks/resource';
+import { fetchTranslations, resetErrors, resetTranslations, selectTranslation } from '../ducks/resource';
 
 class ResourceContainer extends Component {
 
