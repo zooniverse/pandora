@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
-import * as organisationsActions from '../ducks/organisations';
+import { fetchOrganisations } from '../ducks/organisations';
 
 import OrganisationList from '../components/OrganisationList';
 
 class OrganisationListContainer extends Component {
 
   componentDidMount() {
-    const { actions } = this.props;
-    actions.fetchOrganisations();
+    const { dispatch } = this.props;
+    dispatch(fetchOrganisations());
   }
 
   render() {
@@ -24,10 +23,6 @@ class OrganisationListContainer extends Component {
 
 const mapStateToProps = state => ({
   organisations: state.organisations
-});
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(organisationsActions, dispatch)
 });
 
 OrganisationListContainer.propTypes = {
@@ -43,7 +38,4 @@ OrganisationListContainer.defaultProps = {
   }
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OrganisationListContainer);
+export default connect(mapStateToProps)(OrganisationListContainer);

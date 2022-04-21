@@ -1,33 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as contentsActions from '../ducks/resource';
+import { fetchTranslations, resetErrors, resetTranslations, selectTranslations } from '../ducks/resource';
 
 class ResourceContainer extends Component {
 
-  componentWillMount() {
-    const { actions } = this.props;
-    actions.resetTranslations();
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(resetTranslations());
   }
 
   componentDidMount() {
-    const { actions, params, primary_language, language } = this.props;
+    const { dispatch, params, primary_language, language } = this.props;
     const { resource_id, resource_type } = params;
-    actions.fetchTranslations(resource_id, resource_type, primary_language, language);
+    dispatch(fetchTranslations(resource_id, resource_type, primary_language, language));
   }
 
-  componentWillReceiveProps(newProps) {
-    const { actions, params, resource, language } = newProps;
-    if (newProps.language !== this.props.language && newProps.language.value !== newProps.primary_language) {
+  componentDidUpdate(prevProps) {
+    const { dispatch, params, resource, language, primary_language } = this.props;
+    if (prevProps.language !== language && language.value !== primary_language) {
       const { resource_type } = params;
       const { original, translations } = resource;
-      actions.selectTranslation(original, translations, resource_type, language);
+      dispatch(selectTranslation(original, translations, resource_type, language));
     }
-    if (newProps.resource.error) {
-      const { message, status, statusText } = newProps.resource.error;
+    if (resource.error) {
+      const { message, status, statusText } = resource.error;
       alert(`${status}: ${statusText}\n ${message}`);
-      actions.resetErrors();
+      dispatch(resetErrors());
     }
   }
 
@@ -39,9 +38,6 @@ class ResourceContainer extends Component {
 
 const mapStateToProps = state => ({
   resource: state.resource
-});
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(contentsActions, dispatch)
 });
 
 ResourceContainer.propTypes = {
@@ -68,7 +64,4 @@ ResourceContainer.defaultProps = {
   primary_language: 'en'
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ResourceContainer);
+export default connect(mapStateToProps)(ResourceContainer);

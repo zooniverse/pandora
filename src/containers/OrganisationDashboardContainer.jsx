@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import LanguageSelector from '../components/LanguageSelector';
 import { fetchOrganisation, addLanguage, setLanguage, fetchLanguages } from '../ducks/organisation';
@@ -19,24 +18,24 @@ class OrganisationDashboardContainer extends Component {
   }
 
   componentDidMount() {
-    const { actions, adminMode, params } = this.props;
+    const { dispatch, adminMode, params } = this.props;
     const { query } = this.props.location;
-    actions.fetchOrganisation(params.organization_id, adminMode);
-    actions.fetchLanguages(params.organization_id);
+    dispatch(fetchOrganisation(params.organization_id, adminMode));
+    dispatch(fetchLanguages(params.organization_id));
     if (query.language) {
       const language = languages.filter(option => option.value === query.language)[0];
-      actions.setLanguage(language);
+      dispatch(setLanguage(language));
     }
   }
 
   onChangeLanguage(option) {
-    const { actions } = this.props;
+    const { dispatch } = this.props;
     const { languageCodes } = this.props.organisation;
     if (languageCodes.indexOf(option.value) === -1) {
       languageCodes.push(option.value);
-      actions.addLanguage(languageCodes);
+      dispatch(addLanguage(languageCodes));
     }
-    actions.setLanguage(option);
+    dispatch(setLanguage(option));
   }
 
   render() {
@@ -84,15 +83,6 @@ const mapStateToProps = state => ({
   organisation: state.organisation,
   resource: state.resource
 });
-const mapDispatchToProps = dispatch => ({
-  actions: {
-    fetchOrganisation: bindActionCreators(fetchOrganisation, dispatch),
-    addLanguage: bindActionCreators(addLanguage, dispatch),
-    setLanguage: bindActionCreators(setLanguage, dispatch),
-    createTranslation: bindActionCreators(createTranslation, dispatch),
-    fetchLanguages: bindActionCreators(fetchLanguages, dispatch)
-  }
-});
 
 OrganisationDashboardContainer.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
@@ -126,7 +116,4 @@ OrganisationDashboardContainer.defaultProps = {
     primary_language: 'en'
   }
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(OrganisationDashboardContainer);
+export default connect(mapStateToProps)(OrganisationDashboardContainer);
