@@ -37,18 +37,19 @@ function checkLoginUser() {
   // First thing on app load - check if the user is logged in.
   return (dispatch) => {
     oauth.checkCurrent()
-      .then((user) => {
+      .then((userResource) => {
+        let user = null;
+        if (userResource) {
+          const { id, admin, display_name, login } = userResource;
+          user = { id, admin, display_name, login };
+        }
+        
         dispatch({
           type: SET_LOGIN_USER,
           user
         });
       });
   };
-}
-
-function loginToPanoptes() {
-  // Returns a login page URL for the user to navigate to.
-  return (() => oauth.signIn(computeRedirectURL(window)));
 }
 
 function logoutFromPanoptes() {
@@ -70,19 +71,12 @@ function setAdminMode(adminMode) {
   };
 }
 
-// Helper functions
-function computeRedirectURL(window) {
-  const { location } = window;
-  return location.origin ||
-    `${location.protocol}//${location.hostname}:${location.port}`;
-}
 
 // Exports
 export default loginReducer;
 
 export {
   checkLoginUser,
-  loginToPanoptes,
   logoutFromPanoptes,
   setAdminMode
 };

@@ -16,14 +16,30 @@ const initialState = {
 
 function organisationsReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_ORGANISATIONS:
-      return Object.assign({}, initialState, { loading: true });
-    case FETCH_ORGANISATIONS_SUCCESS:
-      return Object.assign({}, state, { data: action.payload, loading: false });
-    case FETCH_ORGANISATIONS_ERROR:
-      return Object.assign({}, state, { error: action.payload, loading: false });
-    default:
+    case FETCH_ORGANISATIONS: {
+      return {
+        ...initialState,
+        loading: true
+      };
+    }
+    case FETCH_ORGANISATIONS_SUCCESS: {
+      const data = action.payload;
+      return {
+        ...state,
+        data,
+        loading: false
+      };
+    }
+    case FETCH_ORGANISATIONS_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
+      };
+    }
+    default: {
       return state;
+    }
   }
 }
 
@@ -40,7 +56,7 @@ function fetchOrganisations() {
     .then((organisations) => {
       dispatch({
         type: FETCH_ORGANISATIONS_SUCCESS,
-        payload: organisations
+        payload: organisations.map(({ id, display_name }) => ({ id, display_name }))
       });
     });
   };

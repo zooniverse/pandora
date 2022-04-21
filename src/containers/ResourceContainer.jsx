@@ -13,7 +13,7 @@ class ResourceContainer extends Component {
   componentDidMount() {
     const { dispatch, params, primary_language, language } = this.props;
     const { resource_id, resource_type } = params;
-    dispatch(fetchTranslations(resource_id, resource_type, primary_language, language));
+    dispatch(fetchTranslations(resource_id, resource_type, primary_language, language.value));
   }
 
   componentDidUpdate(prevProps) {
@@ -21,7 +21,7 @@ class ResourceContainer extends Component {
     if (prevProps.language !== language && language.value !== primary_language) {
       const { resource_type } = params;
       const { original, translations } = resource;
-      dispatch(selectTranslation(original, translations, resource_type, language));
+      dispatch(selectTranslation(original, translations, resource_type, language.value));
     }
     if (resource.error) {
       const { message, status, statusText } = resource.error;
@@ -41,7 +41,7 @@ const mapStateToProps = state => ({
 });
 
 ResourceContainer.propTypes = {
-  actions: PropTypes.objectOf(PropTypes.func).isRequired,
+  dispatch: PropTypes.func.isRequired,
   children: PropTypes.node,
   language: PropTypes.shape({
     label: PropTypes.string,

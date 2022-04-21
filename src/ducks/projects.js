@@ -16,14 +16,30 @@ const initialState = {
 
 function projectsReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_PROJECTS:
-      return Object.assign({}, initialState, { loading: true });
-    case FETCH_PROJECTS_SUCCESS:
-      return Object.assign({}, state, { data: action.payload, loading: false });
-    case FETCH_PROJECTS_ERROR:
-      return Object.assign({}, state, { error: action.payload, loading: false });
-    default:
+    case FETCH_PROJECTS: {
+      return {
+        ...initialState,
+        loading: true
+      };
+    }
+    case FETCH_PROJECTS_SUCCESS: {
+      const data = action.payload;
+      return {
+        ...state,
+        data,
+        loading: false
+      };
+    }
+    case FETCH_PROJECTS_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
+      };
+    }
+    default: {
       return state;
+    }
   }
 }
 
@@ -40,7 +56,7 @@ function fetchProjects() {
     .then((projects) => {
       dispatch({
         type: FETCH_PROJECTS_SUCCESS,
-        payload: projects
+        payload: projects.map(({ id, display_name }) => ({ id, display_name }))
       });
     });
   };
