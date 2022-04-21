@@ -22,7 +22,10 @@ function loginReducer(state = initialState, action) {
     }
     case SET_ADMIN_MODE: {
       const { adminMode } = action;
-      return Object.assign({}, state, { adminMode });
+      return {
+        ...state,
+        adminMode
+      };
     }
     default:
       return state;
@@ -35,7 +38,10 @@ function checkLoginUser() {
   return (dispatch) => {
     oauth.checkCurrent()
       .then((user) => {
-        dispatch(setLoginUser(user));
+        dispatch({
+          type: SET_LOGIN_USER,
+          user
+        });
       });
   };
 }
@@ -49,17 +55,11 @@ function logoutFromPanoptes() {
   return (dispatch) => {
     oauth.signOut()
       .then((user) => {
-        dispatch(setLoginUser(user));
+        dispatch({
+          type: SET_LOGIN_USER,
+          user
+        });
       });
-  };
-}
-
-function setLoginUser(user) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_LOGIN_USER,
-      user
-    });
   };
 }
 
@@ -84,6 +84,5 @@ export {
   checkLoginUser,
   loginToPanoptes,
   logoutFromPanoptes,
-  setLoginUser,
   setAdminMode
 };

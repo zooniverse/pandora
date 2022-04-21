@@ -26,7 +26,7 @@ const mapStateToProps = state => ({
 });
 
 OrganisationListContainer.propTypes = {
-  actions: PropTypes.objectOf(PropTypes.func).isRequired,
+  dispatch: PropTypes.func.isRequired,
   organisations: PropTypes.shape({
     data: PropTypes.arrayOf(PropTypes.object)
   }).isRequired

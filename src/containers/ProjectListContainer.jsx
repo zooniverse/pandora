@@ -26,7 +26,7 @@ const mapStateToProps = state => ({
 });
 
 ProjectListContainer.propTypes = {
-  actions: PropTypes.objectOf(PropTypes.func).isRequired,
+  dispatch: PropTypes.func.isRequired,
   projects: PropTypes.shape({
     data: PropTypes.arrayOf(PropTypes.object)
   }).isRequired
