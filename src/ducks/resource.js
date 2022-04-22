@@ -29,34 +29,82 @@ const initialState = {
 
 const resourceReducer = (state = initialState, action) => {
   switch (action.type) {
-    case RESET_TRANSLATIONS:
-    case FETCH_TRANSLATIONS:
-      return Object.assign({}, initialState, { loading: true });
-    case CREATE_TRANSLATION:
-      return Object.assign({}, state, { loading: true });
-    case FETCH_TRANSLATIONS_SUCCESS:
-    case CREATE_TRANSLATION_SUCCESS:
-      return Object.assign({}, state, action.payload);
-    case SELECT_TRANSLATION:
-      return Object.assign({}, state, action.payload);
-    case UPDATE_TRANSLATION:
-      return Object.assign({}, state, { translation: action.payload });
-    case TRANSLATIONS_ERROR:
-      return Object.assign({}, state, { error: action.payload, loading: false });
-    case RESET_ERRORS:
-      return Object.assign({}, state, { error: initialState.error, loading: false });
-    default:
+    case RESET_TRANSLATIONS: {
+      return {
+        ...initialState,
+        loading: true
+      };
+    }
+    case FETCH_TRANSLATIONS: {
+      return {
+        ...initialState,
+        loading: true
+      };
+    }
+    case CREATE_TRANSLATION: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case FETCH_TRANSLATIONS_SUCCESS: {
+      const { original, translations } = action.payload;
+      return {
+        ...state,
+        original,
+        translations,
+        loading: false
+      };
+    }
+    case CREATE_TRANSLATION_SUCCESS: {
+      const { translation } = action.payload;
+      return {
+        ...state,
+        translation,
+        translations: [...state.translations, translation],
+        loading: false
+      };
+    }
+    case SELECT_TRANSLATION: {
+      const { translation } = action.payload;
+      return {
+        ...state,
+        translation
+      };
+    }
+    case UPDATE_TRANSLATION: {
+      return {
+        ...state,
+        translation: action.payload
+      };
+    }
+    case TRANSLATIONS_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
+      };
+    }
+    case RESET_ERRORS: {
+      return {
+        ...state,
+        error: initialState.error,
+        loading: false
+      };
+    }
+    default: {
       return state;
+    }
   }
 };
 
 // Action Creators
 function handleError(error) {
   console.warn(error);
-  let { message, status, statusText } = error
-  message = message ? message : 'An unknown error occurred.'
-  status = status ? status : 0;
-  statusText = statusText ? statusText : 'Bad response from server.'
+  let { message, status, statusText } = error;
+  message = message || 'An unknown error occurred.';
+  status = status || 0;
+  statusText = statusText || 'Bad response from server.';
   return {
     type: TRANSLATIONS_ERROR,
     payload: { message, status, statusText }
@@ -74,7 +122,7 @@ function resetTranslations() {
   };
 }
 
-function fetchTranslations(translated_id, type, primary_language, language) {
+function fetchTranslations(translated_id, type, primary_language, selectedLanguage) {
   const translated_type = type || 'project';
   return (dispatch) => {
     dispatch({
@@ -83,13 +131,28 @@ function fetchTranslations(translated_id, type, primary_language, language) {
     });
     apiClient.type('translations').get({ translated_type, translated_id })
     .then((resources) => {
-      const { original, translations } = filterResources(resources, primary_language);
+      const { original, translations } = filterResources(
+        resources.map(({
+          id,
+          language,
+          string_versions,
+          strings
+        }) => ({
+          id,
+          language,
+          string_versions,
+          strings,
+          translated_type,
+          translated_id
+        })),
+        primary_language
+      );
       dispatch({
         type: FETCH_TRANSLATIONS_SUCCESS,
         payload: { original, translations, loading: false }
       });
-      if (language) {
-        dispatch(selectTranslation(original, translations, type, language));
+      if (selectedLanguage) {
+        dispatch(selectTranslation(original, translations, type, selectedLanguage));
       }
     })
     .catch((error) => {
@@ -105,12 +168,12 @@ function createTranslation(original, translations, type, language) {
   }
   return (dispatch) => {
     if (!original) {
-      const errorMessage = `No primary language version exists for ${type}`
-      throw new Error(errorMessage)
+      const errorMessage = `No primary language version exists for ${type}`;
+      throw new Error(errorMessage);
     }
     const { translated_type, translated_id } = original;
     const newResource = {
-      language: language.value,
+      language,
       strings: {},
       string_versions: {}
     };
@@ -123,10 +186,23 @@ function createTranslation(original, translations, type, language) {
     .create(newResource)
     .save({ translated_type, translated_id })
       .then((translation) => {
-        translations.push(translation);
+        const {
+          id,
+          string_versions,
+          strings
+        } = translation;
         dispatch({
           type: CREATE_TRANSLATION_SUCCESS,
-          payload: { translation, translations, loading: false }
+          payload: {
+            translation: {
+              id,
+              language,
+              string_versions,
+              strings,
+              translated_type,
+              translated_id
+            }
+          }
         });
       })
       .catch((error) => {
@@ -137,13 +213,13 @@ function createTranslation(original, translations, type, language) {
 
 function selectTranslation(original, translations, type, language) {
   type = type || 'project_contents';
-  const translation = translations.find(translation => translation.language === language.value);
+  const translation = translations.find(t => t.language === language);
   return (dispatch) => {
     if (translation) {
       dispatch({
         type: SELECT_TRANSLATION,
         resource_type: type,
-        language: language,
+        language,
         payload: { translation }
       });
     } else {
@@ -154,9 +230,16 @@ function selectTranslation(original, translations, type, language) {
 
 function updateTranslation(original, translation, updatedField, value) {
   return (dispatch) => {
+    const {
+      id,
+      language,
+      translated_type,
+      translated_id
+    } = translation;
+
+    // create new strings since existing state can't be mutated.
     const strings = {};
     const string_versions = {};
-
     Object.keys(original.strings).forEach((field) => {
       strings[field] = translation.strings[field] || '';
       string_versions[field] = translation.string_versions[field];
@@ -165,14 +248,24 @@ function updateTranslation(original, translation, updatedField, value) {
     strings[updatedField] = value;
     string_versions[updatedField] = original.string_versions[updatedField];
 
-    const changes = { strings, string_versions };
-    translation.update(changes);
     dispatch({
       type: UPDATE_TRANSLATION,
-      payload: translation
+      payload: {
+        id,
+        language,
+        string_versions,
+        strings,
+        translated_type,
+        translated_id
+      }
     });
-    const { translated_type, translated_id } = translation;
-    translation.save({ translated_type, translated_id })
+
+    // Save the changes to Panoptes.
+    const changes = { strings, string_versions };
+    apiClient.type('translations')
+    .create(translation)
+    .update(changes)
+    .save({ translated_type, translated_id })
     .catch((error) => {
       dispatch(handleError(error));
     });

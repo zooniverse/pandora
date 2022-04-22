@@ -37,33 +37,95 @@ const initialState = {
 
 function projectReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_PROJECT:
-      return Object.assign({}, initialState, { loading: true });
-    case FETCH_PROJECT_SUCCESS:
-    case FETCH_LANGUAGES_SUCCESS:
-      return Object.assign({}, state, action.payload);
-    case FETCH_PROJECT_ERROR:
-      return Object.assign({}, state, { error: action.payload, loading: false });
-    case FETCH_WORKFLOWS:
-      return Object.assign({}, state, { loading: true });
-    case FETCH_WORKFLOWS_SUCCESS:
-      return Object.assign({}, state, { workflows: action.payload, loading: false });
+    case FETCH_PROJECT: {
+      return {
+        ...initialState,
+        loading: true
+      };
+    }
+    case FETCH_PROJECT_SUCCESS: {
+      const { data, primary_language } = action.payload;
+      return {
+        ...state,
+        data,
+        primary_language
+      };
+    }
+    case FETCH_LANGUAGES_SUCCESS: {
+      const { languageCodes } = action.payload;
+      return {
+        ...state,
+        languageCodes
+      };
+    }
+    case FETCH_PROJECT_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
+      };
+    }
+    case FETCH_WORKFLOWS: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case FETCH_WORKFLOWS_SUCCESS: {
+      const workflows = action.payload;
+      return {
+        ...state,
+        workflows,
+        loading: false
+      };
+    }
     case FETCH_TUTORIALS:
     case FETCH_PAGES:
-    case FETCH_FIELDGUIDES:
-      return Object.assign({}, state, { loading: true });
-    case FETCH_TUTORIALS_SUCCESS:
-      return Object.assign({}, state, { tutorials: action.payload, loading: false });
-    case FETCH_PAGES_SUCCESS:
-      return Object.assign({}, state, { pages: action.payload, loading: false });
-    case FETCH_FIELDGUIDES_SUCCESS:
-      return Object.assign({}, state, { fieldguides: action.payload, loading: false });
-    case SET_LANGUAGE:
-      return Object.assign({}, state, { language: action.language });
-    case ADD_LANGUAGE:
-      return Object.assign({}, state, { languageCodes: action.languageCodes });
-    default:
+    case FETCH_FIELDGUIDES: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case FETCH_TUTORIALS_SUCCESS: {
+      const tutorials = action.payload;
+      return {
+        ...state,
+        tutorials,
+        loading: false
+      };
+    }
+    case FETCH_PAGES_SUCCESS: {
+      const pages = action.payload;
+      return {
+        ...state,
+        pages,
+        loading: false
+      };
+    }
+    case FETCH_FIELDGUIDES_SUCCESS: {
+      const fieldguides = action.payload;
+      return {
+        ...state,
+        fieldguides,
+        loading: false
+      };
+    }
+    case SET_LANGUAGE: {
+      return {
+        ...state,
+        language: action.language
+      };
+    }
+    case ADD_LANGUAGE: {
+      return {
+        ...state,
+        languageCodes: action.languageCodes
+      };
+    }
+    default: {
       return state;
+    }
   }
 }
 
@@ -85,9 +147,9 @@ function fetchLanguages(project_id) {
   return (dispatch) => {
     apiClient
     .type('translations')
-    .get({ 
+    .get({
       translated_type: 'Project',
-      translated_id: project_id 
+      translated_id: project_id
     })
     .then((resources) => {
       dispatch({
@@ -105,16 +167,33 @@ function fetchProject(id, isAdmin) {
     dispatch({
       type: FETCH_PROJECT
     });
-    let query = { id };
+    const query = { id };
     if (!isAdmin) {
       query.current_user_roles = ALLOWED_ROLES;
-    };
+    }
     apiClient.type('projects').get(query)
     .then(([project]) => {
+      const {
+        id,
+        display_name,
+        description,
+        introduction,
+        researcher_quote,
+        slug,
+        workflow_description
+      } = project;
       dispatch({
         type: FETCH_PROJECT_SUCCESS,
         payload: {
-          data: project,
+          data: {
+            id,
+            display_name,
+            description,
+            introduction,
+            researcher_quote,
+            slug,
+            workflow_description
+          },
           primary_language: project.primary_language,
           loading: false
         }
@@ -136,7 +215,7 @@ function fetchWorkflows(project) {
     .then((workflows) => {
       dispatch({
         type: FETCH_WORKFLOWS_SUCCESS,
-        payload: workflows
+        payload: workflows.map(({ id, display_name }) => ({ id, display_name }))
       });
     });
   };
@@ -151,7 +230,7 @@ function fetchTutorials(project) {
     .then((tutorials) => {
       dispatch({
         type: FETCH_TUTORIALS_SUCCESS,
-        payload: tutorials
+        payload: tutorials.map(({ id, display_name }) => ({ id, display_name }))
       });
     });
   };
@@ -166,7 +245,7 @@ function fetchPages(project) {
     .then((pages) => {
       dispatch({
         type: FETCH_PAGES_SUCCESS,
-        payload: pages
+        payload: pages.map(({ id, title, content }) => ({ id, title, content }))
       });
     });
   };
@@ -181,7 +260,7 @@ function fetchFieldGuides(project) {
     .then((fieldguides) => {
       dispatch({
         type: FETCH_FIELDGUIDES_SUCCESS,
-        payload: fieldguides
+        payload: fieldguides.map(({ id, display_name }) => ({ id, display_name }))
       });
     });
   };

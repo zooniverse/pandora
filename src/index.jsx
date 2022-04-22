@@ -1,3 +1,4 @@
+import { configureStore } from '@reduxjs/toolkit';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { hashHistory, IndexRoute, Router, Route } from 'react-router';
@@ -6,7 +7,7 @@ import oauth from 'panoptes-client/lib/oauth';
 
 import App from './components/App';
 import config from './constants/config';
-import configureStore from './store';
+import reducer from './ducks/reducer';
 import ResourceContainer from './containers/ResourceContainer';
 import ProjectDashboardContainer from './containers/ProjectDashboardContainer';
 import ProjectDashboard from './components/ProjectDashboard';
@@ -19,7 +20,7 @@ import Resource from './components/Resource';
 // currently Styles looks like an unused var to eslint
 import Styles from './styles/main.styl'; // eslint-disable-line no-unused-vars
 
-const store = configureStore();
+const store = configureStore({ reducer });
 
 oauth.init(config.panoptesAppId)
   .then(() => {

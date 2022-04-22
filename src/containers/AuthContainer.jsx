@@ -1,11 +1,24 @@
+import oauth from 'panoptes-client/lib/oauth';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { checkLoginUser, loginToPanoptes, logoutFromPanoptes } from '../ducks/login';
+import { checkLoginUser, logoutFromPanoptes } from '../ducks/login';
 
 import AdminToggle from './AdminContainer';
 import LoginButton from '../components/LoginButton';
 import LogoutButton from '../components/LogoutButton';
+
+function computeRedirectURL(window) {
+  const { location } = window;
+  return location.origin ||
+    `${location.protocol}//${location.hostname}:${location.port}`;
+}
+
+function loginToPanoptes() {
+  console.log(computeRedirectURL(window))
+  // Returns a login page URL for the user to navigate to.
+  return oauth.signIn(computeRedirectURL(window));
+}
 
 class AuthContainer extends React.Component {
   constructor(props) {
@@ -18,7 +31,7 @@ class AuthContainer extends React.Component {
   }
 
   login() {
-    return this.props.dispatch(loginToPanoptes());
+    return loginToPanoptes();
   }
 
   logout() {
