@@ -40,7 +40,7 @@
     "jsdom": "^19.0.0",
     "mini-css-extract-plugin": "^1.6.2",
     "mocha": "^10.0.0",
-    "nib": "^1.1.2",
+    "nib": "^1.2.0",
     "node-sass": "^7.0.0",
     "react-svg-loader": "^3.0.3",
     "rimraf": "^3.0.2",
