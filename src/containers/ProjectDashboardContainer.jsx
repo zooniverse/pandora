@@ -28,6 +28,19 @@ class ProjectDashboardContainer extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { dispatch, adminMode, params } = this.props;
+    if (adminMode !== prevProps.adminMode) {
+      const { query } = this.props.location;
+      dispatch(fetchProject(params.project_id, adminMode));
+      dispatch(fetchLanguages(params.project_id));
+      if (query.language) {
+        const language = languages.filter(option => option.value === query.language)[0];
+        dispatch(setLanguage(language));
+      }
+    }
+  }
+
   onChangeLanguage(option) {
     const { dispatch } = this.props;
     const { languageCodes } = this.props.project;
