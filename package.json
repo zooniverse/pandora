@@ -12,7 +12,7 @@
     "react-dom": "~16.14.0",
     "react-redux": "^8.0.2",
     "react-router": "^3.2.6",
-    "zoo-grommet": "^0.3.0"
+    "zoo-grommet": "^0.3.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
