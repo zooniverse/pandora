@@ -42,7 +42,7 @@
     "nib": "^1.2.0",
     "react-svg-loader": "^3.0.3",
     "rimraf": "^3.0.2",
-    "sass": "~1.54.6",
+    "sass": "~1.54.7",
     "sass-loader": "^8.0.2",
     "stats-webpack-plugin": "^0.7.0",
     "style-loader": "^2.0.0",
