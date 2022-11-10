@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="zooniverse:deployed_commit" content="<%= process.env.HEAD_COMMIT %>">
+    <meta name="zooniverse:build_env" content="<%= process.env.NODE_ENV %>">
+    <meta name="zooniverse:build_date" content="<%= new Date() %>">
     <title>Zooniverse Translations</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="description" content="Translate your Zooniverse projects.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <!--Last build: <%= new Date() %>-->
-    <!--Deployed commit: <%= process.env.HEAD_COMMIT %>-->
-    <!--Build env: <%= process.env.NODE_ENV %>-->
     <div id="root"></div>
     <%= htmlWebpackPlugin.options.gtm %>
   </body>
