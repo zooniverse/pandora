@@ -38,7 +38,7 @@
     "image-webpack-loader": "^8.1.0",
     "jsdom": "^20.0.3",
     "mini-css-extract-plugin": "^1.6.2",
-    "mocha": "^10.1.0",
+    "mocha": "^10.2.0",
     "nib": "^1.2.0",
     "react-svg-loader": "^3.0.3",
     "rimraf": "^3.0.2",
