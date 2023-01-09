@@ -35,11 +35,15 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
     new DashboardPlugin({ port: 3001 }),
-    new webpack.EnvironmentPlugin([
-      'HEAD_COMMIT',
-      'NODE_ENV'
-    ]),
+    new webpack.EnvironmentPlugin({
+      'HEAD_COMMIT': null,
+      'NODE_ENV': 'development',
+      'PANOPTES_API_HOST': null
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl.html',
       inject: 'body',
@@ -52,6 +56,14 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.styl'],
     modules: ['.', 'node_modules'],
+    fallback: {
+      fs: false,
+      // for markdown-it plugins
+      path: require.resolve("path-browserify"),
+      util: require.resolve("util"),
+      url: require.resolve("url"),
+      process: false,
+    }
   },
 
   module: {
@@ -64,7 +76,11 @@ module.exports = {
       use: 'file-loader',
     }, {
       test: /\.svg$/,
-      loader: 'babel!react-svg',
+      use: [{
+        loader: 'babel'
+      },{
+        loader: 'react-svg'
+      }]
     }, {
       test: /\.css$/,
       use: [{
@@ -99,8 +115,5 @@ module.exports = {
           }
         }]
       }],
-  },
-  node: {
-    fs: 'empty',
-  },
+  }
 };
