@@ -40,12 +40,15 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
     new CleanWebpackPlugin(),
-    new webpack.EnvironmentPlugin([
-      'HEAD_COMMIT',
-      'NODE_ENV',
-      'PANOPTES_API_HOST'
-    ]),
+    new webpack.EnvironmentPlugin({
+      'HEAD_COMMIT': null,
+      'NODE_ENV': 'production',
+      'PANOPTES_API_HOST': null
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl.html',
       inject: 'body',
@@ -64,6 +67,14 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.styl', '.css'],
     modules: ['.', 'node_modules'],
+    fallback: {
+      fs: false,
+      // for markdown-it plugins
+      path: require.resolve("path-browserify"),
+      util: require.resolve("util"),
+      url: require.resolve("url"),
+      process: false,
+    }
   },
 
   module: {
@@ -111,8 +122,5 @@ module.exports = {
         loader: 'image-webpack-loader',
       }],
     }],
-  },
-  node: {
-    fs: 'empty',
-  },
+  }
 };
