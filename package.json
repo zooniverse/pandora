@@ -34,7 +34,7 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.11",
     "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^4.5.2",
+    "html-webpack-plugin": "^5.5.0",
     "image-webpack-loader": "^8.1.0",
     "jsdom": "^21.0.0",
     "mini-css-extract-plugin": "^1.6.2",
