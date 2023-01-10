@@ -14,7 +14,7 @@ const config = {
 };
 
 function locationMatch(regex) {
-  var match;
+  let match;
   if (typeof location !== 'undefined' && location !== null) {
     match = location.search.match(regex);
   }
@@ -24,5 +24,5 @@ function locationMatch(regex) {
 
 const envFromBrowser = locationMatch(/\W?env=(\w+)/);
 
-const env = envFromBrowser ? envFromBrowser : process.env.NODE_ENV;
+const env = envFromBrowser || process.env.NODE_ENV;
 export default config[env];

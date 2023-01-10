@@ -146,19 +146,19 @@ function setLanguage(language) {
 function fetchLanguages(project_id) {
   return (dispatch) => {
     apiClient
-    .type('translations')
-    .get({
-      translated_type: 'Project',
-      translated_id: project_id
-    })
-    .then((resources) => {
-      dispatch({
-        type: FETCH_LANGUAGES_SUCCESS,
-        payload: {
-          languageCodes: resources.map(resource => resource.language)
-        }
+      .type('translations')
+      .get({
+        translated_type: 'Project',
+        translated_id: project_id
+      })
+      .then((resources) => {
+        dispatch({
+          type: FETCH_LANGUAGES_SUCCESS,
+          payload: {
+            languageCodes: resources.map((resource) => resource.language)
+          }
+        });
       });
-    });
   };
 }
 
@@ -172,37 +172,37 @@ function fetchProject(id, isAdmin) {
       query.current_user_roles = ALLOWED_ROLES;
     }
     apiClient.type('projects').get(query)
-    .then(([project]) => {
-      const {
-        id,
-        display_name,
-        description,
-        introduction,
-        researcher_quote,
-        slug,
-        workflow_description
-      } = project;
-      dispatch({
-        type: FETCH_PROJECT_SUCCESS,
-        payload: {
-          data: {
-            id,
-            display_name,
-            description,
-            introduction,
-            researcher_quote,
-            slug,
-            workflow_description
-          },
-          primary_language: project.primary_language,
-          loading: false
-        }
+      .then(([project]) => {
+        const {
+          id,
+          display_name,
+          description,
+          introduction,
+          researcher_quote,
+          slug,
+          workflow_description
+        } = project;
+        dispatch({
+          type: FETCH_PROJECT_SUCCESS,
+          payload: {
+            data: {
+              id,
+              display_name,
+              description,
+              introduction,
+              researcher_quote,
+              slug,
+              workflow_description
+            },
+            primary_language: project.primary_language,
+            loading: false
+          }
+        });
+        dispatch(fetchWorkflows(project));
+        dispatch(fetchTutorials(project));
+        dispatch(fetchPages(project));
+        dispatch(fetchFieldGuides(project));
       });
-      dispatch(fetchWorkflows(project));
-      dispatch(fetchTutorials(project));
-      dispatch(fetchPages(project));
-      dispatch(fetchFieldGuides(project));
-    });
   };
 }
 
@@ -212,12 +212,12 @@ function fetchWorkflows(project) {
       type: FETCH_WORKFLOWS
     });
     apiClient.type('workflows').get(project.links.workflows)
-    .then((workflows) => {
-      dispatch({
-        type: FETCH_WORKFLOWS_SUCCESS,
-        payload: workflows.map(({ id, display_name }) => ({ id, display_name }))
+      .then((workflows) => {
+        dispatch({
+          type: FETCH_WORKFLOWS_SUCCESS,
+          payload: workflows.map(({ id, display_name }) => ({ id, display_name }))
+        });
       });
-    });
   };
 }
 
@@ -227,12 +227,12 @@ function fetchTutorials(project) {
       type: FETCH_TUTORIALS
     });
     apiClient.type('tutorials').get({ project_id: project.id, language: project.primary_language })
-    .then((tutorials) => {
-      dispatch({
-        type: FETCH_TUTORIALS_SUCCESS,
-        payload: tutorials.map(({ id, display_name }) => ({ id, display_name }))
+      .then((tutorials) => {
+        dispatch({
+          type: FETCH_TUTORIALS_SUCCESS,
+          payload: tutorials.map(({ id, display_name }) => ({ id, display_name }))
+        });
       });
-    });
   };
 }
 
@@ -242,12 +242,12 @@ function fetchPages(project) {
       type: FETCH_PAGES
     });
     project.get('pages')
-    .then((pages) => {
-      dispatch({
-        type: FETCH_PAGES_SUCCESS,
-        payload: pages.map(({ id, title, content }) => ({ id, title, content }))
+      .then((pages) => {
+        dispatch({
+          type: FETCH_PAGES_SUCCESS,
+          payload: pages.map(({ id, title, content }) => ({ id, title, content }))
+        });
       });
-    });
   };
 }
 
@@ -257,12 +257,12 @@ function fetchFieldGuides(project) {
       type: FETCH_FIELDGUIDES
     });
     apiClient.type('field_guides').get({ project_id: project.id, language: project.primary_language })
-    .then((fieldguides) => {
-      dispatch({
-        type: FETCH_FIELDGUIDES_SUCCESS,
-        payload: fieldguides.map(({ id, display_name }) => ({ id, display_name }))
+      .then((fieldguides) => {
+        dispatch({
+          type: FETCH_FIELDGUIDES_SUCCESS,
+          payload: fieldguides.map(({ id, display_name }) => ({ id, display_name }))
+        });
       });
-    });
   };
 }
 

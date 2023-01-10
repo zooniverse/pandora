@@ -16,8 +16,8 @@ function loginReducer(state = initialState, action) {
     case SET_LOGIN_USER: {
       return {
         adminMode: false,
-        user: action.user,  // null if logged out.
-        initialised: true  // true once we know if user is logged in/out; false if unknown.
+        user: action.user, // null if logged out.
+        initialised: true // true once we know if user is logged in/out; false if unknown.
       };
     }
     case SET_ADMIN_MODE: {
@@ -40,10 +40,14 @@ function checkLoginUser() {
       .then((userResource) => {
         let user = null;
         if (userResource) {
-          const { id, admin, display_name, login } = userResource;
-          user = { id, admin, display_name, login };
+          const {
+            id, admin, display_name, login
+          } = userResource;
+          user = {
+            id, admin, display_name, login
+          };
         }
-        
+
         dispatch({
           type: SET_LOGIN_USER,
           user
@@ -70,7 +74,6 @@ function setAdminMode(adminMode) {
     adminMode
   };
 }
-
 
 // Exports
 export default loginReducer;

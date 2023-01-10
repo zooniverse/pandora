@@ -120,7 +120,7 @@ const languages = [
   { value: 'wo-sn', label: 'Wolof (Senegal)' },
   { value: 'sah-ru', label: 'Yakut (Russia)' },
   { value: 'ii-cn', label: 'Yi (PRC)' },
-  { value: 'yo-ng', label: 'Yoruba (Nigeria)' },
+  { value: 'yo-ng', label: 'Yoruba (Nigeria)' }
 ];
 
 export default languages;

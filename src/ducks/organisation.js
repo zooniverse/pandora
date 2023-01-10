@@ -22,16 +22,16 @@ const initialState = {
 function organisationReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_ORGANISATION:
-      return Object.assign({}, initialState, { loading: true });
+      return { ...initialState, loading: true };
     case FETCH_ORGANISATION_SUCCESS:
     case FETCH_LANGUAGES_SUCCESS:
-      return Object.assign({}, state, action.payload);
+      return { ...state, ...action.payload };
     case FETCH_ORGANISATION_ERROR:
-      return Object.assign({}, state, { error: action.payload, loading: false });
+      return { ...state, error: action.payload, loading: false };
     case SET_LANGUAGE:
-      return Object.assign({}, state, { language: action.language });
+      return { ...state, language: action.language };
     case ADD_LANGUAGE:
-      return Object.assign({}, state, { languageCodes: action.languageCodes });
+      return { ...state, languageCodes: action.languageCodes };
     default:
       return state;
   }
@@ -54,19 +54,19 @@ function setLanguage(language) {
 function fetchLanguages(organisation_id) {
   return (dispatch) => {
     apiClient
-    .type('translations')
-    .get({
-      translated_type: 'Organization',
-      translated_id: organisation_id
-    })
-    .then((resources) => {
-      dispatch({
-        type: FETCH_LANGUAGES_SUCCESS,
-        payload: {
-          languageCodes: resources.map(resource => resource.language)
-        }
+      .type('translations')
+      .get({
+        translated_type: 'Organization',
+        translated_id: organisation_id
+      })
+      .then((resources) => {
+        dispatch({
+          type: FETCH_LANGUAGES_SUCCESS,
+          payload: {
+            languageCodes: resources.map((resource) => resource.language)
+          }
+        });
       });
-    });
   };
 }
 
@@ -80,16 +80,16 @@ function fetchOrganisation(id, isAdmin) {
       query.current_user_roles = ALLOWED_ROLES;
     }
     apiClient.type('organizations').get(query)
-    .then(([organisation]) => {
-      dispatch({
-        type: FETCH_ORGANISATION_SUCCESS,
-        payload: {
-          data: organisation,
-          primary_language: organisation.primary_language,
-          loading: false
-        }
+      .then(([organisation]) => {
+        dispatch({
+          type: FETCH_ORGANISATION_SUCCESS,
+          payload: {
+            data: organisation,
+            primary_language: organisation.primary_language,
+            loading: false
+          }
+        });
       });
-    });
   };
 }
 

@@ -53,12 +53,12 @@ function fetchProjects() {
       current_user_roles: ALLOWED_ROLES
     };
     apiClient.type('projects').get(query)
-    .then((projects) => {
-      dispatch({
-        type: FETCH_PROJECTS_SUCCESS,
-        payload: projects.map(({ id, display_name }) => ({ id, display_name }))
+      .then((projects) => {
+        dispatch({
+          type: FETCH_PROJECTS_SUCCESS,
+          payload: projects.map(({ id, display_name }) => ({ id, display_name }))
+        });
       });
-    });
   };
 }
 

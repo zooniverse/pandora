@@ -13,8 +13,8 @@ export const TRANSLATIONS_ERROR = 'TRANSLATIONS_ERROR';
 
 // Helpers
 function filterResources(resources, primary_language) {
-  const original = resources.find(resource => resource.language === primary_language);
-  const translations = resources.filter(resource => resource.language !== primary_language);
+  const original = resources.find((resource) => resource.language === primary_language);
+  const translations = resources.filter((resource) => resource.language !== primary_language);
   return { original, translations };
 }
 
@@ -130,34 +130,34 @@ function fetchTranslations(translated_id, type, primary_language, selectedLangua
       resource_type: type
     });
     apiClient.type('translations').get({ translated_type, translated_id })
-    .then((resources) => {
-      const { original, translations } = filterResources(
-        resources.map(({
-          id,
-          language,
-          string_versions,
-          strings
-        }) => ({
-          id,
-          language,
-          string_versions,
-          strings,
-          translated_type,
-          translated_id
-        })),
-        primary_language
-      );
-      dispatch({
-        type: FETCH_TRANSLATIONS_SUCCESS,
-        payload: { original, translations, loading: false }
+      .then((resources) => {
+        const { original, translations } = filterResources(
+          resources.map(({
+            id,
+            language,
+            string_versions,
+            strings
+          }) => ({
+            id,
+            language,
+            string_versions,
+            strings,
+            translated_type,
+            translated_id
+          })),
+          primary_language
+        );
+        dispatch({
+          type: FETCH_TRANSLATIONS_SUCCESS,
+          payload: { original, translations, loading: false }
+        });
+        if (selectedLanguage) {
+          dispatch(selectTranslation(original, translations, type, selectedLanguage));
+        }
+      })
+      .catch((error) => {
+        dispatch(handleError(error));
       });
-      if (selectedLanguage) {
-        dispatch(selectTranslation(original, translations, type, selectedLanguage));
-      }
-    })
-    .catch((error) => {
-      dispatch(handleError(error));
-    });
   };
 }
 
@@ -183,8 +183,8 @@ function createTranslation(original, translations, type, language) {
       original
     });
     apiClient.type('translations')
-    .create(newResource)
-    .save({ translated_type, translated_id })
+      .create(newResource)
+      .save({ translated_type, translated_id })
       .then((translation) => {
         const {
           id,
@@ -213,7 +213,7 @@ function createTranslation(original, translations, type, language) {
 
 function selectTranslation(original, translations, type, language) {
   type = type || 'project_contents';
-  const translation = translations.find(t => t.language === language);
+  const translation = translations.find((t) => t.language === language);
   return (dispatch) => {
     if (translation) {
       dispatch({
@@ -263,12 +263,12 @@ function updateTranslation(original, translation, updatedField, value) {
     // Save the changes to Panoptes.
     const changes = { strings, string_versions };
     apiClient.type('translations')
-    .create(translation)
-    .update(changes)
-    .save({ translated_type, translated_id })
-    .catch((error) => {
-      dispatch(handleError(error));
-    });
+      .create(translation)
+      .update(changes)
+      .save({ translated_type, translated_id })
+      .catch((error) => {
+        dispatch(handleError(error));
+      });
   };
 }
 // Exports

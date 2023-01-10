@@ -53,12 +53,12 @@ function fetchOrganisations() {
       current_user_roles: ALLOWED_ROLES
     };
     apiClient.type('organizations').get(query)
-    .then((organisations) => {
-      dispatch({
-        type: FETCH_ORGANISATIONS_SUCCESS,
-        payload: organisations.map(({ id, display_name }) => ({ id, display_name }))
+      .then((organisations) => {
+        dispatch({
+          type: FETCH_ORGANISATIONS_SUCCESS,
+          payload: organisations.map(({ id, display_name }) => ({ id, display_name }))
+        });
       });
-    });
   };
 }
 
