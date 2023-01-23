@@ -36,7 +36,7 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "image-webpack-loader": "^8.1.0",
-    "jsdom": "^21.0.0",
+    "jsdom": "^21.1.0",
     "mini-css-extract-plugin": "^2.7.2",
     "mocha": "^10.2.0",
     "nib": "^1.2.0",
