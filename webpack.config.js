@@ -73,7 +73,7 @@ module.exports = {
       use: 'babel-loader'
     }, {
       test: /\.(jpg|png|gif|otf|eot|svg|ttf|woff\d?)$/,
-      use: 'file-loader'
+      type: 'asset'
     }, {
       test: /\.svg$/,
       use: [{
