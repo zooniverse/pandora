@@ -42,7 +42,7 @@
     "process": "~0.11.10",
     "react-svg-loader": "^3.0.3",
     "rimraf": "^4.1.2",
-    "sass": "~1.58.0",
+    "sass": "~1.58.1",
     "sass-loader": "^13.2.0",
     "stats-webpack-plugin": "^0.7.0",
     "style-loader": "^3.3.1",
