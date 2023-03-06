@@ -41,7 +41,7 @@
     "path-browserify": "~1.0.1",
     "process": "~0.11.10",
     "react-svg-loader": "^3.0.3",
-    "rimraf": "^4.2.0",
+    "rimraf": "^4.3.0",
     "sass": "~1.58.3",
     "sass-loader": "^13.2.0",
     "stats-webpack-plugin": "^0.7.0",
