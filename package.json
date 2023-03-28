@@ -43,7 +43,7 @@
     "react-svg-loader": "^3.0.3",
     "rimraf": "^4.4.1",
     "sass": "~1.60.0",
-    "sass-loader": "^13.2.1",
+    "sass-loader": "^13.2.2",
     "stats-webpack-plugin": "^0.7.0",
     "style-loader": "^3.3.2",
     "stylus": "^0.59.0",
