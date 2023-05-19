@@ -35,7 +35,7 @@
     "eslint-plugin-react": "^7.32.2",
     "html-webpack-plugin": "^5.5.1",
     "jsdom": "^22.0.0",
-    "mini-css-extract-plugin": "^2.7.5",
+    "mini-css-extract-plugin": "^2.7.6",
     "mocha": "^10.2.0",
     "nib": "^1.2.0",
     "path-browserify": "~1.0.1",
