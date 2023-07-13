@@ -15,7 +15,7 @@
     "zoo-grommet": "^0.3.5"
   },
   "devDependencies": {
-    "@babel/cli": "^7.22.6",
+    "@babel/cli": "^7.22.9",
     "@babel/core": "^7.22.9",
     "@babel/eslint-parser": "^7.22.7",
     "@babel/node": "^7.22.6",
