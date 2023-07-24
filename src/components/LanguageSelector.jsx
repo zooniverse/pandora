@@ -36,12 +36,17 @@ class LanguageSelector extends Component {
 
   render() {
     const menuLanguages = this.state.newLanguages.filter(option => this.props.languages.indexOf(option) === -1);
+    const findDisplayLanguageOption = (option) => this.props.languages.find(o => o.value === option.value);
+    const filteredLanguages = this.props.languages
+      .filter(Boolean)
+      .map(findDisplayLanguageOption);
+    const uniqueLanguages = [...new Set(filteredLanguages)];
 
     return (
       <div>
         <h3>Pick a language</h3>
         <ul className="language-selector">
-          {this.props.languages.filter(Boolean).map((option) => {
+          {uniqueLanguages.map((option) => {
             const checked = this.props.value ? option.value === this.props.value.value : false;
             return (
               <li key={option.value}>
