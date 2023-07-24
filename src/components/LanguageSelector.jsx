@@ -40,7 +40,7 @@ class LanguageSelector extends Component {
     const filteredLanguages = this.props.languages
       .filter(Boolean)
       .map(findDisplayLanguageOption);
-      const uniqueLanguages = [...new Set(filteredLanguages)];
+    const uniqueLanguages = [...new Set(filteredLanguages)];
 
     return (
       <div>
