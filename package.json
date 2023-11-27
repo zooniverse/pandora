@@ -34,7 +34,7 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.33.2",
     "html-webpack-plugin": "^5.5.3",
-    "jsdom": "^22.1.0",
+    "jsdom": "^23.0.0",
     "mini-css-extract-plugin": "^2.7.6",
     "mocha": "^10.2.0",
     "nib": "^1.2.0",
