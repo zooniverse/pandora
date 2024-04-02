@@ -50,7 +50,8 @@ function fetchProjects() {
       type: FETCH_PROJECTS
     });
     const query = {
-      current_user_roles: ALLOWED_ROLES
+      current_user_roles: ALLOWED_ROLES,
+      page_size: 100
     };
     apiClient.type('projects').get(query)
       .then((projects) => {
