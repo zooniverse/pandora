@@ -70,5 +70,8 @@
     "build": "export HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; npm run _build;",
     "_build-staging": "export NODE_ENV=staging; npm run build",
     "_build-production": "export NODE_ENV=production; npm run build"
+  },
+  "overrides": {
+    "cheerio": "1.0.0-rc.12"
   }
 }
