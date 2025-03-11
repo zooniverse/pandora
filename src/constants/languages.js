@@ -1,3 +1,10 @@
+/*
+Language List: used as source for langage search, and for code-to-name lookup.
+Language codes are limited to primary two-character tags, except for Chinese
+(two separate region subtags) and limited cases including script subtags.
+Language codes can appear multiple times with different names to support 
+flexible name search.
+*/
 const languages = [
   { value: 'af', label: 'Afrikaans' },
   { value: 'sq', label: 'Albanian' },
