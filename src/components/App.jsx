@@ -11,7 +11,11 @@ import AuthContainer from '../containers/AuthContainer';
 
 const isStaging = process.env.NODE_ENV === 'staging';
 
-function App({ children = null, initialised = false, user = null }) {
+function App({
+  children = null,
+  initialised = false,
+  user = null
+}) {
   apiClient.beforeEveryRequest = function checkSessionToken() {
     return oauth.checkBearerToken()
       .then((token) => {
@@ -51,11 +55,6 @@ App.propTypes = {
     id: PropTypes.string
   }),
   initialised: PropTypes.bool
-};
-
-App.defaultProps = {
-  children: null,
-  user: null
 };
 
 const mapStateToProps = state => ({
