@@ -9,6 +9,8 @@ import oauth from 'panoptes-client/lib/oauth';
 
 import AuthContainer from '../containers/AuthContainer';
 
+const isStaging = process.env.NODE_ENV === 'staging';
+
 function App({ children = null, initialised = false, user = null }) {
   apiClient.beforeEveryRequest = function checkSessionToken() {
     return oauth.checkBearerToken()
@@ -24,7 +26,6 @@ function App({ children = null, initialised = false, user = null }) {
       });
   };
 
-  const isStaging = process.env.NODE_ENV === 'staging';
   return (
     <GrommetApp>
       <Header className="site-header">
