@@ -2,7 +2,7 @@
 Language List: used as source for langage search, and for code-to-name lookup.
 Language codes are limited to primary two-character tags, except for Chinese
 (two separate region subtags) and limited cases including script subtags.
-Language codes can appear multiple times with different names to support 
+Language codes can appear multiple times with different names to support
 flexible name search.
 */
 const languages = [
@@ -64,7 +64,6 @@ const languages = [
   { value: 'km', label: 'Khmer' },
   { value: 'qut', label: 'K\'iche' },
   { value: 'rw', label: 'Kinyarwanda' },
-  { value: 'sw', label: 'Kiswahili' },
   { value: 'kok', label: 'Konkani' },
   { value: 'ko', label: 'Korean' },
   { value: 'ky', label: 'Kyrgyz' },
@@ -104,6 +103,8 @@ const languages = [
   { value: 'sk', label: 'Slovak' },
   { value: 'sl', label: 'Slovenian' },
   { value: 'es', label: 'Spanish' },
+  { value: 'sw', label: 'Swahili' },
+  { value: 'sw', label: 'Kiswahili' },
   { value: 'sv', label: 'Swedish' },
   { value: 'syr', label: 'Syriac' },
   { value: 'tg-cyrl-tj', label: 'Tajik (Cyrillic, Tajikistan)' },
@@ -113,6 +114,7 @@ const languages = [
   { value: 'te', label: 'Telugu' },
   { value: 'th', label: 'Thai' },
   { value: 'bo', label: 'Tibetan' },
+  { value: 've', label: 'Venda' },
   { value: 've', label: 'Tshivenḓa' },
   { value: 've', label: 'Venḓa' },
   { value: 'tr', label: 'Turkish' },
@@ -122,7 +124,7 @@ const languages = [
   { value: 'wen', label: 'Upper Sorbian' },
   { value: 'ur', label: 'Urdu' },
   { value: 'uz', label: 'Uzbek' },
-  { value: 'vi', label: 'Vietlabelse' },
+  { value: 'vi', label: 'Vietnamese' },
   { value: 'cy', label: 'Welsh' },
   { value: 'wo', label: 'Wolof' },
   { value: 'ts', label: 'Xitsonga'},
