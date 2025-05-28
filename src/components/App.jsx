@@ -9,12 +9,18 @@ import oauth from 'panoptes-client/lib/oauth';
 
 import AuthContainer from '../containers/AuthContainer';
 
-function App(props) {
+const isStaging = process.env.NODE_ENV === 'staging';
+
+function App({
+  children = null,
+  initialised = false,
+  user = null
+}) {
   apiClient.beforeEveryRequest = function checkSessionToken() {
     return oauth.checkBearerToken()
       .then((token) => {
         // If the App thinks you're logged in, but the token says otherwise, reject with an error.
-        if (props.initialised && props.user && !token) {
+        if (initialised && user && !token) {
           return Promise.reject(new Error('Your Panoptes session has expired.'));
           // The intent is that if the user is supposed to be logged in but
           // isn't, the whole request (that comes after .beforeEveryRequest)
@@ -24,7 +30,6 @@ function App(props) {
       });
   };
 
-  const isStaging = process.env.NODE_ENV === 'staging';
   return (
     <GrommetApp>
       <Header className="site-header">
@@ -38,7 +43,7 @@ function App(props) {
             <p>A big thanks to everyone who helped us test out translations for Panoptes. This site will continue to be used for testing of new features.</p>
           </div>
         }
-        {props.user ? props.children : <p>You must be logged in to edit translations.</p>}
+        {user ? children : <p>You must be logged in to edit translations.</p>}
       </Section>
     </GrommetApp>
   );
@@ -48,12 +53,8 @@ App.propTypes = {
   children: PropTypes.node,
   user: PropTypes.shape({
     id: PropTypes.string
-  })
-};
-
-App.defaultProps = {
-  children: null,
-  user: null
+  }),
+  initialised: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
